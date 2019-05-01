@@ -1,0 +1,11 @@
+world
+    bodies
+        mass
+        velocity
+        location
+        angles
+        fixtures
+            shape
+            density
+            friction
+            restitution
