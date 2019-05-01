@@ -57,13 +57,13 @@ public class Kloshard extends Sprite {
 
         //kloshard stand animation
         kloshardStand = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
-                , 0, 196, 66, 92);
+                , 0, 192, 66, 92);
 //                kloshardStand = new TextureRegion()
         Gdx.app.log("info:", screen.getAtlas().getRegions().toString());
 //        Gdx.app.log("info:", screen.getAtlas());
 
         //kloshard dead animation
-        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 438, 0, 69, 92);
+        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 443, 0, 69, 92);
 
 
 //        for (int i = 0; i < 4; i++) {
@@ -71,17 +71,32 @@ public class Kloshard extends Sprite {
 //                if (i == 3 && k == 2) {
 //                    break;
 //                } else {
-//                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_walk")
-//                            , 497 + i * 70, k * 70, 70, 70));
+//                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
+//                            , k * 66, i * 92, 66, 92));
 //                }
 //            }
 //        }
 
-//        kloshardRun = new Animation(0.1f, frames);
-//        frames.clear();
+        for (int i = 0; i < 2; i++) {
+            for (int k = 1; k < 4; k++) {
+                frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
+                        , k * 72, i * 97, 72, 97));
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            for (int k = 4; k < 7; k++) {
+                if(i!=1 && k !=6){
+                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
+                            , k * 72, i * 97, 72, 97));
+                }
+            }
+        }
+
+        kloshardRun = new Animation(0.1f, frames);
+        frames.clear();
 //
         //kloshard jump animation
-//        kloshardJump = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 420, 585, 70, 70);
+        kloshardJump = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 441, 92, 67, 94);
 
         defineKloshard();
         setBounds(0, 0, 66 / KloshardGame.PPM, 92 / KloshardGame.PPM);
@@ -136,12 +151,13 @@ public class Kloshard extends Sprite {
                 }
                 break;
             case JUMPING:
+            case FALLING:
                 region = kloshardJump;
                 break;
             case RUNNING:
                 region = (TextureRegion) kloshardRun.getKeyFrame(stateTimer, true);
                 break;
-            case FALLING:
+
             case STANDING:
             default:
                 region = kloshardStand;
@@ -160,20 +176,20 @@ public class Kloshard extends Sprite {
     }
 
     private State getState() {
-        return State.STANDING;
+//        return State.STANDING;
 
 
-//        if (deadFromCollision || fell) {
-//            return State.DEAD;
-//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
-//            return State.JUMPING;
-//        } else if (b2body.getLinearVelocity().y < 0) {
-//            return State.FALLING;
-//        } else if (b2body.getLinearVelocity().x != 0) {
-//            return State.RUNNING;
-//        } else {
-//            return State.STANDING;
-//        }
+        if (deadFromCollision || fell) {
+            return State.DEAD;
+        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+            return State.JUMPING;
+        } else if (b2body.getLinearVelocity().y < 0) {
+            return State.FALLING;
+        } else if (b2body.getLinearVelocity().x != 0) {
+            return State.RUNNING;
+        } else {
+            return State.STANDING;
+        }
 
     }
 

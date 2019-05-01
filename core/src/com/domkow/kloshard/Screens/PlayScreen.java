@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
 
 
     public PlayScreen(KloshardGame game) {
-        atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
+        atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
 //        atlas = new TextureAtlas()
         this.game = game;
         gamecam = new OrthographicCamera();
