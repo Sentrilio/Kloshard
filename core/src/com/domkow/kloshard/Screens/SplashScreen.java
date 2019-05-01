@@ -25,13 +25,15 @@ public class SplashScreen implements Screen {
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
+
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
-        Label playAgainLabel = new Label("Click to Play Super Kloshard Bros!", font);
+        font.font.getData().setScale(4);
+        Label playAgainLabel = new Label("Click to Play Kloshard!", font);
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);
 

@@ -23,8 +23,6 @@ public class Hud implements Disposable {
     private static Label scoreValueLabel;
     private static Label coinValueLabel;
     private Label timeLabel;
-    private Label levelValueLabel;
-    private Label worldLabel;
     private Label marioLabel;
     private Label coinLabel;
 
@@ -39,25 +37,29 @@ public class Hud implements Disposable {
         Table table = new Table();
         table.top();
         table.setFillParent(true);
-
+        int scale =3;
         countdownValueLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        countdownValueLabel.setFontScale(scale);
         coinValueLabel = new Label(String.format("%01d", coins), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        coinValueLabel.setFontScale(scale);
         scoreValueLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelValueLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreValueLabel.setFontScale(scale);
+
 
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel.setFontScale(scale);
         coinLabel = new Label("COINS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        coinLabel.setFontScale(scale);
+
         marioLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        marioLabel.setFontScale(scale);
 
         table.add(marioLabel).expandX().padTop(10);
         table.add(coinLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row();
         table.add(scoreValueLabel).expandX();
         table.add(coinValueLabel).expandX();
-        table.add(levelValueLabel).expandX();
         table.add(countdownValueLabel).expandX();
 
         stage.addActor(table);

@@ -63,13 +63,8 @@ public class Kloshard extends Sprite {
 //        Gdx.app.log("info:", screen.getAtlas());
 
         //kloshard dead animation
-//        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 96, 0, 16, 16);
+        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 438, 0, 69, 92);
 
-        //kloshard run animation
-//        for (int i = 1; i < 4; i++) {
-//            frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_walk")
-//                    , i * 16, 0, 16, 16));
-//        }
 
 //        for (int i = 0; i < 4; i++) {
 //            for (int k = 0; k < 3; k++) {
@@ -85,7 +80,7 @@ public class Kloshard extends Sprite {
 //        kloshardRun = new Animation(0.1f, frames);
 //        frames.clear();
 //
-//        //kloshard jump animation
+        //kloshard jump animation
 //        kloshardJump = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 420, 585, 70, 70);
 
         defineKloshard();
