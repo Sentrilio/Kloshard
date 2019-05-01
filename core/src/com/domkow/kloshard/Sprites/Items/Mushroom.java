@@ -40,9 +40,9 @@ public class Mushroom extends Item {
 
     @Override
     public void use(Kloshard kloshard) {
-        destroy();
-        kloshard.grow();
-        Hud.addScore(1000);
+//        destroy();
+//        kloshard.grow();
+//        Hud.addScore(1000);
     }
 
     @Override

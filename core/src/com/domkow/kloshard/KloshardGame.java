@@ -1,19 +1,15 @@
 package com.domkow.kloshard;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.domkow.kloshard.Screens.SplashScreen;
 
 public class KloshardGame extends Game {
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 208;
+	public static final int V_WIDTH = 1400;
+	public static final int V_HEIGHT = 800;
 	public static final float PPM = 100;
 
 	public static final short NOTHING_BIT = 0;

@@ -35,7 +35,7 @@ public class B2WorldCreator {
         Body body;
 
         //ground
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
+        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / KloshardGame.PPM, (rect.getY() + rect.getHeight() / 2) / KloshardGame.PPM);
@@ -47,54 +47,54 @@ public class B2WorldCreator {
         }
 
         //Coin
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / KloshardGame.PPM, (rect.getY() + rect.getHeight() / 2) / KloshardGame.PPM);
-            body = world.createBody(bdef);
-            shape.setAsBox(rect.getWidth() / 2 / KloshardGame.PPM, rect.getHeight() / 2 / KloshardGame.PPM);
-            fdef.shape = shape;
-            fdef.filter.categoryBits = KloshardGame.OBJECT_BIT;
-            body.createFixture(fdef);
-        }
+//        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//            bdef.type = BodyDef.BodyType.StaticBody;
+//            bdef.position.set((rect.getX() + rect.getWidth() / 2) / KloshardGame.PPM, (rect.getY() + rect.getHeight() / 2) / KloshardGame.PPM);
+//            body = world.createBody(bdef);
+//            shape.setAsBox(rect.getWidth() / 2 / KloshardGame.PPM, rect.getHeight() / 2 / KloshardGame.PPM);
+//            fdef.shape = shape;
+//            fdef.filter.categoryBits = KloshardGame.OBJECT_BIT;
+//            body.createFixture(fdef);
+//        }
 
         //brick
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            new Brick(screen, object);
-        }
-
-        //coins
-        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
-            new Coin(screen, object);
-        }
-
-        //create all goombas
-        goombas = new Array<Goomba>();
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            goombas.add(new Goomba(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
-        }
-        //create all turtles
-        turtles = new Array<Turtle>();
-        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            turtles.add(new Turtle(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
-        }
-
-        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
-            new Door(screen, object);
-        }
-        for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
-            new ChocolateBlock(screen, object);
-        }
+//        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
+//            new Brick(screen, object);
+//        }
+//
+//        //coins
+//        for (MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)) {
+//            new Coin(screen, object);
+//        }
+//
+//        //create all goombas
+//        goombas = new Array<Goomba>();
+//        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//            goombas.add(new Goomba(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
+//        }
+//        //create all turtles
+//        turtles = new Array<Turtle>();
+//        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+//            turtles.add(new Turtle(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
+//        }
+//
+//        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+//            new Door(screen, object);
+//        }
+//        for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+//            new ChocolateBlock(screen, object);
+//        }
     }
 
-    public Array<Enemy> getEnemies() {
-        Array<Enemy> enemies = new Array<Enemy>();
-        enemies.addAll(goombas);
-        enemies.addAll(turtles);
-        return enemies;
-    }
+//    public Array<Enemy> getEnemies() {
+//        Array<Enemy> enemies = new Array<Enemy>();
+//        enemies.addAll(goombas);
+//        enemies.addAll(turtles);
+//        return enemies;
+//    }
 
 //    public static void removeTurtle(Turtle turtle) {
 //        turtles.removeValue(turtle, true);

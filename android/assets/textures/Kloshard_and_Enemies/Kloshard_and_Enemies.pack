@@ -5,29 +5,55 @@ filter: Nearest,Nearest
 repeat: none
 p1_spritesheet
   rotate: false
-  xy: 1, 730
+  xy: 1, 515
   size: 508, 288
   orig: 508, 288
   offset: 0, 0
   index: -1
 p3_spritesheet
   rotate: false
-  xy: 1, 440
+  xy: 511, 515
   size: 508, 288
   orig: 508, 288
   offset: 0, 0
   index: -1
 p2_spritesheet
   rotate: false
-  xy: 1, 156
+  xy: 1, 231
   size: 494, 282
   orig: 494, 282
   offset: 0, 0
   index: -1
+p1_walk
+  rotate: false
+  xy: 497, 1
+  size: 256, 512
+  orig: 256, 512
+  offset: 0, 0
+  index: -1
+p2_walk
+  rotate: false
+  xy: 755, 1
+  size: 256, 512
+  orig: 256, 512
+  offset: 0, 0
+  index: -1
 enemies_spritesheet
   rotate: false
-  xy: 1, 1
+  xy: 1, 76
   size: 353, 153
   orig: 353, 153
+  offset: 0, 0
+  index: -1
+
+Kloshard_and_Enemies2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+p3_walk
+  rotate: false
+  xy: 1, 1
+  size: 256, 512
+  orig: 256, 512
   offset: 0, 0
   index: -1

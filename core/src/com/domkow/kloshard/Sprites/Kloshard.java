@@ -1,5 +1,6 @@
 package com.domkow.kloshard.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,28 +25,20 @@ import com.domkow.kloshard.Sprites.Enemies.Turtle;
 public class Kloshard extends Sprite {
 
 
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD;}
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, DEAD}
 
     public State currentState;
     public State previousState;
     public World world;
     public Body b2body;
-    private TextureRegion marioStand;
-    private Animation marioRun;
-    private TextureRegion marioJump;
-    private TextureRegion marioDead;
-    private TextureRegion bigMarioStand;
-    private TextureRegion bigMarioJump;
-    private Animation bigMarioRun;
-    private Animation growMario;
+    private TextureRegion kloshardStand;
+    private Animation kloshardRun;
+    private TextureRegion kloshardJump;
+    private TextureRegion kloshardDead;
     private OrthographicCamera gamecam;
 
     private float stateTimer;
     private boolean runningRight;
-    private boolean marioIsBig;
-    private boolean runGrowAnimation;
-    private boolean timeToDefineBigMario;
-    private boolean timeToRedefineMario;
     public boolean deadFromCollision;
     public boolean fell;
     private boolean mariodieSoundExecuted = false;
@@ -62,62 +55,62 @@ public class Kloshard extends Sprite {
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
-        //mario stand animation
-        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario")
-                , 0, 0, 16, 16);
-        bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32);
-        //mario dead animation
-        marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 96, 0, 16, 16);
-        //mario run animation
-        for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario")
-                    , i * 16, 0, 16, 16));
-        }
-        marioRun = new Animation(0.1f, frames);
-        frames.clear();
-        for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), i * 16, 0, 16, 32));
-        }
-        bigMarioRun = new Animation(0.1f, frames);
-        frames.clear();
+        //kloshard stand animation
+        kloshardStand = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
+                , 0, 196, 66, 92);
+//                kloshardStand = new TextureRegion()
+        Gdx.app.log("info:", screen.getAtlas().getRegions().toString());
+//        Gdx.app.log("info:", screen.getAtlas());
 
-        //mario jump animation
-        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80, 0, 16, 16);
-        bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80, 0, 16, 32);
+        //kloshard dead animation
+//        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 96, 0, 16, 16);
 
-        //mario growing animation
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
-        growMario = new Animation(0.2f, frames);
+        //kloshard run animation
+//        for (int i = 1; i < 4; i++) {
+//            frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_walk")
+//                    , i * 16, 0, 16, 16));
+//        }
 
-        defineMario();
-        setBounds(0, 0, 16 / KloshardGame.PPM, 16 / KloshardGame.PPM);
-        setRegion(marioStand);
-//        grow();
+//        for (int i = 0; i < 4; i++) {
+//            for (int k = 0; k < 3; k++) {
+//                if (i == 3 && k == 2) {
+//                    break;
+//                } else {
+//                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_walk")
+//                            , 497 + i * 70, k * 70, 70, 70));
+//                }
+//            }
+//        }
+
+//        kloshardRun = new Animation(0.1f, frames);
+//        frames.clear();
+//
+//        //kloshard jump animation
+//        kloshardJump = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 420, 585, 70, 70);
+
+        defineKloshard();
+        setBounds(0, 0, 66 / KloshardGame.PPM, 92 / KloshardGame.PPM);
+        setRegion(kloshardStand);
     }
 
     public void update(float dt) {
 
-        if (b2body.getPosition().y < gamecam.position.y - gamecam.viewportHeight / 2) {
-            if (!mariodieSoundExecuted && !deadFromCollision) {
-                KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-                KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
-                mariodieSoundExecuted = true;
-            }
-            fell = true;
-        }
+//        if (b2body.getPosition().y < gamecam.position.y - gamecam.viewportHeight / 2) {
+//            if (!mariodieSoundExecuted && !deadFromCollision) {
+//                KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
+//                KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+//                mariodieSoundExecuted = true;
+//            }
+//            fell = true;
+//        }
 
         if ((b2body.getPosition().x - getWidth() / 2 <= gamecam.position.x - gamecam.viewportWidth / 2)) {
             b2body.setTransform(new Vector2(gamecam.position.x - (gamecam.viewportWidth / 2) + getWidth() / 2, b2body.getPosition().y), 0);
             b2body.setLinearVelocity(new Vector2(0, b2body.getLinearVelocity().y));
         }
-        if (marioIsBig) {
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 - 6 / KloshardGame.PPM);
-        } else {
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-        }
+
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+
         if (finishedLevel) {
             float barrier = 64 / KloshardGame.PPM;
             float b2bodyPosition_Y = b2body.getPosition().y;
@@ -128,13 +121,6 @@ public class Kloshard extends Sprite {
 
         }
         setRegion(getFrame(dt));
-
-        if (timeToDefineBigMario) {
-            defineBigMario();
-        }
-        if (timeToRedefineMario) {
-            redefineMario();
-        }
 
     }
 
@@ -149,28 +135,21 @@ public class Kloshard extends Sprite {
         switch (currentState) {
             case DEAD:
                 if (deadFromCollision) {
-                    region = marioDead;
+                    region = kloshardDead;
                 } else {
-                    region = marioStand;
-                }
-                break;
-            case GROWING:
-                region = (TextureRegion) growMario.getKeyFrame(stateTimer);
-                if (growMario.isAnimationFinished(stateTimer)) {
-                    runGrowAnimation = false;
+                    region = kloshardStand;
                 }
                 break;
             case JUMPING:
-                region = marioIsBig ? bigMarioJump : marioJump;
+                region = kloshardJump;
                 break;
             case RUNNING:
-                region = marioIsBig ? (TextureRegion) bigMarioRun.getKeyFrame(stateTimer, true) :
-                        (TextureRegion) marioRun.getKeyFrame(stateTimer, true);
+                region = (TextureRegion) kloshardRun.getKeyFrame(stateTimer, true);
                 break;
             case FALLING:
             case STANDING:
             default:
-                region = marioIsBig ? bigMarioStand : marioStand;
+                region = kloshardStand;
                 break;
         }
         if ((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
@@ -186,66 +165,33 @@ public class Kloshard extends Sprite {
     }
 
     private State getState() {
-        if (deadFromCollision || fell) {
-            return State.DEAD;
-        } else if (runGrowAnimation) {
-            return State.GROWING;
-        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
-            return State.JUMPING;
-        } else if (b2body.getLinearVelocity().y < 0) {
-            return State.FALLING;
-        } else if (b2body.getLinearVelocity().x != 0) {
-            return State.RUNNING;
-        } else {
-            return State.STANDING;
-        }
+        return State.STANDING;
 
+
+//        if (deadFromCollision || fell) {
+//            return State.DEAD;
+//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+//            return State.JUMPING;
+//        } else if (b2body.getLinearVelocity().y < 0) {
+//            return State.FALLING;
+//        } else if (b2body.getLinearVelocity().x != 0) {
+//            return State.RUNNING;
+//        } else {
+//            return State.STANDING;
+//        }
 
     }
 
-    private void defineMario() {
+    private void defineKloshard() {
         BodyDef bdef = new BodyDef();
 //        bdef.position.set(1666 / MarioBros.PPM, 16 / MarioBros.PPM);
-        bdef.position.set(16 / KloshardGame.PPM, 64 / KloshardGame.PPM); //original start
+        bdef.position.set(70 / KloshardGame.PPM, 300 / KloshardGame.PPM); //original start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / KloshardGame.PPM);
-        fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
-        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
-                KloshardGame.COIN_BIT |
-                KloshardGame.BRICK_BIT |
-                KloshardGame.ENEMY_BIT |
-                KloshardGame.OBJECT_BIT |
-                KloshardGame.ENEMY_HEAD_BIT |
-                KloshardGame.ITEM_BIT |
-                KloshardGame.DOOR_BIT ;
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData(this);
-
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / KloshardGame.PPM, 6 / KloshardGame.PPM),
-                new Vector2(2 / KloshardGame.PPM, 6 / KloshardGame.PPM));
-        fdef.filter.categoryBits = KloshardGame.MARIO_HEAD_BIT;
-        fdef.shape = head;
-        fdef.isSensor = true;
-        b2body.createFixture(fdef).setUserData(this);
-    }
-
-    private void redefineMario() {
-        Vector2 position = b2body.getPosition();
-        world.destroyBody(b2body);
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(position);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(6 / KloshardGame.PPM);
+        shape.setRadius(46 / KloshardGame.PPM);
         fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -266,77 +212,23 @@ public class Kloshard extends Sprite {
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
-        timeToRedefineMario = false;
     }
 
-
-    private void defineBigMario() {
-        Vector2 currentPosition = b2body.getPosition();
-        world.destroyBody(b2body);
-
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(currentPosition.add(0, 10 / KloshardGame.PPM));
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(6 / KloshardGame.PPM);
-        fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
-        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
-                KloshardGame.COIN_BIT |
-                KloshardGame.BRICK_BIT |
-                KloshardGame.ENEMY_BIT |
-                KloshardGame.OBJECT_BIT |
-                KloshardGame.ENEMY_HEAD_BIT |
-                KloshardGame.ITEM_BIT |
-                KloshardGame.DOOR_BIT ;
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData(this);
-        shape.setPosition(new Vector2(0, -14 / KloshardGame.PPM));
-        b2body.createFixture(fdef).setUserData(this);
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / KloshardGame.PPM, 6 / KloshardGame.PPM),
-                new Vector2(2 / KloshardGame.PPM, 6 / KloshardGame.PPM));
-        fdef.filter.categoryBits = KloshardGame.MARIO_HEAD_BIT;
-        fdef.shape = head;
-        fdef.isSensor = true;
-        b2body.createFixture(fdef).setUserData(this);
-        timeToDefineBigMario = false;
-    }
-
-    public void grow() {
-        if (!isBig()) {
-            runGrowAnimation = true;
-            marioIsBig = true;
-            timeToDefineBigMario = true;
-            setBounds(getX(), getY(), getWidth(), getHeight() * 2);
-        }
-        KloshardGame.manager.get("audio/sounds/powerup.wav", Sound.class).play();
-    }
 
     public void hit(Enemy enemy) {
         if (enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL) {
             ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT_SPEED : Turtle.KICK_LEFT_SPEED);
         } else {
-            if (marioIsBig) {
-                marioIsBig = false;
-                timeToRedefineMario = true;
-                setBounds(getX(), getY(), getWidth(), getHeight() / 2);
-                KloshardGame.manager.get("audio/sounds/powerdown.wav", Sound.class).play();
-            } else {
-                KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-                KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
-                deadFromCollision = true;
-                Filter filter = new Filter();
-                filter.maskBits = KloshardGame.NOTHING_BIT;
-                for (Fixture fixture : b2body.getFixtureList()) {
-                    fixture.setFilterData(filter);
-                }
-                b2body.setLinearVelocity(new Vector2(0, 0));
-                b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+            KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
+            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+            deadFromCollision = true;
+            Filter filter = new Filter();
+            filter.maskBits = KloshardGame.NOTHING_BIT;
+            for (Fixture fixture : b2body.getFixtureList()) {
+                fixture.setFilterData(filter);
             }
+            b2body.setLinearVelocity(new Vector2(0, 0));
+            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
         }
     }
 
@@ -345,7 +237,4 @@ public class Kloshard extends Sprite {
         return stateTimer;
     }
 
-    public boolean isBig() {
-        return marioIsBig;
-    }
 }

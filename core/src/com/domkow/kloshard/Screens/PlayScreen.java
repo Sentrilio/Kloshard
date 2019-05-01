@@ -56,7 +56,8 @@ public class PlayScreen implements Screen {
 
 
     public PlayScreen(KloshardGame game) {
-        atlas = new TextureAtlas("platformerGraphicsDeluxe_Updated/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
+        atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
+//        atlas = new TextureAtlas()
         this.game = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(KloshardGame.V_WIDTH / KloshardGame.PPM,
@@ -75,28 +76,18 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
-        b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(true);
         creator = new B2WorldCreator(this);
         player = new Kloshard(this);
 
         world.setContactListener(new WorldContactListener());
-        music = KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class);
-        music.setLooping(true);
-        music.play();
+//        music = KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class);
+//        music.setLooping(true);
+//        music.play();
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
     }
 
-    public void nextMap(int mapLevel) {
-        try {
-            map = mapLoader.load("lvl" + mapLevel + ".tmx");
-            renderer = new OrthogonalTiledMapRenderer(map, 1 / KloshardGame.PPM);
-            gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-            player.setPosition(1666 * 2 / KloshardGame.PPM, 16 / KloshardGame.PPM);
-        } catch (Exception e) {
-            Gdx.app.log("MapLoader", "No such map");
-        }
-    }
 
     public void spawnItem(ItemDef idef) {
         itemsToSpawn.add(idef);
@@ -127,16 +118,16 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
-        for (Enemy enemy : creator.getEnemies()) {
-            enemy.update(dt);
-            if (enemy.getX() < player.getX() + 224 / KloshardGame.PPM) {
-                enemy.b2body.setActive(true);
-            }
-        }
+//        for (Enemy enemy : creator.getEnemies()) {
+//            enemy.update(dt);
+//            if (enemy.getX() < player.getX() + 224 / KloshardGame.PPM) {
+//                enemy.b2body.setActive(true);
+//            }
+//        }
 
-        for (Item item : items) {
-            item.update(dt);
-        }
+//        for (Item item : items) {
+//            item.update(dt);
+//        }
 
         hud.update(dt);
         if (player.currentState != Kloshard.State.DEAD) {
@@ -168,12 +159,12 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
-        if (!(player.finishedLevel && player.getStateTimer() > 1)) {
+//        if (!(player.finishedLevel && player.getStateTimer() > 1)) {
             player.draw(game.batch);
-        }
-        for (Enemy enemy : creator.getEnemies()) {
-            enemy.draw(game.batch);
-        }
+//        }
+//        for (Enemy enemy : creator.getEnemies()) {
+//            enemy.draw(game.batch);
+//        }
         for (Item item : items) {
             item.draw(game.batch);
         }

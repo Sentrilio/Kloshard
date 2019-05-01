@@ -17,13 +17,13 @@ public class Brick extends InteractiveTileObject {
 
     @Override
     public void onHeadHit(Kloshard mario) {
-        if (mario.isBig()) {
-            setCategoryFilter(KloshardGame.DESTROYED_BIT);
-            getCell().setTile(null);
-            Hud.addScore(50);
-            KloshardGame.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
-        } else {
-            KloshardGame.manager.get("audio/sounds/bump.wav", Sound.class).play();
-        }
+//        if (mario.isBig()) {
+//            setCategoryFilter(KloshardGame.DESTROYED_BIT);
+//            getCell().setTile(null);
+//            Hud.addScore(50);
+//            KloshardGame.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
+//        } else {
+//            KloshardGame.manager.get("audio/sounds/bump.wav", Sound.class).play();
+//        }
     }
 }
