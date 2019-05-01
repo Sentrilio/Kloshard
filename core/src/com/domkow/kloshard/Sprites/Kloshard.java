@@ -66,17 +66,6 @@ public class Kloshard extends Sprite {
         kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 443, 0, 69, 92);
 
 
-//        for (int i = 0; i < 4; i++) {
-//            for (int k = 0; k < 3; k++) {
-//                if (i == 3 && k == 2) {
-//                    break;
-//                } else {
-//                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
-//                            , k * 66, i * 92, 66, 92));
-//                }
-//            }
-//        }
-
         for (int i = 0; i < 2; i++) {
             for (int k = 1; k < 4; k++) {
                 frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
