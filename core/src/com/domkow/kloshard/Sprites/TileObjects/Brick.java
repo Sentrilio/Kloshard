@@ -16,7 +16,7 @@ public class Brick extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Kloshard mario) {
+    public void onHeadHit(Kloshard kloshard) {
 //        if (mario.isBig()) {
 //            setCategoryFilter(KloshardGame.DESTROYED_BIT);
 //            getCell().setTile(null);
@@ -25,5 +25,10 @@ public class Brick extends InteractiveTileObject {
 //        } else {
 //            KloshardGame.manager.get("audio/sounds/bump.wav", Sound.class).play();
 //        }
+    }
+
+    @Override
+    public void use(Kloshard kloshard) {
+
     }
 }

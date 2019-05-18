@@ -45,6 +45,10 @@ public class B2WorldCreator {
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
         }
+        //new coin
+        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
+            new Coin(screen,object);
+        }
 
         //Coin
 //        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {

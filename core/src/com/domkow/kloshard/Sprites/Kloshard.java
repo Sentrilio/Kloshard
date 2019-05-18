@@ -104,12 +104,10 @@ public class Kloshard extends Sprite {
 //            }
 //            fell = true;
 //        }
-
         if ((b2body.getPosition().x - getWidth() / 2 <= gamecam.position.x - gamecam.viewportWidth / 2)) {
             b2body.setTransform(new Vector2(gamecam.position.x - (gamecam.viewportWidth / 2) + getWidth() / 2, b2body.getPosition().y), 0);
             b2body.setLinearVelocity(new Vector2(0, b2body.getLinearVelocity().y));
         }
-
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
 
         if (finishedLevel) {
@@ -119,10 +117,8 @@ public class Kloshard extends Sprite {
             if (currentState == State.STANDING && b2bodyPosition_Y < barrier) {
                 b2body.setActive(false);
             }
-
         }
         setRegion(getFrame(dt));
-
     }
 
     public void finishedLevel() {
@@ -178,7 +174,6 @@ public class Kloshard extends Sprite {
         } else {
             return State.STANDING;
         }
-
     }
 
     private void defineKloshard() {

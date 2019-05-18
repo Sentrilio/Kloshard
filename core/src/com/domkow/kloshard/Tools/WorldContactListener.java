@@ -10,6 +10,7 @@ import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
 import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Kloshard;
+import com.domkow.kloshard.Sprites.TileObjects.Coin;
 import com.domkow.kloshard.Sprites.TileObjects.Door;
 import com.domkow.kloshard.Sprites.TileObjects.InteractiveTileObject;
 
@@ -22,14 +23,20 @@ public class WorldContactListener implements ContactListener {
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-
         switch (cDef) {
             case KloshardGame.MARIO_HEAD_BIT | KloshardGame.BRICK_BIT:
-            case KloshardGame.MARIO_HEAD_BIT | KloshardGame.COIN_BIT:
+//            case KloshardGame.MARIO_HEAD_BIT | KloshardGame.COIN_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_HEAD_BIT) {
                     ((InteractiveTileObject) fixB.getUserData()).onHeadHit((Kloshard) fixA.getUserData());
                 } else {
                     ((InteractiveTileObject) fixA.getUserData()).onHeadHit((Kloshard) fixB.getUserData());
+                }
+                break;
+            case KloshardGame.MARIO_BIT | KloshardGame.COIN_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_BIT) {
+                    ((Coin) fixB.getUserData()).use((Kloshard) fixA.getUserData());
+                } else {
+                    ((Coin) fixA.getUserData()).use((Kloshard) fixB.getUserData());
                 }
                 break;
             case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.MARIO_BIT:

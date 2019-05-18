@@ -76,7 +76,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
-        b2dr.setDrawBodies(false);
+//        b2dr.setDrawBodies(false);
         creator = new B2WorldCreator(this);
         player = new Kloshard(this);
 
@@ -218,14 +218,14 @@ public class PlayScreen implements Screen {
             //computer keyboard
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                    player.b2body.applyLinearImpulse(new Vector2(0, 3.9f), player.b2body.getWorldCenter(), true);
+                    player.b2body.applyLinearImpulse(new Vector2(0, 7.0f), player.b2body.getWorldCenter(), true);
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(0.07f, 0), player.b2body.getWorldCenter(), true);
+                player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(-0.07f, 0), player.b2body.getWorldCenter(), true);
+                player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
             }
 
             //android controller

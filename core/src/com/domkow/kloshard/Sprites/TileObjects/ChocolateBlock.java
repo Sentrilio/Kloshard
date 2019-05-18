@@ -14,7 +14,12 @@ public class ChocolateBlock extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Kloshard mario) {
+    public void onHeadHit(Kloshard kloshard) {
+
+    }
+
+    @Override
+    public void use(Kloshard kloshard) {
 
     }
 }

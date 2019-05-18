@@ -16,8 +16,8 @@ public class Door extends  InteractiveTileObject{
     }
 
     @Override
-    public void onHeadHit(Kloshard mario) {
-        use(mario);
+    public void onHeadHit(Kloshard kloshard) {
+        use(kloshard);
     }
 
     public void use(Kloshard mario) {

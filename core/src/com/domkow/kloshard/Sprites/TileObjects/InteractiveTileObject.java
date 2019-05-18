@@ -49,7 +49,9 @@ public abstract class InteractiveTileObject {
 
     }
 
-    public abstract void onHeadHit(Kloshard mario);
+    public abstract void onHeadHit(Kloshard kloshard);
+
+    public abstract void use(Kloshard kloshard);
 
     public void setCategoryFilter(short filterBit) {
         Filter filter = new Filter();
@@ -59,7 +61,7 @@ public abstract class InteractiveTileObject {
 
     public TiledMapTileLayer.Cell getCell() {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(1);
-        return layer.getCell((int) (body.getPosition().x * KloshardGame.PPM / 16),
-                (int) (body.getPosition().y * KloshardGame.PPM / 16));
+        return layer.getCell((int) (body.getPosition().x * KloshardGame.PPM / 70),
+                (int) (body.getPosition().y * KloshardGame.PPM / 70));
     }
 }
