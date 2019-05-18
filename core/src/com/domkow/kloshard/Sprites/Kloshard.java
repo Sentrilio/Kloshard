@@ -52,40 +52,42 @@ public class Kloshard extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+        String playerSheet = "p1_spritesheet";
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         //kloshard stand animation
-        kloshardStand = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
+        kloshardStand = new TextureRegion(screen.getAtlas().findRegion(playerSheet)
                 , 0, 192, 66, 92);
+//                , 0, 192, 66, 97);
 //                kloshardStand = new TextureRegion()
         Gdx.app.log("info:", screen.getAtlas().getRegions().toString());
 //        Gdx.app.log("info:", screen.getAtlas());
 
         //kloshard dead animation
-        kloshardDead = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 443, 0, 69, 92);
+        kloshardDead = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 443, 0, 69, 92);
 
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 0, 73, 97));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 0, 73, 97));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 0, 73, 97));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 97, 73, 97));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 97, 73, 97));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 97, 73, 97));
 
-        for (int i = 0; i < 2; i++) {
-            for (int k = 1; k < 4; k++) {
-                frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
-                        , k * 72, i * 97, 72, 97));
-            }
-        }
-        for (int i = 0; i < 2; i++) {
-            for (int k = 4; k < 7; k++) {
-                if(i!=1 && k !=6){
-                    frames.add(new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet")
-                            , k * 72, i * 97, 72, 97));
-                }
-            }
-        }
+        //        for (int i = 0; i < 2; i++) {
+//            for (int k = 4; k < 7; k++) {
+//                if(i!=1 && k !=6){
+//                    frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet)
+//                            , k * 72, i * 97, 72, 97));
+//                }
+//            }
+//        }
 
         kloshardRun = new Animation(0.1f, frames);
         frames.clear();
 //
         //kloshard jump animation
-        kloshardJump = new TextureRegion(screen.getAtlas().findRegion("p1_spritesheet"), 441, 92, 67, 94);
+        kloshardJump = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 437, 92, 67, 94);
 
         defineKloshard();
         setBounds(0, 0, 66 / KloshardGame.PPM, 92 / KloshardGame.PPM);
@@ -165,9 +167,6 @@ public class Kloshard extends Sprite {
     }
 
     private State getState() {
-//        return State.STANDING;
-
-
         if (deadFromCollision || fell) {
             return State.DEAD;
         } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
@@ -185,13 +184,13 @@ public class Kloshard extends Sprite {
     private void defineKloshard() {
         BodyDef bdef = new BodyDef();
 //        bdef.position.set(1666 / MarioBros.PPM, 16 / MarioBros.PPM);
-        bdef.position.set(70 / KloshardGame.PPM, 300 / KloshardGame.PPM); //original start
+        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(46 / KloshardGame.PPM);
+        shape.setRadius(42 / KloshardGame.PPM);
         fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
