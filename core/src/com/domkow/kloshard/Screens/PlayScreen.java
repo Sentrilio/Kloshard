@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("lvl3.tmx");
+        map = mapLoader.load("lvl1.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / KloshardGame.PPM);
 

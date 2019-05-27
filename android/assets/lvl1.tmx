@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="21">
+ <tileset firstgid="1" name="bg" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="9" columns="3">
+  <image source="textures/bg.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="10" name="items_spritesheet" tilewidth="70" tileheight="70" spacing="2" tilecount="64" columns="8">
+  <image source="textures/Items/items_spritesheet.png" width="576" height="576"/>
+ </tileset>
+ <tileset firstgid="74" name="tiles" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="196" columns="14">
+  <image source="textures/Tiles/tiles.png" width="1024" height="1024"/>
+ </tileset>
+ <layer id="1" name="background" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMBKEb3r/mqugGCaumqqqqqqqqqqqqqqr6+AAf6zDB
+  </data>
+ </layer>
+ <layer id="2" name="graphics" width="240" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt1sENwiAUBmC4GY+6i0M6gRM4gXu4kiT2YJOSSBEU+33JnzSF8ri8vIbwdEg5hmX7ae11T+n+Uq3Ph3/0bo+W7K/pxdL7wBb1mL+5781a+IwW87dVbQAAGM3p2xcAsq4pl5RzZm3p/S1zVpwCjCVmnoHfsPZfWj/DOveOqa0JzO1iv9TWBOb0L4zrASEVLP4=
+  </data>
+ </layer>
+ <objectgroup id="3" name="ground">
+  <object id="2" x="0" y="700" width="1890" height="210"/>
+  <object id="3" x="2030" y="700" width="980" height="210"/>
+  <object id="17" x="560" y="490" width="210" height="39"/>
+  <object id="18" x="1050" y="490" width="140" height="40"/>
+  <object id="19" x="1470" y="490" width="70" height="39.75"/>
+ </objectgroup>
+ <objectgroup id="4" name="coins"/>
+</map>

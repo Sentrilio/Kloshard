@@ -29,7 +29,7 @@ public class GameOverScreen implements Screen {
         Table table = new Table();
         table.center();
         table.setFillParent(true);
-
+        font.font.getData().setScale(4);
         Label gameOverLabel = new Label("GAME OVER", font);
         Label playAgainLabel = new Label("Click to Play Again", font);
         table.add(gameOverLabel).expandX();

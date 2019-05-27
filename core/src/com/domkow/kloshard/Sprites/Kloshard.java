@@ -96,14 +96,12 @@ public class Kloshard extends Sprite {
 
     public void update(float dt) {
 
-//        if (b2body.getPosition().y < gamecam.position.y - gamecam.viewportHeight / 2) {
-//            if (!mariodieSoundExecuted && !deadFromCollision) {
-//                KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-//                KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
-//                mariodieSoundExecuted = true;
-//            }
-//            fell = true;
-//        }
+        if (b2body.getPosition().y < gamecam.position.y - gamecam.viewportHeight / 2) {
+            if (!mariodieSoundExecuted && !deadFromCollision) {
+                mariodieSoundExecuted = true;
+            }
+            fell = true;
+        }
         if ((b2body.getPosition().x - getWidth() / 2 <= gamecam.position.x - gamecam.viewportWidth / 2)) {
             b2body.setTransform(new Vector2(gamecam.position.x - (gamecam.viewportWidth / 2) + getWidth() / 2, b2body.getPosition().y), 0);
             b2body.setLinearVelocity(new Vector2(0, b2body.getLinearVelocity().y));

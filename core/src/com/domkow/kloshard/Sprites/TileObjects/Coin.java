@@ -26,6 +26,9 @@ public class Coin extends InteractiveTileObject {
         super(screen, object);
         fixture.setUserData(this);
         setCategoryFilter(KloshardGame.COIN_BIT);
+//        fixture.setSensor(false);
+        fixture.setFriction(1.0f);
+        fixture.setRestitution(0.0f);
     }
 
     @Override
