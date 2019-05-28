@@ -231,15 +231,15 @@ public class PlayScreen implements Screen {
             //android controller
             if (controller.isUpClicked()) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                    player.b2body.applyLinearImpulse(new Vector2(0, 3.9f), player.b2body.getWorldCenter(), true);
+                    player.b2body.applyLinearImpulse(new Vector2(0, 7.0f), player.b2body.getWorldCenter(), true);
                 }
                 controller.setUpClicked(false);
             }
-            if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1) {
-                player.b2body.applyLinearImpulse(new Vector2(0.07f, 0), player.b2body.getWorldCenter(), true);
+            if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
+                player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
             }
-            if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1) {
-                player.b2body.applyLinearImpulse(new Vector2(-0.07f, 0), player.b2body.getWorldCenter(), true);
+            if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
+                player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
             }
 
         }

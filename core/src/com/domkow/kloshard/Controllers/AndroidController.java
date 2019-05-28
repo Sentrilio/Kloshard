@@ -93,11 +93,11 @@ public class AndroidController {
         });
 
         table.padBottom(4);
-        table.add().padRight(width/2);
+        table.add().padRight(width / 2);
         table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
-        table.add().padRight(width/2);
+        table.add().padRight(width / 2);
         table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
-        table.add().padLeft((KloshardGame.V_WIDTH) - 4*width- width/2);
+        table.add().padLeft((KloshardGame.V_WIDTH) - 4 * width - width / 2);
         table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).right();
         stage.addActor(table);
 
