@@ -14,8 +14,8 @@ import com.domkow.kloshard.KloshardGame;
 
 public class AndroidController {
 
-    private int width = 40;
-    private int height = 40;
+    private int width = 180;
+    private int height = 180;
     private Viewport viewport;
     public Stage stage;
     private boolean upClicked, downClicked, leftClicked, rightClicked;
@@ -97,8 +97,8 @@ public class AndroidController {
         table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
         table.add().padRight(width/2);
         table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
-        table.add().padLeft(width*5 +width/2);
-        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).left();
+        table.add().padLeft((KloshardGame.V_WIDTH) - 4*width- width/2);
+        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).right();
         stage.addActor(table);
 
 
