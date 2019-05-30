@@ -71,11 +71,14 @@ public class B2WorldCreator {
                 worldVertices[i].x = vertices[i * 2] / KloshardGame.PPM;
                 worldVertices[i].y = vertices[i * 2 + 1] / KloshardGame.PPM;
             }
-            bdef.position.set(0,0);
+            bdef.position.set(0, 0);
             ChainShape chainShape = new ChainShape();
             chainShape.createChain(worldVertices);
             body = world.createBody(bdef);
             fdef.shape = chainShape;
+//            fdef.restitution = 1f;
+//            fdef.density = 1;
+            fdef.friction=2f;
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
 

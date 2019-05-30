@@ -164,6 +164,7 @@ public class Kloshard extends Sprite {
         if (deadFromCollision || fell) {
             return State.DEAD;
         } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 )) {
             return State.JUMPING;
         } else if (b2body.getLinearVelocity().y < 0) {
             return State.FALLING;

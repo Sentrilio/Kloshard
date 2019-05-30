@@ -215,17 +215,19 @@ public class PlayScreen implements Screen {
     private void handleInput(float dt) {
         if (!player.finishedLevel && player.currentState != Kloshard.State.DEAD) {
             //computer keyboard
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                    jump();
+//                if (player.currentState != Kloshard.State.JUMPING) {
+                    jump(); 
                 }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 1.5) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3) {
                 goRight();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -1.5) {
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -3) {
                 goLeft();
             }
+
 
             //android controller
             if (controller.isUpClicked()) {
@@ -234,13 +236,23 @@ public class PlayScreen implements Screen {
                 }
                 controller.setUpClicked(false);
             }
-            if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
+            if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 3) {
                 goRight();
             }
-            if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
+            if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -3) {
                 goLeft();
             }
+            if (!Gdx.input.isTouched() && !Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+                if (player.currentState == Kloshard.State.RUNNING) {
+                    stop();
+                }
+            }
         }
+    }
+
+    private void stop() {
+        player.b2body.applyLinearImpulse(new Vector2(-player.b2body.getLinearVelocity().x / 10, 0), player.b2body.getWorldCenter(), true);
+//            player.b2body.setLinearVelocity(new Vector2(0,0));
     }
 
     private void jump() {
@@ -248,11 +260,13 @@ public class PlayScreen implements Screen {
     }
 
     private void goRight() {
-        player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
+        player.b2body.setLinearVelocity(3f, player.b2body.getLinearVelocity().y);
+//        player.b2body.applyLinearImpulse(new Vector2(5.00f, 0), player.b2body.getWorldCenter(), true);
     }
 
     private void goLeft() {
-        player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
+        player.b2body.setLinearVelocity(-3f, player.b2body.getLinearVelocity().y);
+//        player.b2body.applyLinearImpulse(new Vector2(-5.00f, 0), player.b2body.getWorldCenter(), true);
     }
 
     @Override

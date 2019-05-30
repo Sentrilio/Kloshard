@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="83">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="116">
  <tileset firstgid="1" name="bg" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="9" columns="3">
   <image source="textures/bg.png" width="256" height="256"/>
  </tileset>
@@ -530,7 +530,7 @@
  </layer>
  <layer id="2" name="graphics" width="240" height="13">
   <data encoding="base64" compression="zlib">
-   eJzt1k0KgzAQgFHt9UoX/V15DK9Yeq2mtIURkoU2KpX34AMxEGczYNMAALzt1h4A/tB97QGA0ewtMNV17QFggx6h0vmvXrt7q3APMHRKnVOXwlnu/bFwV/sp+u5uP3VAYHZt5jnurv2F+dX4Xz6kuma4u/YXxusWLOozLTmLtIVyezS1fSh3HtX8rqQ62V9puZ6imTkf
+   eJzt100KgzAQQOGx15NS+t+Fx/CKpddqJFkMYbIwHRMq74MHxYDOZtCKAAAARIfeAwB/6N17AACrsbcAat1DU+rZeRZgLz6q0vmvlt19hObUS9hhwMMldA3dCmfW9XPhXkNKy3d3aZS4w6eKeQH4G4zf+e4C2JbH9/JR4v/c/L0LYJ2pYdps1HIWoj1k7VFto8o61zyfS0Q+sb9E7foCP/Q9nw==
   </data>
  </layer>
  <objectgroup id="3" name="ground">
@@ -539,12 +539,19 @@
   <object id="18" x="1050" y="490" width="140" height="40"/>
   <object id="19" x="1470" y="490" width="70" height="39.75"/>
   <object id="77" x="2100" y="700" width="14700" height="210"/>
-  <object id="79" x="2030" y="630" width="420" height="70"/>
-  <object id="81" x="2450" y="350">
-   <polyline points="0,0 -280,280 0,280 140,280 140,0 0,0"/>
+  <object id="91" x="2590" y="350">
+   <polyline points="0,0 0,210 140,210 140,140 0,0"/>
   </object>
-  <object id="82" x="637.333" y="422">
-   <polyline points="0,0 -280,280 0,280 140,280 140,0 0,0"/>
+  <object id="97" x="2450" y="350" width="140" height="210"/>
+  <object id="99" x="2450" y="350">
+   <polyline points="0,0 -350,350 0,350 0,0"/>
+  </object>
+  <object id="109" x="2030" y="630">
+   <polyline points="0,0 0,26.125 2.75,36.125 6.25,42.875 10.5,48.375 16.625,53.375 23.375,57.375 31,61.25 38.625,64 46,66 53.75,67.625 59.75,68.875 66.25,69.375 70,70 70,0 0,0"/>
+  </object>
+  <object id="111" x="2100" y="630" width="140" height="70"/>
+  <object id="115" x="2730" y="490">
+   <polyline points="0,0 70,0 70.125,22.5 68,33.125 65.375,39.625 62.375,44.625 58.75,48.375 54.75,52.125 50,55.875 45.625,58.375 38.125,61.625 31.75,64 25.125,65.625 17.375,67.5 9.375,68.375 3.5,69.5 0,69.5 0,0"/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="coins">
