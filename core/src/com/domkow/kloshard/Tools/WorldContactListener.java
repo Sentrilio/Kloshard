@@ -25,7 +25,6 @@ public class WorldContactListener implements ContactListener {
 
         switch (cDef) {
             case KloshardGame.MARIO_HEAD_BIT | KloshardGame.BRICK_BIT:
-//            case KloshardGame.MARIO_HEAD_BIT | KloshardGame.COIN_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_HEAD_BIT) {
                     ((InteractiveTileObjectRectangle) fixB.getUserData()).onHeadHit((Kloshard) fixA.getUserData());
                 } else {
