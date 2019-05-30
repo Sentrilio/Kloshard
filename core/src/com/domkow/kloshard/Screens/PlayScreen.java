@@ -25,6 +25,7 @@ import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Items.ItemDef;
 import com.domkow.kloshard.Sprites.Items.Mushroom;
 import com.domkow.kloshard.Sprites.Kloshard;
+import com.domkow.kloshard.Sprites.TileObjects.Coin;
 import com.domkow.kloshard.Tools.B2WorldCreator;
 import com.domkow.kloshard.Tools.WorldContactListener;
 
@@ -162,9 +163,7 @@ public class PlayScreen implements Screen {
 //        if (!(player.finishedLevel && player.getStateTimer() > 1)) {
         player.draw(game.batch);
 //        }
-//        for (Enemy enemy : creator.getEnemies()) {
-//            enemy.draw(game.batch);
-//        }
+
         for (Item item : items) {
             item.draw(game.batch);
         }

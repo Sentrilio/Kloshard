@@ -1,6 +1,7 @@
 package com.domkow.kloshard.Sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Scenes.Hud;
@@ -24,15 +25,13 @@ public class Coin extends InteractiveTileObjectCircle {
 
     @Override
     public void use(Kloshard kloshard) {
-        setCategoryFilter(KloshardGame.DESTROYED_BIT);
         getCell().setTile(null);
+        setCategoryFilter(KloshardGame.DESTROYED_BIT);
+//        destroy();
         Gdx.app.log("Coin", "Collision");
         Gdx.app.log("Coin position", "x: "+ellipse.x+", y: "+ellipse.y);
-        Gdx.app.log("Coin cell", "x: "+ellipse.x+", y: "+ellipse.y);
-//        Gdx.app.log("Cell tile", getCell().toString());
-
-//        world.destroyBody(body);
         Hud.addCoin();
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.domkow.kloshard.Sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -21,6 +22,8 @@ import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
 public abstract class InteractiveTileObjectCircle {
+    protected boolean toDestroy;
+    protected boolean destroyed;
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
