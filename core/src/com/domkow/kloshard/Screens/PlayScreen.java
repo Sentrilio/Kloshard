@@ -160,7 +160,7 @@ public class PlayScreen implements Screen {
 
         game.batch.begin();
 //        if (!(player.finishedLevel && player.getStateTimer() > 1)) {
-            player.draw(game.batch);
+        player.draw(game.batch);
 //        }
 //        for (Enemy enemy : creator.getEnemies()) {
 //            enemy.draw(game.batch);
@@ -218,32 +218,42 @@ public class PlayScreen implements Screen {
             //computer keyboard
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                    player.b2body.applyLinearImpulse(new Vector2(0, 7.0f), player.b2body.getWorldCenter(), true);
+                    jump();
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
+                goRight();
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
+                goLeft();
             }
 
             //android controller
             if (controller.isUpClicked()) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                    player.b2body.applyLinearImpulse(new Vector2(0, 7.0f), player.b2body.getWorldCenter(), true);
+                    jump();
                 }
                 controller.setUpClicked(false);
             }
             if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
+                goRight();
             }
             if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
-                player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
+                goLeft();
             }
-
         }
+    }
 
+    private void jump() {
+        player.b2body.applyLinearImpulse(new Vector2(0, 7.0f), player.b2body.getWorldCenter(), true);
+    }
+
+    private void goRight() {
+        player.b2body.applyLinearImpulse(new Vector2(1.00f, 0), player.b2body.getWorldCenter(), true);
+    }
+
+    private void goLeft() {
+        player.b2body.applyLinearImpulse(new Vector2(-1.00f, 0), player.b2body.getWorldCenter(), true);
     }
 
     @Override

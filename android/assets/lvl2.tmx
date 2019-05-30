@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="47">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="33">
  <tileset firstgid="1" name="bg" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="9" columns="3">
   <image source="textures/bg.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="10" name="tiles" tilewidth="70" tileheight="146" tilecount="172" columns="0">
+ <tileset firstgid="10" name="all_tiles" tilewidth="70" tileheight="146" tilecount="172" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
    <image width="70" height="70" source="textures/Tiles/box.png"/>
@@ -530,7 +530,7 @@
  </layer>
  <layer id="2" name="graphics" width="240" height="13">
   <data encoding="base64" compression="zlib">
-   eJzt1ksKgzAUBVB16tI66mfYZbjF0m3VQYUoiVRMYkvPgQvyAomTS9I0AMC/6hfpjv0d+EmPimf1G+dAXM3eTqa7NjYHvlv4Xl7OgfKemfdL3cnAdpcx1zG3xFpsfk7s1b4T6oKk7mPgWG3kO9Vd/YUycr2X17qrv/CZe8XsPROYGzLmFCS2vvdMYC5nf8MO6y+U9wIi7Dlh
+   eJzt1jkKgDAUBFD1elYupcfwjl5LC4sEfgoxLsV7MBDyIUkzkKYBAAAAAID/2b5+AFA0HpmOzIVZtD8UzmrPpLokwD+1wboLAjyn1n856q4OwzXLi7l7J5BbK6ZPEs3v3gnkavY37bD+wvN2/U42uA==
   </data>
  </layer>
  <objectgroup id="3" name="ground">
@@ -539,15 +539,6 @@
   <object id="17" x="560" y="490" width="210" height="39"/>
   <object id="18" x="1050" y="490" width="140" height="40"/>
   <object id="19" x="1470" y="490" width="70" height="39.75"/>
-  <object id="33" x="2170" y="210" width="70" height="210"/>
-  <object id="34" x="2240" y="280" width="70" height="140"/>
-  <object id="35" x="2310" y="350" width="70" height="70"/>
-  <object id="40" x="2380" y="140" width="280" height="70"/>
-  <object id="41" x="2590" y="210" width="70" height="490"/>
-  <object id="42" x="2520" y="420" width="70" height="280"/>
-  <object id="43" x="2450" y="490" width="70" height="210"/>
-  <object id="45" x="2380" y="560" width="70" height="140"/>
-  <object id="46" x="2310" y="630" width="70" height="70"/>
  </objectgroup>
  <objectgroup id="4" name="coins"/>
 </map>

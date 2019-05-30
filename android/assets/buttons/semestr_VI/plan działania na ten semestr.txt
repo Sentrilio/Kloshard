@@ -1,0 +1,21 @@
+Faktyczna robota w tym semestrze:
+
+	Wykłady:
+-technologie multimedialne - szybko przedstawić, a potem tylko ojebać egzamin
+-interakcja człowiek komputer - jeszcze nie wiadomo
+-bezpieczeństwo w środowisku sieciowym - chodzić na wykłady i może się zmusić do słuchania
+-projektowanie serwisów sieciowych - nie wiadomo
+-zarządzanie projektem i zespołem - nie wiadomo (pewnie trzeba chodzić)
+
+	Ćw:
+-technologie multimedialne - projekt albo laboratorium
+-projektowanie serwisów sieciowych - nie wiadomo
+-język obcy - pewnie prezka
+-język obcy II - pewnie prezka
+
+	Proj:
+-interakcja człowiek komputer - 07.03.2019 12:00 projekt z Pjoterem
+-programowanie aplikacji internetowych - porządny projekt w javie Spring
+-programowanie współbieżne - pewnie jakiś projekcik do ojebania w tydzień/2
+-projektowanie i programowanie gier - kikstart? może mario? może przejdzie projekt z mobilek
+-programowanie aplikacji mobilnych - kikstart? może mario?
