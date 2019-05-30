@@ -5,7 +5,7 @@ import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
-public class ChocolateBlock extends InteractiveTileObject {
+public class ChocolateBlock extends InteractiveTileObjectRectangle {
 
     public ChocolateBlock(PlayScreen screen, MapObject object) {
         super(screen, object);

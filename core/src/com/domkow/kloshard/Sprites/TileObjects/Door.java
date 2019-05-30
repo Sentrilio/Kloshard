@@ -7,7 +7,7 @@ import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
-public class Door extends  InteractiveTileObject{
+public class Door extends InteractiveTileObjectRectangle {
 
     public Door(PlayScreen screen, MapObject object) {
         super(screen, object);

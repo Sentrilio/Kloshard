@@ -12,7 +12,7 @@ import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Sprites.TileObjects.Coin;
 import com.domkow.kloshard.Sprites.TileObjects.Door;
-import com.domkow.kloshard.Sprites.TileObjects.InteractiveTileObject;
+import com.domkow.kloshard.Sprites.TileObjects.InteractiveTileObjectRectangle;
 
 public class WorldContactListener implements ContactListener {
 
@@ -27,9 +27,9 @@ public class WorldContactListener implements ContactListener {
             case KloshardGame.MARIO_HEAD_BIT | KloshardGame.BRICK_BIT:
 //            case KloshardGame.MARIO_HEAD_BIT | KloshardGame.COIN_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_HEAD_BIT) {
-                    ((InteractiveTileObject) fixB.getUserData()).onHeadHit((Kloshard) fixA.getUserData());
+                    ((InteractiveTileObjectRectangle) fixB.getUserData()).onHeadHit((Kloshard) fixA.getUserData());
                 } else {
-                    ((InteractiveTileObject) fixA.getUserData()).onHeadHit((Kloshard) fixB.getUserData());
+                    ((InteractiveTileObjectRectangle) fixA.getUserData()).onHeadHit((Kloshard) fixB.getUserData());
                 }
                 break;
             case KloshardGame.MARIO_BIT | KloshardGame.COIN_BIT:

@@ -1,13 +1,12 @@
 package com.domkow.kloshard.Sprites.TileObjects;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.domkow.kloshard.KloshardGame;
-import com.domkow.kloshard.Scenes.Hud;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
-public class Brick extends InteractiveTileObject {
+public class Brick extends InteractiveTileObjectRectangle {
 
     public Brick(PlayScreen screen, MapObject object) {
         super(screen, object);
