@@ -3,6 +3,7 @@ package com.domkow.kloshard.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,8 +20,10 @@ public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
+    private AssetManager manager;
 
     public GameOverScreen(Game game) {
+        this.manager = ((KloshardGame) game).manager;
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
@@ -47,7 +50,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.justTouched()) {
-            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).stop();
+            manager.get("audio/sounds/mariodie.wav", Sound.class).stop();
             game.setScreen(new PlayScreen((KloshardGame) game));
             dispose();
         }

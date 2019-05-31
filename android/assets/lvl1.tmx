@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="5" nextobjectid="116">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="9" nextobjectid="134">
  <tileset firstgid="1" name="bg" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="9" columns="3">
   <image source="textures/bg.png" width="256" height="256"/>
  </tileset>
@@ -554,7 +554,7 @@
    <polyline points="0,0 70,0 70.125,22.5 68,33.125 65.375,39.625 62.375,44.625 58.75,48.375 54.75,52.125 50,55.875 45.625,58.375 38.125,61.625 31.75,64 25.125,65.625 17.375,67.5 9.375,68.375 3.5,69.5 0,69.5 0,0"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="coins">
+ <objectgroup id="4" name="coin">
   <object id="56" x="858.341" y="649.625" width="33.375" height="33.375">
    <ellipse/>
   </object>
@@ -570,5 +570,22 @@
   <object id="64" x="718.252" y="439.585" width="33.375" height="33.375">
    <ellipse/>
   </object>
+ </objectgroup>
+ <objectgroup id="5" name="snail">
+  <object id="117" x="560" y="630" width="70" height="70"/>
+  <object id="118" x="770" y="630" width="70" height="70"/>
+  <object id="119" x="980" y="630" width="70" height="70"/>
+  <object id="120" x="1190" y="630" width="70" height="70"/>
+  <object id="121" x="1330" y="630" width="70" height="70"/>
+ </objectgroup>
+ <objectgroup id="7" name="fly">
+  <object id="129" x="910" y="350" width="70" height="70"/>
+ </objectgroup>
+ <objectgroup id="6" name="enemy_side_box">
+  <object id="131" x="1120" y="350" width="70" height="70"/>
+  <object id="132" x="630" y="350" width="70" height="70"/>
+ </objectgroup>
+ <objectgroup id="8" name="enemy_ground_box">
+  <object id="133" x="630" y="420" width="560" height="70"/>
  </objectgroup>
 </map>

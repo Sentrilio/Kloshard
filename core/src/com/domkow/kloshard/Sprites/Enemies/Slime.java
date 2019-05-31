@@ -1,9 +1,11 @@
 package com.domkow.kloshard.Sprites.Enemies;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -15,23 +17,26 @@ import com.domkow.kloshard.Scenes.Hud;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
-public class Goomba extends Enemy {
+public class Slime extends Enemy {
 
     private float stateTime;
     private Animation walkAnimation;
     private Array<TextureRegion> frames;
     private boolean setToDestroy;
     private boolean destroyed;
+    public AssetManager manager;
 
-    public Goomba(PlayScreen screen, float x, float y) {
+
+    public Slime(PlayScreen screen, float x, float y) {
         super(screen, x, y);
+        this.manager = screen.manager;
+
         frames = new Array<TextureRegion>();
-        for (int i = 0; i < 2; i++) {
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("goomba"), i * 16, 0, 16, 16));
-        }
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 0, 125, 51, 26));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 0, 125, 50, 28));
         walkAnimation = new Animation(0.4f, frames);
         stateTime = 0;
-        setBounds(getX(), getY(), 16 / KloshardGame.PPM, 16 / KloshardGame.PPM);
+        setBounds(getX(), getY(), 51 / KloshardGame.PPM, 28 / KloshardGame.PPM);
         setToDestroy = false;
         destroyed = false;
     }
@@ -41,13 +46,24 @@ public class Goomba extends Enemy {
         if (setToDestroy && !destroyed) {
             world.destroyBody(b2body);
             destroyed = true;
-            setRegion(new TextureRegion(screen.getAtlas().findRegion("goomba"), 32, 0, 16, 16));
+            setRegion(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 0, 113, 59, 12));
+
             stateTime = 0;
         } else if (!destroyed) {
             b2body.setLinearVelocity(velocity);
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
             setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+
+            //
+//            Vector2 position = b2body.getPosition();
+//            setRegion( (TextureRegion) walkAnimation.getKeyFrame(stateTime, true) );
+//            setRotation( MathUtils.radDeg * b2body.getAngle() );
+//            size = new Vector2( getRegionWidth() / KloshardGame.PPM, getRegionHeight() / KloshardGame.PPM );
+//            setBounds( position.x, position.y, size.x, size.y );
+//            setOriginCenter();
+//            setOrigin(getRegionWidth(),getRegionHeight());
         }
+
     }
 
     @Override
@@ -58,8 +74,16 @@ public class Goomba extends Enemy {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(5 / KloshardGame.PPM);
+//        CircleShape shape = new CircleShape();
+        PolygonShape shape = new PolygonShape();
+        Vector2[] verticy1 = new Vector2[4];
+        verticy1[0] = new Vector2(-25, 5).scl(1 / KloshardGame.PPM);
+        verticy1[1] = new Vector2(25, 5).scl(1 / KloshardGame.PPM);
+        verticy1[2] = new Vector2(-25, -10).scl(1 / KloshardGame.PPM);
+        verticy1[3] = new Vector2(25, -10).scl(1 / KloshardGame.PPM);
+        shape.set(verticy1);
+        //
+//        shape.setRadius(25 / KloshardGame.PPM);
         fdef.filter.categoryBits = KloshardGame.ENEMY_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -73,10 +97,10 @@ public class Goomba extends Enemy {
         //Create the Head here:
         PolygonShape head = new PolygonShape();
         Vector2[] verticy = new Vector2[4];
-        verticy[0] = new Vector2(-4, 9).scl(1 / KloshardGame.PPM);
-        verticy[1] = new Vector2(4, 9).scl(1 / KloshardGame.PPM);
-        verticy[2] = new Vector2(0, 3).scl(1 / KloshardGame.PPM);
-        verticy[3] = new Vector2(0, 3).scl(1 / KloshardGame.PPM);
+        verticy[0] = new Vector2(-20, 18).scl(1 / KloshardGame.PPM);
+        verticy[1] = new Vector2(20, 18).scl(1 / KloshardGame.PPM);
+        verticy[2] = new Vector2(-15, 0).scl(1 / KloshardGame.PPM);
+        verticy[3] = new Vector2(15, 0).scl(1 / KloshardGame.PPM);
         head.set(verticy);
 
         fdef.shape = head;
@@ -102,7 +126,7 @@ public class Goomba extends Enemy {
     @Override
     public void hitOnHead(Kloshard mario) {
         setToDestroy = true;
-        KloshardGame.manager.get("audio/sounds/stomp.wav", Sound.class).play();
+//        manager.get("audio/sounds/stomp.wav", Sound.class).play();
         Hud.addScore(100);
     }
 }

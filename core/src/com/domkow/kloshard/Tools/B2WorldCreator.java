@@ -3,13 +3,9 @@ package com.domkow.kloshard.Tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -19,24 +15,21 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
-import com.domkow.kloshard.Sprites.Enemies.Goomba;
-import com.domkow.kloshard.Sprites.Enemies.Turtle;
-import com.domkow.kloshard.Sprites.Kloshard;
-import com.domkow.kloshard.Sprites.TileObjects.Brick;
-import com.domkow.kloshard.Sprites.TileObjects.ChocolateBlock;
+import com.domkow.kloshard.Sprites.Enemies.Fly;
+import com.domkow.kloshard.Sprites.Enemies.Slime;
 import com.domkow.kloshard.Sprites.TileObjects.Coin;
-import com.domkow.kloshard.Sprites.TileObjects.Door;
 
 import static com.domkow.kloshard.KloshardGame.PPM;
 
 public class B2WorldCreator {
 
-//    private Array<Coin> coins = new Array<Coin>();
+    private Array<Enemy> enemies = new Array<Enemy>();
+    private Array<Slime> slimes = new Array<Slime>();
+    private Array<Fly> flies = new Array<Fly>();
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -54,7 +47,7 @@ public class B2WorldCreator {
             body = world.createBody(bdef);
             shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
             fdef.shape = shape;
-//            fdef.restitution=0.1f;
+            fdef.restitution=0.1f;
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
         }
@@ -77,7 +70,7 @@ public class B2WorldCreator {
             chainShape.createChain(worldVertices);
             body = world.createBody(bdef);
             fdef.shape = chainShape;
-//            fdef.restitution=0.1f;
+            fdef.restitution=0.1f;
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
 
@@ -88,6 +81,44 @@ public class B2WorldCreator {
 //            coins.add(coin);
         }
 
+        //create all slimes
+        slimes = new Array<Slime>();
+        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            slimes.add(new Slime(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
+        }
+
+        //create all flies
+        flies = new Array<Fly>();
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            flies.add(new Fly(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
+        }
+
+        //enemy side box
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PPM, (rect.getY() + rect.getHeight() / 2) / PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
+            fdef.shape = shape;
+            fdef.restitution=0.1f;
+            fdef.filter.categoryBits = KloshardGame.ENEMY_SIDE_BOX_BIT;
+            body.createFixture(fdef);
+        }
+        //enemy ground box
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / PPM, (rect.getY() + rect.getHeight() / 2) / PPM);
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
+            fdef.shape = shape;
+            fdef.restitution=0.1f;
+            fdef.filter.categoryBits = KloshardGame.ENEMY_GROUND_BOX_BIT;
+            body.createFixture(fdef);
+        }
         //Coin
 //        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
 //            Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -106,12 +137,7 @@ public class B2WorldCreator {
 //        }
 //
 //
-//        //create all goombas
-//        goombas = new Array<Goomba>();
-//        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//            goombas.add(new Goomba(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
-//        }
+
 //        //create all turtles
 //        turtles = new Array<Turtle>();
 //        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
@@ -135,4 +161,14 @@ public class B2WorldCreator {
 //        turtles.removeValue(turtle, true);
 //    }
 
+    public Array<Enemy> getEnemies() {
+        Array<Enemy> enemies = new Array<Enemy>();
+        enemies.addAll(flies);
+        enemies.addAll(getSlimes());
+        return enemies;
+    }
+
+    public Array<Slime> getSlimes() {
+        return slimes;
+    }
 }

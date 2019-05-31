@@ -21,8 +21,8 @@ public class Door extends InteractiveTileObjectRectangle {
     }
 
     public void use(Kloshard mario) {
-        KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-        KloshardGame.manager.get("audio/sounds/level_complete.mp3", Sound.class).play();
+        manager.get("audio/music/mario_music.ogg", Music.class).stop();
+        manager.get("audio/sounds/level_complete.mp3", Sound.class).play();
         mario.finishedLevel();
     }
 }

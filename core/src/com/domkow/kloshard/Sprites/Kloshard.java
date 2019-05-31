@@ -1,6 +1,7 @@
 package com.domkow.kloshard.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.domkow.kloshard.KloshardGame;
@@ -36,6 +38,7 @@ public class Kloshard extends Sprite {
     private TextureRegion kloshardJump;
     private TextureRegion kloshardDead;
     private OrthographicCamera gamecam;
+    public AssetManager manager;
 
     private float stateTimer;
     private boolean runningRight;
@@ -46,6 +49,7 @@ public class Kloshard extends Sprite {
 
 
     public Kloshard(PlayScreen screen) {
+        this.manager = screen.manager;
         gamecam = screen.gamecam;
         this.world = screen.getWorld();
         currentState = State.STANDING;
@@ -59,10 +63,7 @@ public class Kloshard extends Sprite {
         //kloshard stand animation
         kloshardStand = new TextureRegion(screen.getAtlas().findRegion(playerSheet)
                 , 0, 192, 66, 92);
-//                , 0, 192, 66, 97);
-//                kloshardStand = new TextureRegion()
         Gdx.app.log("info:", screen.getAtlas().getRegions().toString());
-//        Gdx.app.log("info:", screen.getAtlas());
 
         //kloshard dead animation
         kloshardDead = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 443, 0, 69, 92);
@@ -74,18 +75,10 @@ public class Kloshard extends Sprite {
         frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 97, 73, 97));
         frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 97, 73, 97));
 
-        //        for (int i = 0; i < 2; i++) {
-//            for (int k = 4; k < 7; k++) {
-//                if(i!=1 && k !=6){
-//                    frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet)
-//                            , k * 72, i * 97, 72, 97));
-//                }
-//            }
-//        }
 
         kloshardRun = new Animation(0.1f, frames);
         frames.clear();
-//
+
         //kloshard jump animation
         kloshardJump = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 437, 92, 67, 94);
 
@@ -177,14 +170,23 @@ public class Kloshard extends Sprite {
 
     private void defineKloshard() {
         BodyDef bdef = new BodyDef();
-//        bdef.position.set(1666 / MarioBros.PPM, 16 / MarioBros.PPM);
         bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(42 / KloshardGame.PPM);
+        //kloshard circle shape
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(42 / KloshardGame.PPM);
+        //kloshard polygon shape
+        PolygonShape shape = new PolygonShape();
+        Vector2[] verticy = new Vector2[4];
+        verticy[0] = new Vector2(-20, 42).scl(1 / KloshardGame.PPM);
+        verticy[1] = new Vector2(20, 42).scl(1 / KloshardGame.PPM);
+        verticy[2] = new Vector2(-20, -42).scl(1 / KloshardGame.PPM);
+        verticy[3] = new Vector2(20, -42).scl(1 / KloshardGame.PPM);
+        shape.set(verticy);
+
         fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -197,6 +199,22 @@ public class Kloshard extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
+
+//        PolygonShape feet = new PolygonShape();
+//        Vector2[] verticy = new Vector2[4];
+//        verticy[0] = new Vector2(-42, 0).scl(1 / KloshardGame.PPM);
+//        verticy[1] = new Vector2(42, 0).scl(1 / KloshardGame.PPM);
+//        verticy[2] = new Vector2(-42, -42).scl(1 / KloshardGame.PPM);
+//        verticy[3] = new Vector2(42, -42).scl(1 / KloshardGame.PPM);
+//        feet.set(verticy);
+//
+//        fdef.shape = feet;
+//
+//        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
+//        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
+//                KloshardGame.ENEMY_BIT;
+//        //        fdef.restitution = 0.5f;
+//        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / KloshardGame.PPM, 6 / KloshardGame.PPM),
@@ -212,8 +230,8 @@ public class Kloshard extends Sprite {
         if (enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL) {
             ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT_SPEED : Turtle.KICK_LEFT_SPEED);
         } else {
-            KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+//            manager.get("audio/music/mario_music.ogg", Music.class).stop();
+//            manager.get("audio/sounds/mariodie.wav", Sound.class).play();
             deadFromCollision = true;
             Filter filter = new Filter();
             filter.maskBits = KloshardGame.NOTHING_BIT;

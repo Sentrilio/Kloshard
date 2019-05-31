@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
+import com.domkow.kloshard.Sprites.Enemies.Fly;
 import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Sprites.TileObjects.Coin;
@@ -71,6 +72,13 @@ public class WorldContactListener implements ContactListener {
                     ((Item) fixA.getUserData()).reverseVelocity(true, false);
                 } else {
                     ((Item) fixB.getUserData()).reverseVelocity(true, false);
+                }
+                break;
+            case KloshardGame.ENEMY_BIT | KloshardGame.ENEMY_SIDE_BOX_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_BIT) {
+                    ((Fly) fixA.getUserData()).reverseVelocity(true, false);
+                } else {
+                    ((Fly) fixB.getUserData()).reverseVelocity(true, false);
                 }
                 break;
             case KloshardGame.ITEM_BIT | KloshardGame.MARIO_BIT:

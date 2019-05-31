@@ -1,6 +1,7 @@
 package com.domkow.kloshard.Sprites.TileObjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
@@ -34,6 +35,7 @@ public abstract class InteractiveTileObjectRectangle {
     protected Fixture fixture;
     protected PlayScreen screen;
     protected MapObject object;
+    public AssetManager manager;
 
 
     public InteractiveTileObjectRectangle(PlayScreen screen, MapObject object) {
@@ -42,6 +44,7 @@ public abstract class InteractiveTileObjectRectangle {
         this.map = screen.getMap();
         this.object = object;
         this.bounds = ((RectangleMapObject) object).getRectangle();
+        this.manager = screen.manager;
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();

@@ -3,6 +3,7 @@ package com.domkow.kloshard.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -54,9 +55,11 @@ public class PlayScreen implements Screen {
     private Array<Item> items;
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
     private AndroidController controller;
+    public AssetManager manager;
 
 
     public PlayScreen(KloshardGame game) {
+        this.manager = ((KloshardGame) game).manager;
         atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
 //        atlas = new TextureAtlas()
         this.game = game;
@@ -119,12 +122,12 @@ public class PlayScreen implements Screen {
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
-//        for (Enemy enemy : creator.getEnemies()) {
-//            enemy.update(dt);
-//            if (enemy.getX() < player.getX() + 224 / KloshardGame.PPM) {
-//                enemy.b2body.setActive(true);
-//            }
-//        }
+        for (Enemy enemy : creator.getEnemies()) {
+            enemy.update(dt);
+            if (enemy.getX() < player.getX() + 2000 / KloshardGame.PPM) {
+                enemy.b2body.setActive(true);
+            }
+        }
 
 //        for (Item item : items) {
 //            item.update(dt);
@@ -160,9 +163,11 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
-//        if (!(player.finishedLevel && player.getStateTimer() > 1)) {
         player.draw(game.batch);
-//        }
+
+        for (Enemy enemy : creator.getEnemies()) {
+            enemy.draw(game.batch);
+        }
 
         for (Item item : items) {
             item.draw(game.batch);
@@ -205,8 +210,8 @@ public class PlayScreen implements Screen {
         } else if (player.currentState == Kloshard.State.DEAD && player.fell && player.getStateTimer() > 0.5) {
             return true;
         } else if (Hud.getWorldTimer() <= 0) {
-            KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+//            manager.get("audio/music/mario_music.ogg", Music.class).stop();
+//            manager.get("audio/sounds/mariodie.wav", Sound.class).play();
             return true;
         }
         return false;

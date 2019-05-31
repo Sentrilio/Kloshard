@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.domkow.kloshard.Screens.SplashScreen;
 
@@ -24,15 +25,17 @@ public class KloshardGame extends Game {
 	public static final short ITEM_BIT = 256;
 	public static final short MARIO_HEAD_BIT = 512;
 	public static final short DOOR_BIT = 1024;
-
-	public static AssetManager manager;
+	public static final short ENEMY_SIDE_BOX_BIT = 2048;
+	public static final short ENEMY_GROUND_BOX_BIT = 4096;
+	//	public static final short KLOSHARD_FEET_BIT = 2048;
+	public AssetManager manager;
 //	public PurchaseManager purchaseManager;
 	public SpriteBatch batch;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		manager = new AssetManager();//better if its not static especially on android
+		manager = new AssetManager();
 		manager.load("audio/music/mario_music.ogg", Music.class);
 		manager.load("audio/sounds/coin.wav", Sound.class);
 		manager.load("audio/sounds/bump.wav", Sound.class);
@@ -43,6 +46,8 @@ public class KloshardGame extends Game {
 		manager.load("audio/sounds/stomp.wav", Sound.class);
 		manager.load("audio/sounds/mariodie.wav", Sound.class);
 		manager.load("audio/sounds/level_complete.mp3", Sound.class);
+		manager.load("textures/Enemies/slimeWalk1.png", Texture.class);
+		manager.load("textures/Enemies/slimeWalk2.png",Texture.class);
 		manager.finishLoading();
 		setScreen(new SplashScreen(this));
 	}
