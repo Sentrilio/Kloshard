@@ -52,8 +52,7 @@ public class SplashScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-//            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).stop();
-            game.setScreen(new PlayScreen((KloshardGame) game));
+            game.setScreen(new MenuScreen((KloshardGame) game));
             dispose();
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
