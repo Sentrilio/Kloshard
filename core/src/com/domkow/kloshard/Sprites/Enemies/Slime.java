@@ -1,14 +1,11 @@
 package com.domkow.kloshard.Sprites.Enemies;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
@@ -50,9 +47,11 @@ public class Slime extends Enemy {
 
             stateTime = 0;
         } else if (!destroyed) {
+
             b2body.setLinearVelocity(velocity);
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-            setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+//            setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+            setRegion(getFrame(dt));
 
             //
 //            Vector2 position = b2body.getPosition();
@@ -64,6 +63,18 @@ public class Slime extends Enemy {
 //            setOrigin(getRegionWidth(),getRegionHeight());
         }
 
+    }
+
+    public TextureRegion getFrame(float dt) {
+        TextureRegion region;
+        region = (TextureRegion) walkAnimation.getKeyFrame(stateTime, true);
+        if (velocity.x > 0 && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if (velocity.x < 0 && region.isFlipX() == true) {
+            region.flip(true, false);
+        }
+        return region;
     }
 
     @Override
@@ -90,7 +101,9 @@ public class Slime extends Enemy {
                 KloshardGame.BRICK_BIT |
                 KloshardGame.ENEMY_BIT |
                 KloshardGame.OBJECT_BIT |
-                KloshardGame.MARIO_BIT;
+                KloshardGame.KLOSHARD_BIT |
+                KloshardGame.ENEMY_SIDE_BOX_BIT |
+                KloshardGame.ENEMY_GROUND_BOX_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
 

@@ -15,7 +15,7 @@ public class KloshardGame extends Game {
 
 	public static final short NOTHING_BIT = 0;
 	public static final short GROUND_BIT = 1;
-	public static final short MARIO_BIT = 2;
+	public static final short KLOSHARD_BIT = 2;
 	public static final short BRICK_BIT = 4;
 	public static final short COIN_BIT = 8;
 	public static final short DESTROYED_BIT = 16;
@@ -23,11 +23,10 @@ public class KloshardGame extends Game {
 	public static final short ENEMY_HEAD_BIT = 64;
 	public static final short ENEMY_BIT = 128;
 	public static final short ITEM_BIT = 256;
-	public static final short MARIO_HEAD_BIT = 512;
+	public static final short KLOSHARD_HEAD_BIT = 512;
 	public static final short DOOR_BIT = 1024;
 	public static final short ENEMY_SIDE_BOX_BIT = 2048;
 	public static final short ENEMY_GROUND_BOX_BIT = 4096;
-	//	public static final short KLOSHARD_FEET_BIT = 2048;
 	public AssetManager manager;
 //	public PurchaseManager purchaseManager;
 	public SpriteBatch batch;

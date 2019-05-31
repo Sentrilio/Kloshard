@@ -2,8 +2,6 @@ package com.domkow.kloshard.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -187,7 +184,7 @@ public class Kloshard extends Sprite {
         verticy[3] = new Vector2(20, -42).scl(1 / KloshardGame.PPM);
         shape.set(verticy);
 
-        fdef.filter.categoryBits = KloshardGame.MARIO_BIT;
+        fdef.filter.categoryBits = KloshardGame.KLOSHARD_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
                 KloshardGame.BRICK_BIT |
@@ -219,7 +216,7 @@ public class Kloshard extends Sprite {
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / KloshardGame.PPM, 6 / KloshardGame.PPM),
                 new Vector2(2 / KloshardGame.PPM, 6 / KloshardGame.PPM));
-        fdef.filter.categoryBits = KloshardGame.MARIO_HEAD_BIT;
+        fdef.filter.categoryBits = KloshardGame.KLOSHARD_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);

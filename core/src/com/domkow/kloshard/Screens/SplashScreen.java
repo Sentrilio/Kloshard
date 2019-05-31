@@ -3,6 +3,7 @@ package com.domkow.kloshard.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -50,7 +51,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
 //            KloshardGame.manager.get("audio/sounds/mariodie.wav", Sound.class).stop();
             game.setScreen(new PlayScreen((KloshardGame) game));
             dispose();

@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.domkow.kloshard.KloshardGame;
-import com.domkow.kloshard.Scenes.Hud;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Kloshard;
 
@@ -28,7 +27,7 @@ public class Mushroom extends Item {
         CircleShape shape = new CircleShape();
         shape.setRadius(6 / KloshardGame.PPM);
         fdef.filter.categoryBits = KloshardGame.ITEM_BIT;
-        fdef.filter.maskBits = KloshardGame.MARIO_BIT |
+        fdef.filter.maskBits = KloshardGame.KLOSHARD_BIT |
                 KloshardGame.OBJECT_BIT |
                 KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |

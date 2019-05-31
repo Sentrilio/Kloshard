@@ -61,7 +61,7 @@ public class Turtle extends Enemy {
                 KloshardGame.BRICK_BIT |
                 KloshardGame.ENEMY_BIT |
                 KloshardGame.OBJECT_BIT |
-                KloshardGame.MARIO_BIT;
+                KloshardGame.KLOSHARD_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
 

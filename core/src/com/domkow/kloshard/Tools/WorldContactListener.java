@@ -25,21 +25,21 @@ public class WorldContactListener implements ContactListener {
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
         switch (cDef) {
-            case KloshardGame.MARIO_HEAD_BIT | KloshardGame.BRICK_BIT:
-                if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_HEAD_BIT) {
+            case KloshardGame.KLOSHARD_HEAD_BIT | KloshardGame.BRICK_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_HEAD_BIT) {
                     ((InteractiveTileObjectRectangle) fixB.getUserData()).onHeadHit((Kloshard) fixA.getUserData());
                 } else {
                     ((InteractiveTileObjectRectangle) fixA.getUserData()).onHeadHit((Kloshard) fixB.getUserData());
                 }
                 break;
-            case KloshardGame.MARIO_BIT | KloshardGame.COIN_BIT:
-                if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_BIT) {
+            case KloshardGame.KLOSHARD_BIT | KloshardGame.COIN_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
                     ((Coin) fixB.getUserData()).use((Kloshard) fixA.getUserData());
                 } else {
                     ((Coin) fixA.getUserData()).use((Kloshard) fixB.getUserData());
                 }
                 break;
-            case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.MARIO_BIT:
+            case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_HEAD_BIT) {
                     ((Enemy) fixA.getUserData()).hitOnHead((Kloshard) fixB.getUserData());
                 } else {
@@ -55,11 +55,13 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
             case KloshardGame.ENEMY_BIT | KloshardGame.ENEMY_BIT:
-                ((Enemy) fixA.getUserData()).onEnemyHit((Enemy) fixB.getUserData());
-                ((Enemy) fixB.getUserData()).onEnemyHit((Enemy) fixA.getUserData());
+                ((Enemy) fixA.getUserData()).reverseVelocity(true, false);
+                ((Enemy) fixB.getUserData()).reverseVelocity(true, false);
+//                ((Enemy) fixA.getUserData()).onEnemyHit((Enemy) fixB.getUserData());
+//                ((Enemy) fixB.getUserData()).onEnemyHit((Enemy) fixA.getUserData());
                 break;
-            case KloshardGame.MARIO_BIT | KloshardGame.ENEMY_BIT: {
-                if (fixA.getFilterData().categoryBits == KloshardGame.MARIO_BIT) {
+            case KloshardGame.KLOSHARD_BIT | KloshardGame.ENEMY_BIT: {
+                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
                     ((Kloshard) fixA.getUserData()).hit((Enemy) fixB.getUserData());
                 } else {
                     ((Kloshard) fixB.getUserData()).hit((Enemy) fixA.getUserData());
@@ -76,19 +78,19 @@ public class WorldContactListener implements ContactListener {
                 break;
             case KloshardGame.ENEMY_BIT | KloshardGame.ENEMY_SIDE_BOX_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_BIT) {
-                    ((Fly) fixA.getUserData()).reverseVelocity(true, false);
+                    ((Enemy) fixA.getUserData()).reverseVelocity(true, false);
                 } else {
-                    ((Fly) fixB.getUserData()).reverseVelocity(true, false);
+                    ((Enemy) fixB.getUserData()).reverseVelocity(true, false);
                 }
                 break;
-            case KloshardGame.ITEM_BIT | KloshardGame.MARIO_BIT:
+            case KloshardGame.ITEM_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ITEM_BIT) {
                     ((Item) fixA.getUserData()).use((Kloshard) fixB.getUserData());
                 } else {
                     ((Item) fixB.getUserData()).use((Kloshard) fixA.getUserData());
                 }
                 break;
-            case KloshardGame.DOOR_BIT | KloshardGame.MARIO_BIT:
+            case KloshardGame.DOOR_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.DOOR_BIT) {
                     ((Door) fixA.getUserData()).use((Kloshard) fixB.getUserData());
                 } else {

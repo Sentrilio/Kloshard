@@ -50,6 +50,7 @@ public class Fly extends Enemy {
             b2body.setLinearVelocity(velocity);
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
             setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
+            setRegion(getFrame(dt));
         }
 
     }
@@ -75,7 +76,7 @@ public class Fly extends Enemy {
                 KloshardGame.BRICK_BIT |
                 KloshardGame.ENEMY_BIT |
                 KloshardGame.OBJECT_BIT |
-                KloshardGame.MARIO_BIT |
+                KloshardGame.KLOSHARD_BIT |
                 KloshardGame.ENEMY_SIDE_BOX_BIT |
                 KloshardGame.ENEMY_GROUND_BOX_BIT;
 
@@ -116,5 +117,16 @@ public class Fly extends Enemy {
 
 //        manager.get("audio/sounds/stomp.wav", Sound.class).play();
         Hud.addScore(100);
+    }
+    public TextureRegion getFrame(float dt) {
+        TextureRegion region;
+        region = (TextureRegion) walkAnimation.getKeyFrame(stateTime, true);
+        if (velocity.x > 0 && !region.isFlipX()) {
+            region.flip(true, false);
+        }
+        if (velocity.x < 0 && region.isFlipX() == true) {
+            region.flip(true, false);
+        }
+        return region;
     }
 }

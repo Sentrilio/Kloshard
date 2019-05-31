@@ -266,12 +266,12 @@ public class PlayScreen implements Screen {
 
     private void goRight() {
         player.b2body.setLinearVelocity(3f, player.b2body.getLinearVelocity().y);
-//        player.b2body.applyLinearImpulse(new Vector2(5.00f, 0), player.b2body.getWorldCenter(), true);
+//        player.b2body.applyLinearImpulse(new Vector2(1.50f, 0), player.b2body.getWorldCenter(), true);
     }
 
     private void goLeft() {
         player.b2body.setLinearVelocity(-3f, player.b2body.getLinearVelocity().y);
-//        player.b2body.applyLinearImpulse(new Vector2(-5.00f, 0), player.b2body.getWorldCenter(), true);
+//        player.b2body.applyLinearImpulse(new Vector2(-1.50f, 0), player.b2body.getWorldCenter(), true);
     }
 
     @Override
