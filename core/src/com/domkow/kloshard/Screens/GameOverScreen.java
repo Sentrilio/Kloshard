@@ -17,13 +17,17 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 
+import java.awt.Menu;
+
 public class GameOverScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
     private AssetManager manager;
+    private PlayScreen playScreen;
 
-    public GameOverScreen(Game game) {
+    public GameOverScreen(Game game, PlayScreen playScreen) {
+        this.playScreen = playScreen;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
@@ -52,8 +56,8 @@ public class GameOverScreen implements Screen {
     public void render(float delta) {
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             manager.get("audio/sounds/mariodie.wav", Sound.class).stop();
-            game.setScreen(new PlayScreen((KloshardGame) game));
-            dispose();
+            game.setScreen(playScreen.menuScreen);
+//            dispose();
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

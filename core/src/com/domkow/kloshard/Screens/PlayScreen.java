@@ -56,9 +56,11 @@ public class PlayScreen implements Screen {
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
     private AndroidController controller;
     public AssetManager manager;
+    public MenuScreen menuScreen;
 
 
-    public PlayScreen(KloshardGame game) {
+    public PlayScreen(KloshardGame game, MenuScreen menuScreen) {
+        this.menuScreen = menuScreen;
         this.manager = ((KloshardGame) game).manager;
         atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
 //        atlas = new TextureAtlas()
@@ -184,12 +186,12 @@ public class PlayScreen implements Screen {
 
 
         if (gameOver()) {
-            game.setScreen(new GameOverScreen(game));
-            dispose();
+            game.setScreen(new GameOverScreen(game,this));
+//            dispose();
         }
         if (mapFinished()) {
-            game.setScreen(new GameOverScreen(game));
-            dispose();
+            game.setScreen(new GameOverScreen(game,this));
+//            dispose();
         }
 
 
@@ -223,7 +225,7 @@ public class PlayScreen implements Screen {
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
 //                if (player.currentState != Kloshard.State.JUMPING) {
-                    jump(); 
+                    jump();
                 }
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3) {

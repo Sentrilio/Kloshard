@@ -10,24 +10,27 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
-import com.domkow.kloshard.Sprites.Kloshard;
 
-public class MenuScreen implements Screen {
+public class PreferencesScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
 
     private Viewport viewport;
@@ -37,8 +40,11 @@ public class MenuScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
     private int kloshardSkin = 1;
+    private MenuScreen parent;
 
-    public MenuScreen(Game game) {
+
+    public PreferencesScreen(Game game, MenuScreen parent) {
+        this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
@@ -46,7 +52,6 @@ public class MenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-//        Gdx.app.log("skin: ", skin + "");
     }
 
     private void prepareSkin() {
@@ -65,72 +70,80 @@ public class MenuScreen implements Screen {
 
         font.font.getData().setScale(5);
         Table table = new Table();
-        table.defaults().pad(50);
+//        table.defaults().pad(50);
         table.setFillParent(true);
-        //play button
-        Button playButton = new TextButton("Play", skin);
-        ((TextButton) playButton).getLabel().setFontScale(4);
-        playButton.addListener(new ChangeListener() {
+
+        //button 1
+        ImageButton skin1Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p1_front.png")));
+        skin1Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p1_front_checked.png"));
+        skin1Button.getImage().setScale(2);
+        skin1Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("playButton", "pressed");
-                game.setScreen(new PlayScreen((KloshardGame) game, MenuScreen.this));
+                Gdx.app.log("skin 1", "pressed");
+                parent.setKloshardSkin(1);
+            }
+        });
+        table.add(skin1Button).size(200, 100).uniform();
+//        table.row();
+
+        //button 2
+        ImageButton skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
+        skin2Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p2_front_checked.png"));
+        skin2Button.getImage().setScale(2);
+        skin2Button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("skin 2", "pressed");
+                parent.setKloshardSkin(2);
+            }
+        });
+        table.add(skin2Button).size(200, 100).uniform();
+//        table.row();
+
+        //button 3
+        ImageButton skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
+        skin3Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p3_front_checked.png"));
+
+        skin3Button.getImage().setScale(2);
+//        ((TextButton) skin3Button).getLabel().setFontScale(4);
+        skin3Button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("skin 3", "pressed");
+                parent.setKloshardSkin(3);
+            }
+        });
+
+        table.add(skin3Button).size(200, 100).uniform();
+        table.row();
+
+        //go back button
+        Button backButton = new TextButton("Back", skin);
+        ((TextButton) backButton).getLabel().setFontScale(4);
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("backButton", "pressed");
+                game.setScreen(parent);
 //                dispose();
             }
         });
-        table.add(playButton).size(400, 150).center();
-        table.row();
-
-        //preferences button
-        Button preferencesButton = new TextButton("Preferences", skin);
-        ((TextButton) preferencesButton).getLabel().setFontScale(4);
-        preferencesButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("preferencesButton", "pressed");
-                game.setScreen(new PreferencesScreen(game, MenuScreen.this));
-//                dispose();
-            }
-        });
-        table.add(preferencesButton).size(400, 150).center();
-        table.row();
-
-        //exit button
-        Button exitButton = new TextButton("Exit", skin);
-        ((TextButton) exitButton).getLabel().setFontScale(4);
-        exitButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("exitButton", "pressed");
-                Gdx.app.exit();
-                dispose();
-            }
-        });
-
-        table.add(exitButton).size(400, 150).center();
+        table.add().uniform();
+        table.add(backButton).size(400, 150).center();
         stage.addActor(table);
-
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+//        Gdx.gl.glClearColor(94, 102, 114, 1);
+        Gdx.gl.glClearColor(0,0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
 
-    public int getKloshardSkin() {
-        return kloshardSkin;
-    }
-
-    public void setKloshardSkin(int kloshardSkin) {
-        this.kloshardSkin = kloshardSkin;
-    }
-
     @Override
     public void show() {
-        Gdx.app.log("skin: ", kloshardSkin + "");
-        Gdx.input.setInputProcessor(stage);
     }
 
 
@@ -141,17 +154,14 @@ public class MenuScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override

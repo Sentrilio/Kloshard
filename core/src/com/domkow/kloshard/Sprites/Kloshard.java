@@ -53,7 +53,8 @@ public class Kloshard extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
-        String playerSheet = "p1_spritesheet";
+
+        String playerSheet = "p"+screen.menuScreen.getKloshardSkin()+"_spritesheet";
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
