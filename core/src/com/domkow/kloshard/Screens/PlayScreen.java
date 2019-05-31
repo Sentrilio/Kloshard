@@ -77,7 +77,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
-//        b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(false);
         creator = new B2WorldCreator(this);
         player = new Kloshard(this);
 
