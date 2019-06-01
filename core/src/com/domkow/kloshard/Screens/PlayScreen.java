@@ -186,7 +186,8 @@ public class PlayScreen implements Screen {
 
 
         if (gameOver()) {
-            game.setScreen(new GameOverScreen(game,this));
+            game.setScreen(menuScreen);
+//            game.setScreen(new GameOverScreen(game,this));
 //            dispose();
         }
         if (mapFinished()) {

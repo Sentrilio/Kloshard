@@ -52,6 +52,7 @@ public class LoginScreen implements Screen {
     private GdxFIRDatabase db;
     private TextField emailText;
     private TextField passwordText;
+    private boolean loggedIn = false;
 
 
     public LoginScreen(Game game) {
@@ -118,8 +119,7 @@ public class LoginScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Log in button", "pressed");
-//                signInUser(emailText.getText(), passwordText.getText().toCharArray());
-                game.setScreen(new MenuScreen(game));
+                signInUser(emailText.getText(), passwordText.getText().toCharArray());
             }
         });
         table.add();
@@ -188,7 +188,8 @@ public class LoginScreen implements Screen {
         auth.signInWithEmailAndPassword(email, psswd, new AuthCallback() {
             @Override
             public void onSuccess(GdxFirebaseUser user) {
-                game.setScreen(new MenuScreen(game));
+                loggedIn = true;
+//                game.setScreen(new MenuScreen(game));
                 Gdx.app.log("Login result", "success");
             }
 
@@ -237,9 +238,8 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-//            game.setScreen(new MenuScreen((KloshardGame) game));
-//            dispose();
+        if (loggedIn) {
+            game.setScreen(new MenuScreen(game));
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
