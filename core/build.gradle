@@ -1,6 +1,9 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.6
+dependencies {
+    implementation 'pl.mk5.gdx-fireapp:gdx-fireapp-android:1.9.2'
+}
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
