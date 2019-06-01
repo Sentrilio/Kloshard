@@ -18,7 +18,7 @@ android {
     }
     defaultConfig {
         applicationId "com.domkow.kloshard"
-        minSdkVersion 9
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -87,6 +87,10 @@ task run(type: Exec) {
 
     def adb = path + "/platform-tools/adb"
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.domkow.kloshard/com.domkow.kloshard.AndroidLauncher'
+}
+
+dependencies {
+    implementation 'pl.mk5.gdx-fireapp:gdx-fireapp-android:1.9.2'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

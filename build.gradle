@@ -10,9 +10,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
-        
-
+        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 
@@ -71,8 +70,20 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
+
+        //gdx firebase
+        compile "pl.mk5.gdx-fireapp:gdx-fireapp-android:1.9.2"
+
+        compile 'com.google.firebase:firebase-core:16.0.9'
+        compile 'com.google.firebase:firebase-storage:17.0.0'
+        compile 'com.google.firebase:firebase-auth:17.0.0'
+        compile 'com.google.firebase:firebase-database:17.0.0'
+
+        // Add this if you need google authorization
+        compile 'com.google.android.gms:play-services-auth:16.0.1'
         
     }
+    apply plugin: 'com.google.gms.google-services'
 }
 
 project(":core") {
