@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -39,9 +40,11 @@ public class PreferencesScreen implements Screen {
     private AssetManager manager;
     private Skin skin;
     private TextureAtlas atlas;
-    private int kloshardSkin = 1;
     private MenuScreen parent;
-
+    private ButtonGroup<ImageButton> buttonGroup;
+    private ImageButton skin1Button;
+    private ImageButton skin2Button;
+    private ImageButton skin3Button;
 
     public PreferencesScreen(Game game, MenuScreen parent) {
         this.parent = parent;
@@ -67,51 +70,56 @@ public class PreferencesScreen implements Screen {
 
     private void prepareUI() {
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
         font.font.getData().setScale(5);
         Table table = new Table();
 //        table.defaults().pad(50);
         table.setFillParent(true);
+        buttonGroup = new ButtonGroup<ImageButton>();
 
         //button 1
-        ImageButton skin1Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p1_front.png")));
-        skin1Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p1_front_checked.png"));
+        skin1Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p1_front.png")));
+        skin1Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p1_front_checked.png"));
         skin1Button.getImage().setScale(2);
+        buttonGroup.add(skin1Button);
         skin1Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("skin 1", "pressed");
                 parent.setKloshardSkin(1);
+                buttonGroup.setUncheckLast(true);
             }
         });
         table.add(skin1Button).size(200, 100).uniform();
 //        table.row();
 
         //button 2
-        ImageButton skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
-        skin2Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p2_front_checked.png"));
+        skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
+        skin2Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p2_front_checked.png"));
         skin2Button.getImage().setScale(2);
+        buttonGroup.add(skin2Button);
         skin2Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("skin 2", "pressed");
                 parent.setKloshardSkin(2);
+                buttonGroup.setUncheckLast(true);
+
             }
         });
         table.add(skin2Button).size(200, 100).uniform();
 //        table.row();
 
         //button 3
-        ImageButton skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
-        skin3Button.getStyle().imageDown = new TextureRegionDrawable(new Texture("textures/Player/p3_front_checked.png"));
-
+        skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
+        skin3Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p3_front_checked.png"));
         skin3Button.getImage().setScale(2);
-//        ((TextButton) skin3Button).getLabel().setFontScale(4);
+        buttonGroup.add(skin3Button);
         skin3Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("skin 3", "pressed");
                 parent.setKloshardSkin(3);
+                buttonGroup.setUncheckLast(true);
             }
         });
 
@@ -137,15 +145,26 @@ public class PreferencesScreen implements Screen {
     @Override
     public void render(float delta) {
 //        Gdx.gl.glClearColor(94, 102, 114, 1);
-        Gdx.gl.glClearColor(0,0, 0, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
 
     @Override
     public void show() {
-    }
 
+        int kloshardSkin = parent.getKloshardSkin();
+        if (kloshardSkin == 1) {
+            buttonGroup.setUncheckLast(true);
+            skin1Button.setChecked(true);
+        } else if (kloshardSkin == 2) {
+            buttonGroup.setUncheckLast(true);
+            skin2Button.setChecked(true);
+        } else if (kloshardSkin == 3) {
+            buttonGroup.setUncheckLast(true);
+            skin3Button.setChecked(true);
+        }
+    }
 
     @Override
     public void resize(int width, int height) {
