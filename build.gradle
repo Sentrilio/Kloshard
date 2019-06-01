@@ -93,7 +93,9 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
+        // https://mvnrepository.com/artifact/pl.mk5.gdx-fireapp/gdx-fireapp-core
+        compile group: 'pl.mk5.gdx-fireapp', name: 'gdx-fireapp-core', version: '1.9.2'
+
     }
 }
 
