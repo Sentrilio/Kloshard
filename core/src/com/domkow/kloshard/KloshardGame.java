@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.domkow.kloshard.Screens.LoginScreen;
 import com.domkow.kloshard.Screens.SplashScreen;
 
 public class KloshardGame extends Game {
@@ -48,7 +49,8 @@ public class KloshardGame extends Game {
 		manager.load("textures/Enemies/slimeWalk1.png", Texture.class);
 		manager.load("textures/Enemies/slimeWalk2.png",Texture.class);
 		manager.finishLoading();
-		setScreen(new SplashScreen(this));
+//		setScreen(new SplashScreen(this));
+		setScreen(new LoginScreen(this));
 	}
 
 	@Override
