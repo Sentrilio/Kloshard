@@ -41,7 +41,7 @@ import mk.gdx.firebase.callbacks.AuthCallback;
 import mk.gdx.firebase.callbacks.CompleteCallback;
 import mk.gdx.firebase.callbacks.DataCallback;
 
-public class LoginScreen implements Screen {
+public class CreateAccScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
     private Game game;
@@ -50,11 +50,12 @@ public class LoginScreen implements Screen {
     private TextureAtlas atlas;
     private GdxFIRAuth auth;
     private GdxFIRDatabase db;
+    private LoginScreen parent;
     private TextField emailText;
     private TextField passwordText;
 
-
-    public LoginScreen(Game game) {
+    public CreateAccScreen(Game game, LoginScreen loginScreen) {
+        this.parent = loginScreen;
         this.auth = GdxFIRAuth.instance();
         this.db = GdxFIRDatabase.instance();
         this.game = game;
@@ -63,19 +64,6 @@ public class LoginScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-//        game.setScreen(new MenuScreen(game));
-//        dispose();
-//        String email = "domkow7000@gmail.com";
-//        String passwordString = "6charachters";
-//        char[] psswd = passwordString.toCharArray();
-//        createUser(email, psswd);
-//        signInUser(email, psswd);
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        map.put("skin1", true);
-//        map.put("skin2", false);
-//        map.put("skin3", true);
-//        updateUser(map);
-//        getUserData();
     }
 
     private void prepareSkin() {
@@ -86,15 +74,12 @@ public class LoginScreen implements Screen {
     }
 
     private void prepareUI() {
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
         Table table = new Table();
-//        table.setDebug(true);
         table.defaults().pad(20);
         table.setFillParent(true);
 
         skin.getFont("default-font").getData().setScale(3);
-        Label emailLabel = new Label("email:", skin);
+        final Label emailLabel = new Label("email:", skin);
         emailLabel.setFontScale(3);
 
         emailText = new TextField("", skin);
@@ -112,31 +97,32 @@ public class LoginScreen implements Screen {
         table.add(passwordText).size(700, 100);
         table.row();
 
-        TextButton loginButton = new TextButton("Log in", skin);
-        loginButton.getLabel().setFontScale(4);
-        loginButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("Log in button", "pressed");
-//                signInUser(emailText.getText(), passwordText.getText().toCharArray());
-                game.setScreen(new MenuScreen(game));
-            }
-        });
-        table.add();
-        table.add(loginButton).size(500, 100);
-        table.row();
-
-        TextButton createAccButton = new TextButton("Create account", skin);
-        createAccButton.getLabel().setFontScale(2.5f);
+        TextButton createAccButton = new TextButton("Create Account", skin);
+        createAccButton.getLabel().setFontScale(4);
         createAccButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("createAccButton", "pressed");
-                game.setScreen(new CreateAccScreen(game, LoginScreen.this));
+                Gdx.app.log("Create acc button", "pressed");
+                Gdx.app.log("email",emailText.getText());
+                Gdx.app.log("password",passwordText.getText());
+                createUser(emailText.getText(), passwordText.getText().toCharArray());
             }
         });
         table.add();
-        table.add(createAccButton).size(300, 80).padTop(100);
+        table.add(createAccButton).size(500, 100);
+        table.row();
+
+        TextButton backButton = new TextButton("Back", skin);
+        backButton.getLabel().setFontScale(2.5f);
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("backButton", "pressed");
+                game.setScreen(parent);
+            }
+        });
+        table.add();
+        table.add(backButton).size(300, 80).padTop(100);
         table.row();
 
         stage.addActor(table);
@@ -184,50 +170,41 @@ public class LoginScreen implements Screen {
                 });
     }
 
-    private void signInUser(final String email, char[] psswd) {
-        auth.signInWithEmailAndPassword(email, psswd, new AuthCallback() {
-            @Override
-            public void onSuccess(GdxFirebaseUser user) {
-                game.setScreen(new MenuScreen(game));
-                Gdx.app.log("Login result", "success");
-            }
 
-            @Override
-            public void onFail(Exception e) {
-                Gdx.app.log("Login result", "fail");
-            }
-        });
-    }
 
     private void createUser(String email, char[] psswd) {
-        auth.createUserWithEmailAndPassword(email, psswd, new AuthCallback() {
-            @Override
-            public void onSuccess(GdxFirebaseUser user) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("skin1", true);
-                map.put("skin2", false);
-                map.put("skin3", false);
-                Gdx.app.log("Account Creation Result", "success");
-                db.inReference("users/" + user.getUserInfo().getUid())
-                        .updateChildren(map, new CompleteCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Gdx.app.log("Database:", "user skin field created");
-                            }
+        try {
+            auth.createUserWithEmailAndPassword(email, psswd, new AuthCallback() {
+                @Override
+                public void onSuccess(GdxFirebaseUser user) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("skin1", true);
+                    map.put("skin2", false);
+                    map.put("skin3", false);
+                    Gdx.app.log("Account Creation Result", "success");
+                    db.inReference("users/" + user.getUserInfo().getUid())
+                            .updateChildren(map, new CompleteCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Gdx.app.log("Database:", "user skin field created");
+                                }
 
-                            @Override
-                            public void onError(Exception e) {
-                                Gdx.app.log("Database", e.getMessage());
-                            }
-                        });
-            }
+                                @Override
+                                public void onError(Exception e) {
+                                    Gdx.app.log("Database", e.getMessage());
+                                }
+                            });
+                }
 
-            @Override
-            public void onFail(Exception e) {
-                Gdx.app.log("Creation account result", "fail");
-                Gdx.app.log("Exception", e.getMessage());
-            }
-        });
+                @Override
+                public void onFail(Exception e) {
+                    Gdx.app.log("Creation account result", "fail");
+                    Gdx.app.log("Exception", e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            Gdx.app.log("error",e.getMessage());
+        }
     }
 
     @Override

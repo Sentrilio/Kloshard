@@ -39,6 +39,7 @@ public class MenuScreen implements Screen {
     private int kloshardSkin = 1;
 
     public MenuScreen(Game game) {
+        Gdx.app.log("MenuScreen","Contructor");
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
@@ -46,18 +47,13 @@ public class MenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-//        Gdx.app.log("skin: ", skin + "");
     }
 
     private void prepareSkin() {
-        // A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but
-        // strongly
-        // recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
         skin = new Skin();
         atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));
         skin.addRegions(atlas);
         skin.load(Gdx.files.internal("skin/uiskin.json"));
-
     }
 
     private void prepareUI() {
@@ -131,6 +127,7 @@ public class MenuScreen implements Screen {
     public void show() {
         Gdx.app.log("skin: ", kloshardSkin + "");
         Gdx.input.setInputProcessor(stage);
+        stage.act();
     }
 
 
