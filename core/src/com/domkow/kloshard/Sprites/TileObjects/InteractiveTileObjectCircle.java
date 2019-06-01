@@ -53,7 +53,6 @@ public abstract class InteractiveTileObjectCircle {
         body = world.createBody(bdef);
         fdef.shape = shape;
         fixture = body.createFixture(fdef);
-        Gdx.app.log("position", body.getPosition() + "");
     }
 
     public abstract void onHeadHit(Kloshard kloshard);

@@ -12,7 +12,6 @@ public class Coin extends InteractiveTileObjectCircle {
 
     public Coin(PlayScreen screen, MapObject object) {
         super(screen, object);
-        Gdx.app.log("properties:",object.getProperties().toString());
         fixture.setSensor(true);
         fixture.setUserData(this);
         setCategoryFilter(KloshardGame.COIN_BIT);
@@ -29,7 +28,6 @@ public class Coin extends InteractiveTileObjectCircle {
         setCategoryFilter(KloshardGame.DESTROYED_BIT);
 //        destroy();
         Gdx.app.log("Coin", "Collision");
-        Gdx.app.log("Coin position", "x: "+ellipse.x+", y: "+ellipse.y);
         Hud.addCoin();
     }
 

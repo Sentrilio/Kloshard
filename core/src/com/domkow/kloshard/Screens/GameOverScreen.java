@@ -38,8 +38,8 @@ public class GameOverScreen implements Screen {
         table.center();
         table.setFillParent(true);
         font.font.getData().setScale(4);
-        Label gameOverLabel = new Label("GAME OVER", font);
-        Label playAgainLabel = new Label("Click to Play Again", font);
+        Label gameOverLabel = new Label("YOU DIED!", font);
+        Label playAgainLabel = new Label("Click any button to go back to the menu", font);
         table.add(gameOverLabel).expandX();
         table.row();
         table.add(playAgainLabel).expandX().padTop(10f);

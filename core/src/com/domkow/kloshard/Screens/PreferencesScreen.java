@@ -84,7 +84,7 @@ public class PreferencesScreen implements Screen {
         skin1Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 1", "pressed");
+                Gdx.app.log("skin 1", "toggled");
                 parent.setKloshardSkin(1);
                 buttonGroup.setUncheckLast(true);
             }
@@ -100,7 +100,7 @@ public class PreferencesScreen implements Screen {
         skin2Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 2", "pressed");
+                Gdx.app.log("skin 2", "toggled");
                 parent.setKloshardSkin(2);
                 buttonGroup.setUncheckLast(true);
 
@@ -117,7 +117,7 @@ public class PreferencesScreen implements Screen {
         skin3Button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 3", "pressed");
+                Gdx.app.log("skin 3", "toggled");
                 parent.setKloshardSkin(3);
                 buttonGroup.setUncheckLast(true);
             }
@@ -152,7 +152,6 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void show() {
-
         int kloshardSkin = parent.getKloshardSkin();
         if (kloshardSkin == 1) {
             buttonGroup.setUncheckLast(true);

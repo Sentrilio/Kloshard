@@ -59,13 +59,10 @@ public class Kloshard extends Sprite {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         //kloshard stand animation
-        kloshardStand = new TextureRegion(screen.getAtlas().findRegion(playerSheet)
-                , 0, 192, 66, 92);
-        Gdx.app.log("info:", screen.getAtlas().getRegions().toString());
+        kloshardStand = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 192, 66, 92);
 
         //kloshard dead animation
         kloshardDead = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 443, 0, 69, 92);
-
         frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 0, 73, 97));
         frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 0, 73, 97));
         frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 0, 73, 97));

@@ -54,8 +54,6 @@ public class B2WorldCreator {
 
         //ground
         for (MapObject object : map.getLayers().get(2).getObjects().getByType(PolylineMapObject.class)) {
-            Gdx.app.log("type", "polyline");
-
             Polyline polyline = ((PolylineMapObject) object).getPolyline();
             bdef.type = BodyDef.BodyType.StaticBody;
             float[] vertices = polyline.getTransformedVertices();

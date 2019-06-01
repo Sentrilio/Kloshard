@@ -57,7 +57,6 @@ public abstract class InteractiveTileObjectRectangle {
         shape.setAsBox(bounds.getWidth() / 2 / KloshardGame.PPM, bounds.getHeight() / 2 / KloshardGame.PPM);
         fdef.shape = shape;
         fixture = body.createFixture(fdef);
-        Gdx.app.log("position", body.getPosition() + "");
     }
 
     public abstract void onHeadHit(Kloshard kloshard);
