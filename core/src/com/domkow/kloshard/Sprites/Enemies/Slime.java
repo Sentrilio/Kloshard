@@ -1,5 +1,6 @@
 package com.domkow.kloshard.Sprites.Enemies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -41,10 +42,19 @@ public class Slime extends Enemy {
     public void update(float dt) {
         stateTime += dt;
         if (setToDestroy && !destroyed) {
-            world.destroyBody(b2body);
+            try {
+                Gdx.app.log("SLIME","before destroying");
+                world.destroyBody(b2body);
+                //without this 2 lines games crashing after setting b2body.setActive because b2body is destroyed
+                b2body.setUserData(null);
+                b2body = null;
+                //
+                Gdx.app.log("SLIME","after destroying");
+            }catch (Exception e){
+                Gdx.app.log("Exception",e.getMessage());
+            }
             destroyed = true;
             setRegion(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 0, 113, 59, 12));
-
             stateTime = 0;
         } else if (!destroyed) {
 
@@ -85,16 +95,13 @@ public class Slime extends Enemy {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-//        CircleShape shape = new CircleShape();
-        PolygonShape shape = new PolygonShape();
+//        PolygonShape shape = new PolygonShape();
         Vector2[] verticy1 = new Vector2[4];
         verticy1[0] = new Vector2(-25, 5).scl(1 / KloshardGame.PPM);
         verticy1[1] = new Vector2(25, 5).scl(1 / KloshardGame.PPM);
         verticy1[2] = new Vector2(-25, -10).scl(1 / KloshardGame.PPM);
         verticy1[3] = new Vector2(25, -10).scl(1 / KloshardGame.PPM);
-        shape.set(verticy1);
-        //
-//        shape.setRadius(25 / KloshardGame.PPM);
+//        shape.set(verticy1);
         fdef.filter.categoryBits = KloshardGame.ENEMY_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -104,8 +111,8 @@ public class Slime extends Enemy {
                 KloshardGame.KLOSHARD_BIT |
                 KloshardGame.ENEMY_SIDE_BOX_BIT |
                 KloshardGame.ENEMY_GROUND_BOX_BIT;
-        fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData(this);
+//        fdef.shape = shape;
+//        b2body.createFixture(fdef).setUserData(this);
 
         //Create the Head here:
         PolygonShape head = new PolygonShape();

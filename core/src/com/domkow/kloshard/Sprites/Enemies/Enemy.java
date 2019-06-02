@@ -15,7 +15,7 @@ public abstract class Enemy extends Sprite {
     public Vector2 velocity;
     protected Vector2 position;
     protected Vector2 size;
-
+    public boolean removeFlag=false;
 
     public Enemy(PlayScreen screen, float x, float y) {
         this.world = screen.getWorld();
@@ -30,7 +30,6 @@ public abstract class Enemy extends Sprite {
     protected abstract void defineEnemy();
     public abstract void update(float dt);
     public abstract void hitOnHead(Kloshard kloshard);
-    public abstract void onEnemyHit(Enemy enemy);
 
     public void reverseVelocity(boolean x, boolean y) {
         if (x) {

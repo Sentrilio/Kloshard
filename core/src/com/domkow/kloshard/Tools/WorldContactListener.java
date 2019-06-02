@@ -38,6 +38,7 @@ public class WorldContactListener implements ContactListener {
                 } else {
                     ((Coin) fixA.getUserData()).use((Kloshard) fixB.getUserData());
                 }
+                Gdx.app.log("Collision", "Coin");
                 break;
             case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_HEAD_BIT) {

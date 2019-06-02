@@ -90,23 +90,23 @@ public class PlayScreen implements Screen {
 //        music = KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class);
 //        music.setLooping(true);
 //        music.play();
-        items = new Array<Item>();
-        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+//        items = new Array<Item>();
+//        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
     }
 
 
-    public void spawnItem(ItemDef idef) {
-        itemsToSpawn.add(idef);
-    }
+//    public void spawnItem(ItemDef idef) {
+//        itemsToSpawn.add(idef);
+//    }
 
-    public void handleSpawningItems() {
-        if (!itemsToSpawn.isEmpty()) {
-            ItemDef idef = itemsToSpawn.poll();
-            if (idef.type == Mushroom.class) {
-                items.add(new Mushroom(this, idef.position.x, idef.position.y));
-            }
-        }
-    }
+//    public void handleSpawningItems() {
+//        if (!itemsToSpawn.isEmpty()) {
+//            ItemDef idef = itemsToSpawn.poll();
+//            if (idef.type == Mushroom.class) {
+//                items.add(new Mushroom(this, idef.position.x, idef.position.y));
+//            }
+//        }
+//    }
 
     public TextureAtlas getAtlas() {
         return atlas;
@@ -119,16 +119,20 @@ public class PlayScreen implements Screen {
 
     public void update(float dt) {
         handleInput(dt);
-        handleSpawningItems();
+//        handleSpawningItems();
 
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
         for (Enemy enemy : creator.getEnemies()) {
             enemy.update(dt);
-            if (enemy.getX() < player.getX() + 2000 / KloshardGame.PPM) {
-                enemy.b2body.setActive(true);
+
+            if (enemy.b2body != null) {
+                if (enemy.getX() < player.getX() + 2000 / KloshardGame.PPM) {
+                    enemy.b2body.setActive(true);
+                }
             }
+
         }
 
 //        for (Item item : items) {
@@ -144,7 +148,6 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
         renderer.setView(gamecam);
-
     }
 
 
@@ -168,12 +171,17 @@ public class PlayScreen implements Screen {
         player.draw(game.batch);
 
         for (Enemy enemy : creator.getEnemies()) {
-            enemy.draw(game.batch);
+            if (enemy.removeFlag) {
+                creator.remove(enemy);
+                Gdx.app.log("Enemy", "removed from list");
+            } else {
+                enemy.draw(game.batch);
+            }
         }
 
-        for (Item item : items) {
-            item.draw(game.batch);
-        }
+//        for (Item item : items) {
+//            item.draw(game.batch);
+//        }
 
         game.batch.end();
 
@@ -191,7 +199,7 @@ public class PlayScreen implements Screen {
 //            dispose();
         }
         if (mapFinished()) {
-            game.setScreen(new GameOverScreen(game,this));
+            game.setScreen(new GameOverScreen(game, this));
 //            dispose();
         }
 

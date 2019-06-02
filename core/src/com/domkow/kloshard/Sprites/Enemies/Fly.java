@@ -42,6 +42,10 @@ public class Fly extends Enemy {
         stateTime += dt;
         if (setToDestroy && !destroyed) {
             world.destroyBody(b2body);
+            //without this 2 lines games crashing after setting b2body.setActive because b2body is destroyed
+            b2body.setUserData(null);
+            b2body = null;
+            //
             destroyed = true;
             setRegion(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 141, 0, 59, 33));
 
@@ -100,6 +104,8 @@ public class Fly extends Enemy {
     public void draw(Batch batch) {
         if (!destroyed || stateTime < 1) {
             super.draw(batch);
+        }else{
+            removeFlag=true;
         }
     }
 
@@ -114,7 +120,6 @@ public class Fly extends Enemy {
     @Override
     public void hitOnHead(Kloshard kloshard) {
         setToDestroy = true;
-
 //        manager.get("audio/sounds/stomp.wav", Sound.class).play();
         Hud.addScore(100);
     }
