@@ -59,7 +59,7 @@ public class LoginScreen implements Screen {
 //        map.put("skin1", true);
 //        map.put("skin2", false);
 //        map.put("skin3", true);
-//        updateUser(map);
+//        updateUserCredentials(map);
 //        getUserData();
     }
 

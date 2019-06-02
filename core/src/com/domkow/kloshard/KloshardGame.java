@@ -39,7 +39,6 @@ public class KloshardGame extends Game {
 	public SpriteBatch batch;
 	public TextureAtlas atlas;
 
-
 	@Override
 	public void create() {
 		prepareSkin();

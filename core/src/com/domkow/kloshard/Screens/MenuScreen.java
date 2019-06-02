@@ -39,12 +39,11 @@ public class MenuScreen implements Screen {
     public Skin skin;
     private TextureAtlas atlas;
     private int kloshardSkin = 1;
-    public PurchaseManager purchaseManager;
 
     public MenuScreen(Game game) {
         Gdx.app.log("MenuScreen","Contructor");
         this.manager = ((KloshardGame) game).manager;
-        this.purchaseManager = ((KloshardGame) game).purchaseManager;
+
         this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
@@ -180,9 +179,6 @@ public class MenuScreen implements Screen {
         stage.dispose();
         skin.dispose();
         atlas.dispose();
-
-        if (purchaseManager != null)
-            purchaseManager.dispose();
     }
 }
 

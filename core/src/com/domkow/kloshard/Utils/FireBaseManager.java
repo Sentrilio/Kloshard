@@ -63,7 +63,7 @@ public class FireBaseManager {
                 });
     }
 
-    public void updateUser(HashMap<String, Object> data) {
+    public void updateUserCredentials(HashMap<String, Object> data) {
         Gdx.app.log("Account Creation Result", "success");
         db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
                 .updateChildren(data, new CompleteCallback() {
