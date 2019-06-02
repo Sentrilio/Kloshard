@@ -12,6 +12,7 @@ import mk.gdx.firebase.auth.GdxFirebaseUser;
 import mk.gdx.firebase.callbacks.AuthCallback;
 import mk.gdx.firebase.callbacks.CompleteCallback;
 import mk.gdx.firebase.callbacks.DataCallback;
+import mk.gdx.firebase.listeners.DataChangeListener;
 
 public class FireBaseManager {
     private static volatile FireBaseManager instance;
@@ -40,6 +41,21 @@ public class FireBaseManager {
     public FireBaseManager() {
         this.auth = GdxFIRAuth.instance();
         this.db = GdxFIRDatabase.instance();
+        db.inReference("users/"+auth.getCurrentUser().getUserInfo().getUid())
+                .onDataChange(HashMap.class, new DataChangeListener<HashMap>() {
+            @Override
+            public void onChange(HashMap newValue) {
+                skin2=(Boolean)newValue.get("skin2");
+                skin3=(Boolean)newValue.get("skin3");
+                Gdx.app.log("Database","Updated");
+            }
+
+            @Override
+            public void onCanceled(Exception e) {
+                Gdx.app.log("Database",e.getMessage());
+            }
+        });
+
     }
 
     public void getUserData() {
@@ -129,6 +145,8 @@ public class FireBaseManager {
                 Gdx.app.log("Exception", e.getMessage());
             }
         });
+
+
     }
 
 }

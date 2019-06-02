@@ -52,7 +52,7 @@ public class MenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-        fireBaseManager.getUserData();
+//        fireBaseManager.getUserData();
     }
 
     private void prepareSkin() {

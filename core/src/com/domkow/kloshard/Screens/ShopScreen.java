@@ -195,14 +195,10 @@ public class ShopScreen implements Screen {
             HashMap<String, Object> map = new HashMap<String, Object>();
 
             if (skinEntitlement.equals(SKIN2)) {
-                map.put("skin1", true);
                 map.put("skin2", true);
-                map.put("skin3", false);
                 fireBaseManager.updateUserCredentials(map);
             }
             if (skinEntitlement.equals(SKIN3)) {
-                map.put("skin1", true);
-                map.put("skin2", false);
                 map.put("skin3", true);
                 fireBaseManager.updateUserCredentials(map);
             }
