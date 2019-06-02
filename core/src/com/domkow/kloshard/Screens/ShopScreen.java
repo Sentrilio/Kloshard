@@ -86,42 +86,36 @@ public class ShopScreen implements Screen {
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         font.font.getData().setScale(5);
         Table table = new Table();
-//        table.setDebug(true);
+        table.setDebug(true);
         table.defaults().pad(50);
         table.setFillParent(true);
-
-        //button 2
         skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
         skin2Button.getImage().setScale(2);
-        table.add(skin2Button).size(200, 100).uniform();
-
+        table.add(skin2Button).size(400, 100).uniform();
         //button 3
         skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
         skin3Button.getImage().setScale(2);
-
-        table.add(skin3Button).size(200, 100).uniform();
+        table.add(skin3Button).size(400, 100).uniform();
         table.row();
 
-        buySkin2Button = new IapButton(SKIN2, 179);
-        buySkin2Button.getLabel().setFontScale(4);
-        table.add(buySkin2Button).size(400, 150);
-        buySkin3Button = new IapButton(SKIN3, 349);
-        buySkin3Button.getLabel().setFontScale(4);
-        table.add(buySkin3Button).size(400, 150);
+
+        if (!fireBaseManager.skin2) {
+            buySkin2Button = new IapButton(SKIN2, 100);
+            buySkin2Button.getLabel().setFontScale(4);
+            table.add(buySkin2Button).size(400, 150);
+        } else {
+            table.add();
+        }
+        if (!fireBaseManager.skin3) {
+            buySkin3Button = new IapButton(SKIN3, 150);
+            buySkin3Button.getLabel().setFontScale(4);
+            table.add(buySkin3Button).size(400, 150);
+        } else {
+            table.add();
+        }
 
         table.row();
-//        //go buy button
-//        Button buyButton = new TextButton("Buy", skin);
-//        ((TextButton) buyButton).getLabel().setFontScale(4);
-//        buyButton.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent event, Actor actor) {
-//                Gdx.app.log("Buy Button", "pressed");
-//                //buy something
-//            }
-//        });
-//        table.add(buyButton).size(400, 150).colspan(2);
-//        table.row();
+
         //go back button
         Button backButton = new TextButton("Back", skin);
         ((TextButton) backButton).getLabel().setFontScale(4);
@@ -173,6 +167,12 @@ public class ShopScreen implements Screen {
         }
 
     }
+    public void putSkinInDB(String skin,IapButton button){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put(skin, true);
+        fireBaseManager.updateUserCredentials(map);
+        button.setText("Owned");
+    }
 
     private class IapButton extends TextButton {
         private final String skinEntitlement;
@@ -192,18 +192,19 @@ public class ShopScreen implements Screen {
         }
 
         private void buyItem() {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-
-            if (skinEntitlement.equals(SKIN2)) {
-                map.put("skin2", true);
-                fireBaseManager.updateUserCredentials(map);
-            }
-            if (skinEntitlement.equals(SKIN3)) {
-                map.put("skin3", true);
-                fireBaseManager.updateUserCredentials(map);
-            }
+            boughtItemsWOPurchase();
             purchaseManager.purchase(skinEntitlement);
 
+        }
+
+
+        private void boughtItemsWOPurchase() {
+            if (skinEntitlement.equals(SKIN2)) {
+                putSkinInDB("skin2", buySkin2Button);
+            }
+            if (skinEntitlement.equals(SKIN3)) {
+                putSkinInDB("skin3",buySkin3Button);
+            }
         }
 
         public void setBought(boolean fromRestore) {
@@ -273,10 +274,14 @@ public class ShopScreen implements Screen {
                 @Override
                 public void run() {
                     if (transaction.isPurchased()) {
-                        if (transaction.getIdentifier().equals(SKIN2))
+                        HashMap<String, Object> map = new HashMap<String, Object>();
+                        if (transaction.getIdentifier().equals(SKIN2)) {
                             buySkin2Button.setBought(fromRestore);
-                        else if (transaction.getIdentifier().equals(SKIN3))
+                            putSkinInDB("skin2", buySkin2Button);
+                        } else if (transaction.getIdentifier().equals(SKIN3)) {
                             buySkin3Button.setBought(fromRestore);
+                            putSkinInDB("skin3", buySkin3Button);
+                        }
                     }
                 }
             });
