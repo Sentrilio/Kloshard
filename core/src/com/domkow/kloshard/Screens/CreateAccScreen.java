@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -57,10 +58,11 @@ public class CreateAccScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
     private FireBaseManager fireBaseManager;
-
+    private Dialog dialog;
     private LoginScreen parent;
     private TextField emailText;
     private TextField passwordText;
+    private boolean accCreationSucessful=false;
 
     public CreateAccScreen(Game game, LoginScreen loginScreen) {
         this.parent = loginScreen;
@@ -145,6 +147,13 @@ public class CreateAccScreen implements Screen {
 
         stage.addActor(table);
 
+        dialog = new Dialog("", skin, "dialog") {
+            public void result(Object obj) {
+                accCreationSucessful=true;
+            }
+        };
+        dialog.text("Account creation success");
+        dialog.button("back to login menu");
     }
 
 
@@ -155,8 +164,12 @@ public class CreateAccScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         if (fireBaseManager.isAccCreated()) {
             fireBaseManager.setAccCreated(false);
+            dialog.show(stage);
+        }
+        if(accCreationSucessful){
             game.setScreen(parent);
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
