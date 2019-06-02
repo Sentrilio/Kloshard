@@ -15,11 +15,14 @@ import mk.gdx.firebase.callbacks.DataCallback;
 
 public class FireBaseManager {
     private static volatile FireBaseManager instance;
-    private GdxFIRAuth auth;
-    private GdxFIRDatabase db;
+    public GdxFIRAuth auth;
+    public GdxFIRDatabase db;
     public boolean loggedIn = false;
     public boolean accCreated = false;
     public boolean attemptToSignIn = false;
+    public boolean skin1 = true;
+    public boolean skin2 = false;
+    public boolean skin3 = false;
 
     public static FireBaseManager instance() {
         FireBaseManager result = instance;
@@ -40,19 +43,17 @@ public class FireBaseManager {
     }
 
     public void getUserData() {
-        db.inReference("users")
+        db.inReference("users/"+auth.getCurrentUser().getUserInfo().getUid())
                 .readValue(HashMap.class, new DataCallback<HashMap>() {
                     @Override
                     public void onData(HashMap data) {
-                        Gdx.app.log("onData:", "START");
-                        Gson gson = new Gson();
-                        String json = gson.toJson(data);
-//                        User[] users = gson.fromJson(json, User[].class);
-//                        ArrayList<User> usersList = new ArrayList<User>(Arrays.asList(users));
-//                        for (User user : usersList) {
-//                            Gdx.app.log("User:", user.toString());
-//                        }
-                        Gdx.app.log("values:", json);
+                        Gdx.app.log("onData:", "START retriving");
+                        try{
+                            skin2=(Boolean) data.get("skin2");
+                            skin3=(Boolean) data.get("skin3");
+                        }catch (Exception e){
+                            Gdx.app.log("retriving data",e.getMessage());
+                        }
                         Gdx.app.log("onData:", "STOP");
                     }
 
@@ -85,12 +86,15 @@ public class FireBaseManager {
             public void onSuccess(GdxFirebaseUser user) {
                 loggedIn = true;
                 Gdx.app.log("Login result", "success");
+                attemptToSignIn=false;
             }
 
             @Override
             public void onFail(Exception e) {
                 Gdx.app.log("Login result", "fail");
+                attemptToSignIn=false;
             }
+
         });
     }
 

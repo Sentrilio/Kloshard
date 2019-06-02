@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
+import com.domkow.kloshard.Utils.FireBaseManager;
 
 public class PreferencesScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
@@ -45,8 +46,11 @@ public class PreferencesScreen implements Screen {
     private ImageButton skin1Button;
     private ImageButton skin2Button;
     private ImageButton skin3Button;
+    private FireBaseManager fireBaseManager;
 
     public PreferencesScreen(Game game, MenuScreen parent) {
+        this.fireBaseManager = FireBaseManager.instance();
+        fireBaseManager.getUserData();
         this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
@@ -91,38 +95,50 @@ public class PreferencesScreen implements Screen {
             }
         });
         table.add(skin1Button).size(200, 100).uniform();
-//        table.row();
 
-        //button 2
-        skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
-        skin2Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p2_front_checked.png"));
-        skin2Button.getImage().setScale(2);
-        buttonGroup.add(skin2Button);
-        skin2Button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 2", "toggled");
-                parent.setKloshardSkin(2);
-                buttonGroup.setUncheckLast(true);
+        if (fireBaseManager.skin2) {
+            //button 2
+            skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
+            skin2Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p2_front_checked.png"));
+            skin2Button.getImage().setScale(2);
+            buttonGroup.add(skin2Button);
+            skin2Button.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.app.log("skin 2", "toggled");
+                    parent.setKloshardSkin(2);
+                    buttonGroup.setUncheckLast(true);
 
-            }
-        });
+                }
+            });
+        } else {
+            //button 2
+            skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front_unavailable.png")));
+            skin2Button.getImage().setScale(2);
+            skin2Button.setDisabled(true);
+        }
+
         table.add(skin2Button).size(200, 100).uniform();
-//        table.row();
 
-        //button 3
-        skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
-        skin3Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p3_front_checked.png"));
-        skin3Button.getImage().setScale(2);
-        buttonGroup.add(skin3Button);
-        skin3Button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 3", "toggled");
-                parent.setKloshardSkin(3);
-                buttonGroup.setUncheckLast(true);
-            }
-        });
+        if (fireBaseManager.skin3) {
+            //button 3
+            skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
+            skin3Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p3_front_checked.png"));
+            skin3Button.getImage().setScale(2);
+            buttonGroup.add(skin3Button);
+            skin3Button.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.app.log("skin 3", "toggled");
+                    parent.setKloshardSkin(3);
+                    buttonGroup.setUncheckLast(true);
+                }
+            });
+        }else{
+            //button 3
+            skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front_unavailable.png")));
+            skin3Button.getImage().setScale(2);
+        }
 
         table.add(skin3Button).size(200, 100).uniform();
         table.row();

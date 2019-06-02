@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Sprites.Kloshard;
+import com.domkow.kloshard.Utils.FireBaseManager;
 
 public class MenuScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
@@ -39,17 +40,19 @@ public class MenuScreen implements Screen {
     public Skin skin;
     private TextureAtlas atlas;
     private int kloshardSkin = 1;
+    private FireBaseManager fireBaseManager;
 
     public MenuScreen(Game game) {
         Gdx.app.log("MenuScreen","Contructor");
         this.manager = ((KloshardGame) game).manager;
-
+        this.fireBaseManager=FireBaseManager.instance();
         this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
+        fireBaseManager.getUserData();
     }
 
     private void prepareSkin() {

@@ -57,8 +57,8 @@ public class KloshardGame extends Game {
 		manager.load("textures/Enemies/slimeWalk1.png", Texture.class);
 		manager.load("textures/Enemies/slimeWalk2.png",Texture.class);
 		manager.finishLoading();
-		setScreen(new MenuScreen(this));
-//		setScreen(new LoginScreen(this));
+//		setScreen(new MenuScreen(this));
+		setScreen(new LoginScreen(this));
 	}
 	private void prepareSkin() {
 		skin = new Skin();

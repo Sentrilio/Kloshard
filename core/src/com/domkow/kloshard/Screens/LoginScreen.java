@@ -146,12 +146,16 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(fireBaseManager.attemptToSignIn){
-            fireBaseManager.attemptToSignIn=false;
-            dialog.show(stage);
-        }
-        if (fireBaseManager.loggedIn) {
-            game.setScreen(new MenuScreen(game));
+//        fireBaseManager.auth.
+        if(fireBaseManager !=null){
+
+            if(fireBaseManager.attemptToSignIn){
+                fireBaseManager.attemptToSignIn=false;
+                dialog.show(stage);
+            }
+            if (fireBaseManager.loggedIn) {
+                game.setScreen(new MenuScreen(game));
+            }
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
