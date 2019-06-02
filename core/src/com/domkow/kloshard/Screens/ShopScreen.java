@@ -31,8 +31,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 
-public class PreferencesScreen implements Screen {
-    public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
+public class ShopScreen implements Screen {
 
     private Viewport viewport;
     private Stage stage;
@@ -42,11 +41,11 @@ public class PreferencesScreen implements Screen {
     private TextureAtlas atlas;
     private MenuScreen parent;
     private ButtonGroup<ImageButton> buttonGroup;
-    private ImageButton skin1Button;
     private ImageButton skin2Button;
     private ImageButton skin3Button;
+    private int selectedSkin = 0;
 
-    public PreferencesScreen(Game game, MenuScreen parent) {
+    public ShopScreen(Game game, MenuScreen parent) {
         this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
@@ -73,25 +72,9 @@ public class PreferencesScreen implements Screen {
         font.font.getData().setScale(5);
         Table table = new Table();
 //        table.setDebug(true);
-//        table.defaults().pad(50);
+        table.defaults().pad(50);
         table.setFillParent(true);
         buttonGroup = new ButtonGroup<ImageButton>();
-
-        //button 1
-        skin1Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p1_front.png")));
-        skin1Button.getStyle().imageChecked = new TextureRegionDrawable(new Texture("textures/Player/p1_front_checked.png"));
-        skin1Button.getImage().setScale(2);
-        buttonGroup.add(skin1Button);
-        skin1Button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("skin 1", "toggled");
-                parent.setKloshardSkin(1);
-                buttonGroup.setUncheckLast(true);
-            }
-        });
-        table.add(skin1Button).size(200, 100).uniform();
-//        table.row();
 
         //button 2
         skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));
@@ -102,13 +85,11 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("skin 2", "toggled");
-                parent.setKloshardSkin(2);
+                selectedSkin = 2;
                 buttonGroup.setUncheckLast(true);
-
             }
         });
         table.add(skin2Button).size(200, 100).uniform();
-//        table.row();
 
         //button 3
         skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front.png")));
@@ -119,7 +100,7 @@ public class PreferencesScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("skin 3", "toggled");
-                parent.setKloshardSkin(3);
+                selectedSkin = 3;
                 buttonGroup.setUncheckLast(true);
             }
         });
@@ -127,6 +108,18 @@ public class PreferencesScreen implements Screen {
         table.add(skin3Button).size(200, 100).uniform();
         table.row();
 
+        //go buy button
+        Button buyButton = new TextButton("Buy", skin);
+        ((TextButton) buyButton).getLabel().setFontScale(4);
+        buyButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("Buy Button", "pressed");
+                //buy something
+            }
+        });
+        table.add(buyButton).size(400, 150).colspan(2);
+        table.row();
         //go back button
         Button backButton = new TextButton("Back", skin);
         ((TextButton) backButton).getLabel().setFontScale(4);
@@ -135,11 +128,10 @@ public class PreferencesScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("backButton", "pressed");
                 game.setScreen(parent);
-//                dispose();
             }
         });
-        table.add().uniform();
-        table.add(backButton).size(400, 150).center();
+        table.add(backButton).size(400, 150).colspan(2);
+
         stage.addActor(table);
     }
 
@@ -153,17 +145,17 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void show() {
-        int kloshardSkin = parent.getKloshardSkin();
-        if (kloshardSkin == 1) {
-            buttonGroup.setUncheckLast(true);
-            skin1Button.setChecked(true);
-        } else if (kloshardSkin == 2) {
-            buttonGroup.setUncheckLast(true);
-            skin2Button.setChecked(true);
-        } else if (kloshardSkin == 3) {
-            buttonGroup.setUncheckLast(true);
-            skin3Button.setChecked(true);
-        }
+//        int kloshardSkin = parent.getKloshardSkin();
+//        if (kloshardSkin == 1) {
+//            buttonGroup.setUncheckLast(true);
+//            skin1Button.setChecked(true);
+//        } else if (kloshardSkin == 2) {
+//            buttonGroup.setUncheckLast(true);
+//            skin2Button.setChecked(true);
+//        } else if (kloshardSkin == 3) {
+//            buttonGroup.setUncheckLast(true);
+//            skin3Button.setChecked(true);
+//        }
     }
 
     @Override

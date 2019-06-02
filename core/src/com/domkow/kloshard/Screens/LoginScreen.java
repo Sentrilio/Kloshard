@@ -36,9 +36,11 @@ public class LoginScreen implements Screen {
     private TextField emailText;
     private TextField passwordText;
     private FireBaseManager fireBaseManager;
-
+    private Dialog dialog;
 
     public LoginScreen(Game game) {
+        this.manager = ((KloshardGame) game).manager;
+
         fireBaseManager = FireBaseManager.instance();
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
@@ -100,6 +102,7 @@ public class LoginScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Log in button", "pressed");
+                fireBaseManager.attemptToSignIn=true;
                 String email = emailText.getText();
                 String password = passwordText.getText();
                 if(isValidEmailAddress(email) && isValidPassword(password)){
@@ -132,6 +135,8 @@ public class LoginScreen implements Screen {
         table.row();
 
         stage.addActor(table);
+        dialog = new Dialog("", skin, "dialog");
+        dialog.text("Logging in...");
     }
 
     @Override
@@ -141,13 +146,18 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (fireBaseManager.isUserLoggedIn()) {
+        if(fireBaseManager.attemptToSignIn){
+            fireBaseManager.attemptToSignIn=false;
+            dialog.show(stage);
+        }
+        if (fireBaseManager.loggedIn) {
             game.setScreen(new MenuScreen(game));
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();
+
     }
 
     @Override

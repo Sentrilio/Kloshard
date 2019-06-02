@@ -165,8 +165,8 @@ public class CreateAccScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if (fireBaseManager.isAccCreated()) {
-            fireBaseManager.setAccCreated(false);
+        if (fireBaseManager.accCreated) {
+            fireBaseManager.accCreated=false;
             dialog.show(stage);
         }
         if(accCreationSucessful){

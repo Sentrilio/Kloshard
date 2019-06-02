@@ -10,8 +10,11 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
-        }
 
+        }
+        amazon {
+            java.srcDirs = ['src-amazon']
+        }
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
@@ -28,6 +31,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    flavorDimensions "type"
+    productFlavors {
+        amazon { dimension "type" }
     }
 }
 
@@ -91,6 +98,7 @@ task run(type: Exec) {
 
 dependencies {
     implementation 'pl.mk5.gdx-fireapp:gdx-fireapp-android:1.9.2'
+    implementation 'com.badlogicgames.gdxpay:gdx-pay-android-amazon:0.12.1'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

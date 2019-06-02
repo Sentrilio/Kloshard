@@ -43,3 +43,9 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+
+ #IAP
+ -dontwarn com.amazon.**
+ -keep class com.amazon.** {*;}
+ -keepattributes *Annotation*
+ -optimizations !code/allocation/variable

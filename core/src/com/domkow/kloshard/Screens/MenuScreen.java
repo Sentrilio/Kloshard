@@ -12,10 +12,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.pay.PurchaseManager;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -31,16 +34,18 @@ public class MenuScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    public KloshardGame game;
     private AssetManager manager;
-    private Skin skin;
+    public Skin skin;
     private TextureAtlas atlas;
     private int kloshardSkin = 1;
+    public PurchaseManager purchaseManager;
 
     public MenuScreen(Game game) {
         Gdx.app.log("MenuScreen","Contructor");
         this.manager = ((KloshardGame) game).manager;
-        this.game = game;
+        this.purchaseManager = ((KloshardGame) game).purchaseManager;
+        this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
@@ -60,7 +65,8 @@ public class MenuScreen implements Screen {
 
         font.font.getData().setScale(5);
         Table table = new Table();
-        table.defaults().pad(50);
+        table.defaults().pad(20);
+        table.top();
         table.setFillParent(true);
         //play button
         Button playButton = new TextButton("Play", skin);
@@ -88,6 +94,25 @@ public class MenuScreen implements Screen {
             }
         });
         table.add(preferencesButton).size(400, 150).center();
+        table.row();
+
+        //shop button
+        if (game.purchaseManager != null) {
+//            table.add(new Label("Purchase Manager: " + game.purchaseManager.storeName(), skin));
+//            table.row();
+            Button openShopButton = new TextButton("Open shop", skin);
+            ((TextButton)openShopButton).getLabel().setFontScale(4);
+            openShopButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.app.log("Shop Button", "pressed");
+                    game.setScreen(new ShopScreen(game,MenuScreen.this));
+                }
+            });
+            table.add(openShopButton).size(400,150);
+        } else {
+            table.add(new Label("No purchase manager set.", skin));
+        }
         table.row();
 
         //exit button
@@ -126,7 +151,7 @@ public class MenuScreen implements Screen {
     public void show() {
         Gdx.app.log("skin: ", kloshardSkin + "");
         Gdx.input.setInputProcessor(stage);
-        stage.act();
+//        stage.act();
     }
 
 
@@ -153,6 +178,11 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
+        atlas.dispose();
+
+        if (purchaseManager != null)
+            purchaseManager.dispose();
     }
 }
 

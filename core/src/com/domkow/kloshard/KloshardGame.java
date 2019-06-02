@@ -1,14 +1,18 @@
 package com.domkow.kloshard;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.pay.PurchaseManager;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.domkow.kloshard.Screens.LoginScreen;
 import com.domkow.kloshard.Screens.MenuScreen;
-import com.domkow.kloshard.Screens.SplashScreen;
+
 
 public class KloshardGame extends Game {
 	public static final int V_WIDTH = 1700;
@@ -29,12 +33,16 @@ public class KloshardGame extends Game {
 	public static final short DOOR_BIT = 1024;
 	public static final short ENEMY_SIDE_BOX_BIT = 2048;
 	public static final short ENEMY_GROUND_BOX_BIT = 4096;
+	public Skin skin;
 	public AssetManager manager;
-//	public PurchaseManager purchaseManager;
+	public PurchaseManager purchaseManager;
 	public SpriteBatch batch;
+	public TextureAtlas atlas;
+
 
 	@Override
 	public void create() {
+		prepareSkin();
 		batch = new SpriteBatch();
 		manager = new AssetManager();
 		manager.load("audio/music/mario_music.ogg", Music.class);
@@ -50,8 +58,14 @@ public class KloshardGame extends Game {
 		manager.load("textures/Enemies/slimeWalk1.png", Texture.class);
 		manager.load("textures/Enemies/slimeWalk2.png",Texture.class);
 		manager.finishLoading();
-//		setScreen(new MenuScreen(this));
-		setScreen(new LoginScreen(this));
+		setScreen(new MenuScreen(this));
+//		setScreen(new LoginScreen(this));
+	}
+	private void prepareSkin() {
+		skin = new Skin();
+		atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));
+		skin.addRegions(atlas);
+		skin.load(Gdx.files.internal("skin/uiskin.json"));
 	}
 
 	@Override

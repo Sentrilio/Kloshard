@@ -17,9 +17,9 @@ public class FireBaseManager {
     private static volatile FireBaseManager instance;
     private GdxFIRAuth auth;
     private GdxFIRDatabase db;
-    private boolean loggedIn = false;
-
-    private boolean accCreated = false;
+    public boolean loggedIn = false;
+    public boolean accCreated = false;
+    public boolean attemptToSignIn = false;
 
     public static FireBaseManager instance() {
         FireBaseManager result = instance;
@@ -127,15 +127,4 @@ public class FireBaseManager {
         });
     }
 
-    public boolean isUserLoggedIn() {
-        return loggedIn;
-    }
-
-    public boolean isAccCreated() {
-        return accCreated;
-    }
-
-    public void setAccCreated(boolean accCreated) {
-        this.accCreated = accCreated;
-    }
 }
