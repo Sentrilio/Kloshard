@@ -29,10 +29,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
+import com.domkow.kloshard.Utils.FireBaseManager;
+import com.domkow.kloshard.Utils.LoginUtil;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import mk.gdx.firebase.GdxFIRAuth;
 import mk.gdx.firebase.GdxFIRDatabase;
@@ -41,6 +46,9 @@ import mk.gdx.firebase.callbacks.AuthCallback;
 import mk.gdx.firebase.callbacks.CompleteCallback;
 import mk.gdx.firebase.callbacks.DataCallback;
 
+import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
+import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
+
 public class CreateAccScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
@@ -48,16 +56,15 @@ public class CreateAccScreen implements Screen {
     private AssetManager manager;
     private Skin skin;
     private TextureAtlas atlas;
-    private GdxFIRAuth auth;
-    private GdxFIRDatabase db;
+    private FireBaseManager fireBaseManager;
+
     private LoginScreen parent;
     private TextField emailText;
     private TextField passwordText;
 
     public CreateAccScreen(Game game, LoginScreen loginScreen) {
         this.parent = loginScreen;
-        this.auth = GdxFIRAuth.instance();
-        this.db = GdxFIRDatabase.instance();
+        fireBaseManager = FireBaseManager.instance();
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
@@ -87,7 +94,6 @@ public class CreateAccScreen implements Screen {
         passwordLabel.setFontScale(3);
         passwordText = new TextField("", skin);
 
-        //
         table.right();
         table.padRight(480);
         table.add(emailLabel).size(200, 50);
@@ -103,9 +109,21 @@ public class CreateAccScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Create acc button", "pressed");
-                Gdx.app.log("email",emailText.getText());
-                Gdx.app.log("password",passwordText.getText());
-                createUser(emailText.getText(), passwordText.getText().toCharArray());
+                String email = emailText.getText();
+                String password = passwordText.getText();
+                Gdx.app.log("email", email);
+                Gdx.app.log("password", password);
+
+                if (isValidEmailAddress(email) && isValidPassword(password)) {
+                    fireBaseManager.createUser(email, password.toCharArray());
+                } else {
+                    if (!isValidEmailAddress(email)) {
+                        Gdx.app.log("Create Account: email field", "invalid email");
+                    }
+                    if (!isValidPassword(password)) {
+                        Gdx.app.log("Create Acc: password field", "password must contain at least 6 characters");
+                    }
+                }
             }
         });
         table.add();
@@ -127,85 +145,8 @@ public class CreateAccScreen implements Screen {
 
         stage.addActor(table);
 
-
     }
 
-    private void getUserData() {
-        db.inReference("users")
-                .readValue(HashMap.class, new DataCallback<HashMap>() {
-                    @Override
-                    public void onData(HashMap data) {
-                        Gdx.app.log("onData:", "START");
-                        Gson gson = new Gson();
-                        String json = gson.toJson(data);
-//                        User[] users = gson.fromJson(json, User[].class);
-//                        ArrayList<User> usersList = new ArrayList<User>(Arrays.asList(users));
-//                        for (User user : usersList) {
-//                            Gdx.app.log("User:", user.toString());
-//                        }
-                        Gdx.app.log("values:", json);
-                        Gdx.app.log("onData:", "STOP");
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Gdx.app.log("read database result", e.getMessage());
-                    }
-                });
-    }
-
-    private void updateUser(HashMap<String, Object> data) {
-        Gdx.app.log("Account Creation Result", "success");
-        db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
-                .updateChildren(data, new CompleteCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Gdx.app.log("Database:", "user skin field updated");
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Gdx.app.log("Database", e.getMessage());
-                    }
-                });
-    }
-
-
-
-    private void createUser(String email, char[] psswd) {
-        try {
-            auth.createUserWithEmailAndPassword(email, psswd, new AuthCallback() {
-                @Override
-                public void onSuccess(GdxFirebaseUser user) {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put("skin1", true);
-                    map.put("skin2", false);
-                    map.put("skin3", false);
-                    Gdx.app.log("Account Creation Result", "success");
-                    db.inReference("users/" + user.getUserInfo().getUid())
-                            .updateChildren(map, new CompleteCallback() {
-                                @Override
-                                public void onSuccess() {
-                                    Gdx.app.log("Database:", "user skin field created");
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    Gdx.app.log("Database", e.getMessage());
-                                }
-                            });
-                }
-
-                @Override
-                public void onFail(Exception e) {
-                    Gdx.app.log("Creation account result", "fail");
-                    Gdx.app.log("Exception", e.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            Gdx.app.log("error",e.getMessage());
-        }
-    }
 
     @Override
     public void show() {
@@ -214,9 +155,9 @@ public class CreateAccScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-//            game.setScreen(new MenuScreen((KloshardGame) game));
-//            dispose();
+        if (fireBaseManager.isAccCreated()) {
+            fireBaseManager.setAccCreated(false);
+            game.setScreen(parent);
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

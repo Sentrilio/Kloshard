@@ -29,7 +29,6 @@ import com.domkow.kloshard.Sprites.Kloshard;
 
 public class MenuScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
-
     private Viewport viewport;
     private Stage stage;
     private Game game;
