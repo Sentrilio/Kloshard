@@ -137,7 +137,7 @@ public class Slime extends Enemy {
     }
 
     @Override
-    public void hitOnHead(Kloshard mario) {
+    public void hitOnHead(Kloshard kloshard) {
         setToDestroy = true;
 //        manager.get("audio/sounds/stomp.wav", Sound.class).play();
         Hud.addScore(100);

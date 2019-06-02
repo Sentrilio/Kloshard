@@ -14,7 +14,6 @@ public abstract class Enemy extends Sprite {
     public Body b2body;
     public Vector2 velocity;
     protected Vector2 position;
-    //
     protected Vector2 size;
 
 
@@ -30,7 +29,7 @@ public abstract class Enemy extends Sprite {
 
     protected abstract void defineEnemy();
     public abstract void update(float dt);
-    public abstract void hitOnHead(Kloshard mario);
+    public abstract void hitOnHead(Kloshard kloshard);
     public abstract void onEnemyHit(Enemy enemy);
 
     public void reverseVelocity(boolean x, boolean y) {

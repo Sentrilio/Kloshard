@@ -138,12 +138,12 @@ public class Turtle extends Enemy {
     }
 
     @Override
-    public void hitOnHead(Kloshard mario) {
+    public void hitOnHead(Kloshard kloshard) {
         if (currentState != State.STANDING_SHELL) {
             currentState = State.STANDING_SHELL;
             velocity.x = 0;
         } else {
-            kick(mario.getX() <= this.getX() ? KICK_RIGHT_SPEED : KICK_LEFT_SPEED);
+            kick(kloshard.getX() <= this.getX() ? KICK_RIGHT_SPEED : KICK_LEFT_SPEED);
         }
         Hud.addScore(50);
     }
