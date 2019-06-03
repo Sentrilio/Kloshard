@@ -100,14 +100,14 @@ public class ShopScreen implements Screen {
 
 
         if (!fireBaseManager.skin2) {
-            buySkin2Button = new IapButton(SKIN2_entitlement, 100);
+            buySkin2Button = new IapButton("Buy blue!",SKIN2_entitlement, 100);
             buySkin2Button.getLabel().setFontScale(4);
             table.add(buySkin2Button).size(400, 150);
         } else {
             table.add();
         }
         if (!fireBaseManager.skin3) {
-            buySkin3Button = new IapButton(SKIN3_entitlement, 100);
+            buySkin3Button = new IapButton("Buy pink!",SKIN3_entitlement, 100);
             buySkin3Button.getLabel().setFontScale(4);
             table.add(buySkin3Button).size(400, 150);
         } else {
@@ -171,15 +171,16 @@ public class ShopScreen implements Screen {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(skin, true);
         fireBaseManager.updateUserCredentials(map);
-        button.setText("Owned");
+//        button.setText("Owned");
+        button.remove();
     }
 
     private class IapButton extends TextButton {
         private final String skinEntitlement;
         private final int usdCents;
 
-        public IapButton(String skinEntitlement, int usdCents) {
-            super(skinEntitlement, skin);
+        public IapButton(String text,String skinEntitlement, int usdCents) {
+            super(text, skin);
             this.skinEntitlement = skinEntitlement;
             this.usdCents = usdCents;
 
@@ -213,13 +214,6 @@ public class ShopScreen implements Screen {
 
         public void updateFromManager() {
             Information skuInfo = purchaseManager.getInformation(skinEntitlement);
-            if(skuInfo== null){
-                Gdx.app.log("ENTITLEMENT is null","true");
-            }
-            if (skuInfo.equals(Information.UNAVAILABLE)) {
-                Gdx.app.log("ENTITLEMENT VALUE",skuInfo.toString());
-
-            }
             if (skuInfo == null || skuInfo.equals(Information.UNAVAILABLE)) {
                 setDisabled(true);
                 setText("Not available");
@@ -281,7 +275,6 @@ public class ShopScreen implements Screen {
                 @Override
                 public void run() {
                     if (transaction.isPurchased()) {
-                        HashMap<String, Object> map = new HashMap<String, Object>();
                         if (transaction.getIdentifier().equals(SKIN2_entitlement)) {
                             buySkin2Button.setBought(fromRestore);
                             putSkinInDB("skin2", buySkin2Button);
