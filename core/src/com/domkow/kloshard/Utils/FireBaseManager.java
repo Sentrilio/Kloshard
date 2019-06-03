@@ -108,9 +108,9 @@ public class FireBaseManager {
             @Override
             public void onSuccess(GdxFirebaseUser user) {
                 loggedIn = true;
+                attemptToSignIn = false;
                 Gdx.app.log("Login result", "success");
                 createDataChangeListener();
-                attemptToSignIn = false;
             }
 
             @Override
@@ -118,7 +118,6 @@ public class FireBaseManager {
                 Gdx.app.log("Login result", "fail");
                 attemptToSignIn = false;
             }
-
         });
     }
 

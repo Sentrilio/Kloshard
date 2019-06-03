@@ -86,7 +86,7 @@ public class ShopScreen implements Screen {
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         font.font.getData().setScale(5);
         Table table = new Table();
-        table.setDebug(true);
+//        table.setDebug(true);
         table.defaults().pad(50);
         table.setFillParent(true);
         skin2Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p2_front.png")));

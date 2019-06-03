@@ -36,7 +36,9 @@ public class LoginScreen implements Screen {
     private TextField emailText;
     private TextField passwordText;
     private FireBaseManager fireBaseManager;
-    private Dialog dialog;
+//    private Dialog dialog;
+    private long start;
+    private long end;
 
     public LoginScreen(Game game) {
         this.manager = ((KloshardGame) game).manager;
@@ -48,19 +50,6 @@ public class LoginScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-//        game.setScreen(new MenuScreen(game));
-//        dispose();
-//        String email = "domkow7000@gmail.com";
-//        String passwordString = "6charachters";
-//        char[] psswd = passwordString.toCharArray();
-//        createUser(email, psswd);
-//        signInUser(email, psswd);
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        map.put("skin1", true);
-//        map.put("skin2", false);
-//        map.put("skin3", true);
-//        updateUserCredentials(map);
-//        getUserData();
     }
 
     private void prepareSkin() {
@@ -71,7 +60,6 @@ public class LoginScreen implements Screen {
     }
 
     private void prepareUI() {
-//        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
         Table table = new Table();
 //        table.setDebug(true);
         table.defaults().pad(20);
@@ -102,12 +90,12 @@ public class LoginScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Log in button", "pressed");
-                fireBaseManager.attemptToSignIn=true;
+                fireBaseManager.attemptToSignIn = true;
                 String email = emailText.getText();
                 String password = passwordText.getText();
-                if(isValidEmailAddress(email) && isValidPassword(password)){
+                if (isValidEmailAddress(email) && isValidPassword(password)) {
                     fireBaseManager.signInUser(email, password.toCharArray());
-                }else{
+                } else {
                     if (!isValidEmailAddress(email)) {
                         Gdx.app.log("Login Acc: email field", "invalid email");
                     }
@@ -135,8 +123,8 @@ public class LoginScreen implements Screen {
         table.row();
 
         stage.addActor(table);
-        dialog = new Dialog("", skin, "dialog");
-        dialog.text("Logging in...");
+//        dialog = new Dialog("", skin, "dialog");
+//        dialog.text("Logging in...");
     }
 
     @Override
@@ -146,15 +134,21 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if(fireBaseManager !=null){
-            if(fireBaseManager.attemptToSignIn){
-                fireBaseManager.attemptToSignIn=false;
-                dialog.show(stage);
+        if (fireBaseManager != null) {
+            if (fireBaseManager.attemptToSignIn) {
+//                dialog.show(stage);
+            }else{
+//                dialog.show(stage).hide();
             }
             if (fireBaseManager.loggedIn) {
                 game.setScreen(new MenuScreen(game));
             }
         }
+//        end = System.currentTimeMillis();
+//        if (end - start > 3000) {
+//            start = 0;
+//            dialog.hide();
+//        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
