@@ -57,7 +57,6 @@ public class PlayScreen implements Screen {
     public AssetManager manager;
     public MenuScreen menuScreen;
     private Skin skin;
-    private Stage stage;
 
 
     public PlayScreen(KloshardGame game, MenuScreen menuScreen) {
@@ -68,7 +67,6 @@ public class PlayScreen implements Screen {
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(KloshardGame.V_WIDTH / KloshardGame.PPM,
                 KloshardGame.V_HEIGHT / KloshardGame.PPM, gamecam);
-        stage = new Stage(gamePort, game.batch);
 
         atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
         controller = new AndroidScreenController(game);
@@ -185,8 +183,6 @@ public class PlayScreen implements Screen {
         if (mapFinished()) {
             game.setScreen(new GameOverScreen(game, this));
         }
-        stage.draw();
-        Gdx.input.setInputProcessor(stage);
 
     }
 

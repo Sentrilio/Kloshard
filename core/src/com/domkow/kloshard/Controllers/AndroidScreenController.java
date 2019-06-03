@@ -112,7 +112,7 @@ public class AndroidScreenController {
         table.padBottom(4);
 
         //options button
-        TextButton optionsButton = new TextButton("Options", skin);
+        TextButton optionsButton = new TextButton("", skin);
 
         table.add();
         table.add();
