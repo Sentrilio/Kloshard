@@ -16,12 +16,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.domkow.kloshard.Controllers.AndroidController;
+import com.domkow.kloshard.Controllers.AndroidScreenController;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Scenes.Hud;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
@@ -55,7 +53,7 @@ public class PlayScreen implements Screen {
     private Music music;
     private Array<Item> items;
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
-    private AndroidController controller;
+    private AndroidScreenController controller;
     public AssetManager manager;
     public MenuScreen menuScreen;
     private Skin skin;
@@ -73,7 +71,7 @@ public class PlayScreen implements Screen {
         stage = new Stage(gamePort, game.batch);
 
         atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
-        controller = new AndroidController(game);
+        controller = new AndroidScreenController(game);
         hud = new Hud(game.batch);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("lvl1.tmx");
@@ -96,10 +94,9 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        this.skin= menuScreen.skin;
+        this.skin = menuScreen.skin;
         prepareUI();
     }
-
 
 
     private void prepareUI() {
@@ -119,6 +116,7 @@ public class PlayScreen implements Screen {
         handleInput(dt);
 //        handleSpawningItems();
 
+
         world.step(1 / 60f, 6, 2);
 
         player.update(dt);
@@ -130,13 +128,7 @@ public class PlayScreen implements Screen {
                     enemy.b2body.setActive(true);
                 }
             }
-
         }
-
-//        for (Item item : items) {
-//            item.update(dt);
-//        }
-
         hud.update(dt);
         if (player.currentState != Kloshard.State.DEAD) {
             if (player.b2body.getPosition().x >= gamecam.position.x) {
@@ -188,10 +180,10 @@ public class PlayScreen implements Screen {
 
 
         if (gameOver()) {
-            game.setScreen(new GameOverScreen(game,this));
+            game.setScreen(new GameOverScreen(game, this));
         }
         if (mapFinished()) {
-            game.setScreen(new GameOverScreen(game,this));
+            game.setScreen(new GameOverScreen(game, this));
         }
         stage.draw();
         Gdx.input.setInputProcessor(stage);
@@ -252,8 +244,10 @@ public class PlayScreen implements Screen {
                     stop();
                 }
             }
+
         }
     }
+
 
     private void stop() {
         player.b2body.applyLinearImpulse(new Vector2(-player.b2body.getLinearVelocity().x / 10, 0), player.b2body.getWorldCenter(), true);

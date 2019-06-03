@@ -3,6 +3,8 @@ package com.domkow.kloshard.Controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,7 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 
-public class AndroidController {
+public class AndroidScreenController {
 
     private int width = 180;
     private int height = 180;
@@ -22,28 +24,17 @@ public class AndroidController {
     public Stage stage;
     public Skin skin;
     private boolean upClicked, downClicked, leftClicked, rightClicked;
+    public boolean pause = false;
 
-    public AndroidController(KloshardGame game) {
+    public AndroidScreenController(KloshardGame game) {
         this.skin = game.skin;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
-        table.setDebug(true);
+//        table.setDebug(true);
         table.setFillParent(true);
-        //guziki
-        TextButton pauseButton = new TextButton("Options", skin);
-        table.add();
-        table.add();
-        table.add();
-        table.add();
-        table.add();
-        table.add(pauseButton).right().top();
-        table.row();
-        stage.addActor(table);
-
-//        table.left().bottom();
 
         Image upImg = new Image(new Texture("buttons/up.png"));
         upImg.setSize(width, height);
@@ -109,13 +100,35 @@ public class AndroidController {
             }
         });
 
+//        table.padBottom(4);
+//        table.padRight(width / 2);
+//        table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
+//        table.add().padRight(width / 2);
+//        table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
+//        table.add().padLeft((KloshardGame.V_WIDTH) - 4 * width - width / 2);
+//        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).right();
+//        stage.addActor(table);
+
         table.padBottom(4);
-        table.add().padRight(width / 2);
+
+        //options button
+        TextButton optionsButton = new TextButton("Options", skin);
+
+        table.add();
+        table.add();
+        table.add();
+        table.add();
+        table.add(optionsButton).right().top().expandY();
+        table.row();
+
+        table.padLeft(width / 2);
+//        table.padRight(width / 2);
         table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
         table.add().padRight(width / 2);
         table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
-        table.add().padLeft((KloshardGame.V_WIDTH) - 4 * width - width / 2);
-        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).right();
+//        table.add().padLeft((KloshardGame.V_WIDTH) - 4 * width - width / 2);
+        table.add().expandX();
+        table.add(upImg).size(upImg.getWidth(), upImg.getHeight()).right().padRight(width / 2);
         stage.addActor(table);
 
 
