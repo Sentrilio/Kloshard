@@ -37,8 +37,8 @@ import java.util.HashMap;
 
 public class ShopScreen implements Screen {
 
-    public static final String SKIN2 = "buy blue";
-    public static final String SKIN3 = "buy pink";
+    public static final String SKIN2_entitlement = "skin2_sku";
+    public static final String SKIN3_entitlement = "skin3_sku";
 
     private IapButton buySkin2Button;
     private IapButton buySkin3Button;
@@ -100,14 +100,14 @@ public class ShopScreen implements Screen {
 
 
         if (!fireBaseManager.skin2) {
-            buySkin2Button = new IapButton(SKIN2, 100);
+            buySkin2Button = new IapButton(SKIN2_entitlement, 100);
             buySkin2Button.getLabel().setFontScale(4);
             table.add(buySkin2Button).size(400, 150);
         } else {
             table.add();
         }
         if (!fireBaseManager.skin3) {
-            buySkin3Button = new IapButton(SKIN3, 150);
+            buySkin3Button = new IapButton(SKIN3_entitlement, 100);
             buySkin3Button.getLabel().setFontScale(4);
             table.add(buySkin3Button).size(400, 150);
         } else {
@@ -148,16 +148,16 @@ public class ShopScreen implements Screen {
         // the purchase manager config here in the core project works if your SKUs are the same in every
         // payment system. If this is not the case, inject them like the PurchaseManager is injected
         PurchaseManagerConfig pmc = new PurchaseManagerConfig();
-        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN2));
-        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN3));
+        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN2_entitlement));
+        pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN3_entitlement));
 
         purchaseManager.install(new MyPurchaseObserver(), pmc, true);
     }
 
     private void updateGuiWhenPurchaseManInstalled(String errorMessage) {
         // einfüllen der Infos
-        buySkin2Button.updateFromManager();
-        buySkin3Button.updateFromManager();
+//        buySkin2Button.updateFromManager();
+//        buySkin3Button.updateFromManager();
 
         if (purchaseManager.installed() && errorMessage == null) {
             restoreButton.setDisabled(false);
@@ -192,17 +192,17 @@ public class ShopScreen implements Screen {
         }
 
         private void buyItem() {
-            boughtItemsWOPurchase();
+//            boughtItemsWOPurchase();
             purchaseManager.purchase(skinEntitlement);
 
         }
 
 
         private void boughtItemsWOPurchase() {
-            if (skinEntitlement.equals(SKIN2)) {
+            if (skinEntitlement.equals(SKIN2_entitlement)) {
                 putSkinInDB("skin2", buySkin2Button);
             }
-            if (skinEntitlement.equals(SKIN3)) {
+            if (skinEntitlement.equals(SKIN3_entitlement)) {
                 putSkinInDB("skin3",buySkin3Button);
             }
         }
@@ -213,10 +213,17 @@ public class ShopScreen implements Screen {
 
         public void updateFromManager() {
             Information skuInfo = purchaseManager.getInformation(skinEntitlement);
+            if(skuInfo== null){
+                Gdx.app.log("ENTITLEMENT is null","true");
+            }
+            if (skuInfo.equals(Information.UNAVAILABLE)) {
+                Gdx.app.log("ENTITLEMENT VALUE",skuInfo.toString());
 
+            }
             if (skuInfo == null || skuInfo.equals(Information.UNAVAILABLE)) {
                 setDisabled(true);
                 setText("Not available");
+                Gdx.app.log("ENTITLEMENT VALUE",skuInfo.toString());
             } else {
                 setText(skuInfo.getLocalName() + " " + skuInfo.getLocalPricing());
             }
@@ -275,10 +282,10 @@ public class ShopScreen implements Screen {
                 public void run() {
                     if (transaction.isPurchased()) {
                         HashMap<String, Object> map = new HashMap<String, Object>();
-                        if (transaction.getIdentifier().equals(SKIN2)) {
+                        if (transaction.getIdentifier().equals(SKIN2_entitlement)) {
                             buySkin2Button.setBought(fromRestore);
                             putSkinInDB("skin2", buySkin2Button);
-                        } else if (transaction.getIdentifier().equals(SKIN3)) {
+                        } else if (transaction.getIdentifier().equals(SKIN3_entitlement)) {
                             buySkin3Button.setBought(fromRestore);
                             putSkinInDB("skin3", buySkin3Button);
                         }
