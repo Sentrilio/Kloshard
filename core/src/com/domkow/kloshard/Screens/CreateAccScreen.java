@@ -3,27 +3,17 @@ package com.domkow.kloshard.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -31,21 +21,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Utils.FireBaseManager;
-import com.domkow.kloshard.Utils.LoginUtil;
-import com.google.gson.Gson;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
-import mk.gdx.firebase.GdxFIRAuth;
-import mk.gdx.firebase.GdxFIRDatabase;
-import mk.gdx.firebase.auth.GdxFirebaseUser;
-import mk.gdx.firebase.callbacks.AuthCallback;
-import mk.gdx.firebase.callbacks.CompleteCallback;
-import mk.gdx.firebase.callbacks.DataCallback;
 
 import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
 import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
@@ -60,8 +35,8 @@ public class CreateAccScreen implements Screen {
     private FireBaseManager fireBaseManager;
     private Dialog dialog;
     private LoginScreen parent;
-    private TextField emailText;
-    private TextField passwordText;
+    private TextField emailField;
+    private TextField passwordField;
     private boolean accCreationSucessful=false;
 
     public CreateAccScreen(Game game, LoginScreen loginScreen) {
@@ -91,18 +66,20 @@ public class CreateAccScreen implements Screen {
         final Label emailLabel = new Label("email:", skin);
         emailLabel.setFontScale(3);
 
-        emailText = new TextField("", skin);
+        emailField = new TextField("", skin);
         Label passwordLabel = new Label("Password:", skin);
         passwordLabel.setFontScale(3);
-        passwordText = new TextField("", skin);
-
+        passwordField = new TextField("", skin);
+        passwordField.setPasswordCharacter('*');
+        passwordField.setPasswordMode(true);
+        
         table.right();
         table.padRight(480);
         table.add(emailLabel).size(200, 50);
-        table.add(emailText).size(700, 100);
+        table.add(emailField).size(700, 100);
         table.row();
         table.add(passwordLabel).size(200, 50);
-        table.add(passwordText).size(700, 100);
+        table.add(passwordField).size(700, 100);
         table.row();
 
         TextButton createAccButton = new TextButton("Create Account", skin);
@@ -111,8 +88,8 @@ public class CreateAccScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Create acc button", "pressed");
-                String email = emailText.getText();
-                String password = passwordText.getText();
+                String email = emailField.getText();
+                String password = passwordField.getText();
                 Gdx.app.log("email", email);
                 Gdx.app.log("password", password);
 

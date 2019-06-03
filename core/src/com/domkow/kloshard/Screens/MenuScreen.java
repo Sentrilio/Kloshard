@@ -31,6 +31,8 @@ import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Utils.FireBaseManager;
 
+import mk.gdx.firebase.callbacks.SignOutCallback;
+
 public class MenuScreen implements Screen {
     public static final String REPOLINK = "https://github.com/libgdx/gdx-pay";
     private Viewport viewport;
@@ -41,11 +43,12 @@ public class MenuScreen implements Screen {
     private TextureAtlas atlas;
     private int kloshardSkin = 1;
     private FireBaseManager fireBaseManager;
+    private Screen parent;
 
-    public MenuScreen(Game game) {
-        Gdx.app.log("MenuScreen","Contructor");
+    public MenuScreen(Game game, Screen screen) {
+        this.parent = screen;
         this.manager = ((KloshardGame) game).manager;
-        this.fireBaseManager=FireBaseManager.instance();
+        this.fireBaseManager = FireBaseManager.instance();
         this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
@@ -99,15 +102,15 @@ public class MenuScreen implements Screen {
         //shop button
         if (game.purchaseManager != null) {
             Button openShopButton = new TextButton("Open shop", skin);
-            ((TextButton)openShopButton).getLabel().setFontScale(4);
+            ((TextButton) openShopButton).getLabel().setFontScale(4);
             openShopButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     Gdx.app.log("Shop Button", "pressed");
-                    game.setScreen(new ShopScreen(game,MenuScreen.this));
+                    game.setScreen(new ShopScreen(game, MenuScreen.this));
                 }
             });
-            table.add(openShopButton).size(400,150);
+            table.add(openShopButton).size(400, 150);
         } else {
             Label label = new Label("No purchase manager set.", skin);
             label.setFontScale(4);
@@ -116,14 +119,25 @@ public class MenuScreen implements Screen {
         table.row();
 
         //exit button
-        Button exitButton = new TextButton("Exit", skin);
+        Button exitButton = new TextButton("Logout", skin);
         ((TextButton) exitButton).getLabel().setFontScale(4);
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.log("exitButton", "pressed");
-                Gdx.app.exit();
-                dispose();
+                fireBaseManager.auth.signOut(new SignOutCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Gdx.app.log("Logout ", "successful");
+                        fireBaseManager.loggedIn = false;
+                        game.setScreen(parent);
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+                        Gdx.app.log("Logout", "unsuccessful");
+
+                    }
+                });
             }
         });
 

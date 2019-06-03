@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Utils.FireBaseManager;
-import com.domkow.kloshard.Utils.LoginUtil;
 
 import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
 import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
@@ -33,8 +31,8 @@ public class LoginScreen implements Screen {
     private AssetManager manager;
     private Skin skin;
     private TextureAtlas atlas;
-    private TextField emailText;
-    private TextField passwordText;
+    private TextField emailField;
+    private TextField passwordField;
     private FireBaseManager fireBaseManager;
 //    private Dialog dialog;
     private long start;
@@ -69,19 +67,20 @@ public class LoginScreen implements Screen {
         Label emailLabel = new Label("email:", skin);
         emailLabel.setFontScale(3);
 
-        emailText = new TextField("", skin);
+        emailField = new TextField("", skin);
         Label passwordLabel = new Label("Password:", skin);
         passwordLabel.setFontScale(3);
-        passwordText = new TextField("", skin);
-
+        passwordField = new TextField("", skin);
+        passwordField.setPasswordCharacter('*');
+        passwordField.setPasswordMode(true);
         //
         table.right();
         table.padRight(480);
         table.add(emailLabel).size(200, 50);
-        table.add(emailText).size(700, 100);
+        table.add(emailField).size(700, 100);
         table.row();
         table.add(passwordLabel).size(200, 50);
-        table.add(passwordText).size(700, 100);
+        table.add(passwordField).size(700, 100);
         table.row();
 
         TextButton loginButton = new TextButton("Log in", skin);
@@ -91,8 +90,8 @@ public class LoginScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Log in button", "pressed");
                 fireBaseManager.attemptToSignIn = true;
-                String email = emailText.getText();
-                String password = passwordText.getText();
+                String email = emailField.getText();
+                String password = passwordField.getText();
                 if (isValidEmailAddress(email) && isValidPassword(password)) {
                     fireBaseManager.signInUser(email, password.toCharArray());
                 } else {
@@ -141,7 +140,7 @@ public class LoginScreen implements Screen {
 //                dialog.show(stage).hide();
             }
             if (fireBaseManager.loggedIn) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new MenuScreen(game,this));
             }
         }
 //        end = System.currentTimeMillis();
