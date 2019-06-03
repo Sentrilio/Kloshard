@@ -61,20 +61,16 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(KloshardGame game, MenuScreen menuScreen) {
         this.menuScreen = menuScreen;
-        this.manager = ((KloshardGame) game).manager;
-        atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
-//        atlas = new TextureAtlas()
+        this.manager = game.manager;
         this.game = game;
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(KloshardGame.V_WIDTH / KloshardGame.PPM,
                 KloshardGame.V_HEIGHT / KloshardGame.PPM, gamecam);
+        atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
         controller = new AndroidController(game);
-
         hud = new Hud(game.batch);
-
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("lvl1.tmx");
-
         renderer = new OrthogonalTiledMapRenderer(map, 1 / KloshardGame.PPM);
 
         //setting camera to be centered correctly at the start of map
@@ -84,7 +80,13 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         b2dr.setDrawBodies(false);
         creator = new B2WorldCreator(this);
-        player = new Kloshard(this);
+        int skinNumber=menuScreen.getKloshardSkin();
+        if(skinNumber==1 || skinNumber ==2 || skinNumber ==3) {
+            player = new Kloshard(this);
+        }else {
+            Gdx.app.log("Kloshard skin is invalid:" ,skinNumber+"");
+            dispose();
+        }
 
         world.setContactListener(new WorldContactListener());
 //        music = KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class);

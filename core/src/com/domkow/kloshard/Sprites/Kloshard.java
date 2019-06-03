@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -53,33 +54,57 @@ public class Kloshard extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+        int skinNumber = screen.menuScreen.getKloshardSkin();
+        prepareSkin(skinNumber, screen.getAtlas());
 
-        String playerSheet = "p"+screen.menuScreen.getKloshardSkin()+"_spritesheet";
-
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-
-        //kloshard stand animation
-        kloshardStand = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 192, 66, 92);
-
-        //kloshard dead animation
-        kloshardDead = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 443, 0, 69, 92);
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 0, 73, 97));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 0, 73, 97));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 0, 73, 97));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 0, 97, 73, 97));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 73, 97, 73, 97));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion(playerSheet), 146, 97, 73, 97));
-
-
-        kloshardRun = new Animation(0.1f, frames);
-        frames.clear();
-
-        //kloshard jump animation
-        kloshardJump = new TextureRegion(screen.getAtlas().findRegion(playerSheet), 437, 92, 67, 94);
 
         defineKloshard();
         setBounds(0, 0, 66 / KloshardGame.PPM, 92 / KloshardGame.PPM);
         setRegion(kloshardStand);
+    }
+
+    private void prepareSkin(int skinNumber, TextureAtlas atlas) {
+        String playerSheet = "p" + skinNumber + "_spritesheet";
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        //kloshard stand animation
+        if (skinNumber == 1 || skinNumber ==3) {
+            kloshardStand = new TextureRegion(atlas.findRegion(playerSheet), 0, 192, 66, 92);
+
+            //kloshard dead animation
+            kloshardDead = new TextureRegion(atlas.findRegion(playerSheet), 437, 0, 69, 92);
+
+            //kloshard run animation
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 0, 0, 72, 97));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 73, 0, 72, 97));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 146, 0, 72, 97));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 0, 97, 72, 97));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 73, 97, 72, 97));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 146, 97, 72, 97));
+            kloshardRun = new Animation(0.1f, frames);
+//            frames.clear();
+            //kloshard jump animation
+            kloshardJump = new TextureRegion(atlas.findRegion(playerSheet), 437, 92, 66, 94);
+
+        } else if (skinNumber == 2) {
+            kloshardStand = new TextureRegion(atlas.findRegion(playerSheet), 0, 192, 66, 92);
+
+            //kloshard dead animation
+            kloshardDead = new TextureRegion(atlas.findRegion(playerSheet), 425, 0, 67, 92);
+
+            //kloshard run animation
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 0, 0, 70, 94));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 70, 0, 70, 94));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 140, 0, 70, 94));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 0, 94, 70, 94));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 70, 94, 70, 94));
+            frames.add(new TextureRegion(atlas.findRegion(playerSheet), 140, 94, 70, 94));
+            kloshardRun = new Animation(0.1f, frames);
+//            frames.clear();
+            //kloshard jump animation
+            kloshardJump = new TextureRegion(atlas.findRegion(playerSheet), 422, 92, 67, 94);
+        }
+
+
     }
 
     public void update(float dt) {
@@ -194,22 +219,6 @@ public class Kloshard extends Sprite {
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
-
-//        PolygonShape feet = new PolygonShape();
-//        Vector2[] verticy = new Vector2[4];
-//        verticy[0] = new Vector2(-42, 0).scl(1 / KloshardGame.PPM);
-//        verticy[1] = new Vector2(42, 0).scl(1 / KloshardGame.PPM);
-//        verticy[2] = new Vector2(-42, -42).scl(1 / KloshardGame.PPM);
-//        verticy[3] = new Vector2(42, -42).scl(1 / KloshardGame.PPM);
-//        feet.set(verticy);
-//
-//        fdef.shape = feet;
-//
-//        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
-//        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
-//                KloshardGame.ENEMY_BIT;
-//        //        fdef.restitution = 0.5f;
-//        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / KloshardGame.PPM, 6 / KloshardGame.PPM),

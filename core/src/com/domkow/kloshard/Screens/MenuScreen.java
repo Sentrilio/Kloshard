@@ -52,7 +52,6 @@ public class MenuScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         prepareSkin();
         prepareUI();
-//        fireBaseManager.getUserData();
     }
 
     private void prepareSkin() {
@@ -70,6 +69,7 @@ public class MenuScreen implements Screen {
         table.defaults().pad(20);
         table.top();
         table.setFillParent(true);
+
         //play button
         Button playButton = new TextButton("Play", skin);
         ((TextButton) playButton).getLabel().setFontScale(4);
@@ -77,8 +77,7 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("playButton", "pressed");
-                game.setScreen(new PlayScreen((KloshardGame) game, MenuScreen.this));
-//                dispose();
+                game.setScreen(new PlayScreen(game, MenuScreen.this));
             }
         });
         table.add(playButton).size(400, 150).center();
@@ -92,7 +91,6 @@ public class MenuScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("preferencesButton", "pressed");
                 game.setScreen(new PreferencesScreen(game, MenuScreen.this));
-//                dispose();
             }
         });
         table.add(preferencesButton).size(400, 150).center();
@@ -100,8 +98,6 @@ public class MenuScreen implements Screen {
 
         //shop button
         if (game.purchaseManager != null) {
-//            table.add(new Label("Purchase Manager: " + game.purchaseManager.storeName(), skin));
-//            table.row();
             Button openShopButton = new TextButton("Open shop", skin);
             ((TextButton)openShopButton).getLabel().setFontScale(4);
             openShopButton.addListener(new ChangeListener() {
@@ -113,7 +109,9 @@ public class MenuScreen implements Screen {
             });
             table.add(openShopButton).size(400,150);
         } else {
-            table.add(new Label("No purchase manager set.", skin));
+            Label label = new Label("No purchase manager set.", skin);
+            label.setFontScale(4);
+            table.add(label);
         }
         table.row();
 

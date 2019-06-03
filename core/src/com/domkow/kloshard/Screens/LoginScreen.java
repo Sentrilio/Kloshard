@@ -146,9 +146,7 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        fireBaseManager.auth.
         if(fireBaseManager !=null){
-
             if(fireBaseManager.attemptToSignIn){
                 fireBaseManager.attemptToSignIn=false;
                 dialog.show(stage);

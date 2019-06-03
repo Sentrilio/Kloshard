@@ -21,7 +21,6 @@ public class FireBaseManager {
     public boolean loggedIn = false;
     public boolean accCreated = false;
     public boolean attemptToSignIn = false;
-    public boolean skin1 = true;
     public boolean skin2 = false;
     public boolean skin3 = false;
 
@@ -41,59 +40,67 @@ public class FireBaseManager {
     public FireBaseManager() {
         this.auth = GdxFIRAuth.instance();
         this.db = GdxFIRDatabase.instance();
-        db.inReference("users/"+auth.getCurrentUser().getUserInfo().getUid())
-                .onDataChange(HashMap.class, new DataChangeListener<HashMap>() {
-            @Override
-            public void onChange(HashMap newValue) {
-                skin2=(Boolean)newValue.get("skin2");
-                skin3=(Boolean)newValue.get("skin3");
-                Gdx.app.log("Database","Updated");
-            }
+    }
 
-            @Override
-            public void onCanceled(Exception e) {
-                Gdx.app.log("Database",e.getMessage());
-            }
-        });
+    private void createDataChangeListener() {
+        if (auth.getCurrentUser() != null) {
+            db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
+                    .onDataChange(HashMap.class, new DataChangeListener<HashMap>() {
+                        @Override
+                        public void onChange(HashMap newValue) {
+                            skin2 = (Boolean) newValue.get("skin2");
+                            skin3 = (Boolean) newValue.get("skin3");
+                            Gdx.app.log("Database", "Updated");
+                        }
 
+                        @Override
+                        public void onCanceled(Exception e) {
+                            Gdx.app.log("Database", e.getMessage());
+                        }
+                    });
+        }
     }
 
     public void getUserData() {
-        db.inReference("users/"+auth.getCurrentUser().getUserInfo().getUid())
-                .readValue(HashMap.class, new DataCallback<HashMap>() {
-                    @Override
-                    public void onData(HashMap data) {
-                        Gdx.app.log("onData:", "START retriving");
-                        try{
-                            skin2=(Boolean) data.get("skin2");
-                            skin3=(Boolean) data.get("skin3");
-                        }catch (Exception e){
-                            Gdx.app.log("retriving data",e.getMessage());
+        if (auth.getCurrentUser() != null) {
+            db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
+                    .readValue(HashMap.class, new DataCallback<HashMap>() {
+                        @Override
+                        public void onData(HashMap data) {
+                            Gdx.app.log("onData:", "START retriving");
+                            try {
+                                skin2 = (Boolean) data.get("skin2");
+                                skin3 = (Boolean) data.get("skin3");
+                            } catch (Exception e) {
+                                Gdx.app.log("retriving data", e.getMessage());
+                            }
+                            Gdx.app.log("onData:", "STOP");
                         }
-                        Gdx.app.log("onData:", "STOP");
-                    }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Gdx.app.log("read database result", e.getMessage());
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Gdx.app.log("read database result", e.getMessage());
+                        }
+                    });
+        }
     }
 
     public void updateUserCredentials(HashMap<String, Object> data) {
         Gdx.app.log("Account Creation Result", "success");
-        db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
-                .updateChildren(data, new CompleteCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Gdx.app.log("Database:", "user skin field updated");
-                    }
+        if (auth.getCurrentUser() != null) {
+            db.inReference("users/" + auth.getCurrentUser().getUserInfo().getUid())
+                    .updateChildren(data, new CompleteCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Gdx.app.log("Database:", "user skin field updated");
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        Gdx.app.log("Database", e.getMessage());
-                    }
-                });
+                        @Override
+                        public void onError(Exception e) {
+                            Gdx.app.log("Database", e.getMessage());
+                        }
+                    });
+        }
     }
 
     public void signInUser(final String email, char[] psswd) {
@@ -102,13 +109,14 @@ public class FireBaseManager {
             public void onSuccess(GdxFirebaseUser user) {
                 loggedIn = true;
                 Gdx.app.log("Login result", "success");
-                attemptToSignIn=false;
+                createDataChangeListener();
+                attemptToSignIn = false;
             }
 
             @Override
             public void onFail(Exception e) {
                 Gdx.app.log("Login result", "fail");
-                attemptToSignIn=false;
+                attemptToSignIn = false;
             }
 
         });
@@ -135,7 +143,7 @@ public class FireBaseManager {
                                 Gdx.app.log("Database", e.getMessage());
                             }
                         });
-                accCreated =true;
+                accCreated = true;
                 Gdx.app.log("Account Creation Result", "success");
             }
 

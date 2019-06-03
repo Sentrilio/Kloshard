@@ -95,13 +95,13 @@ public class Slime extends Enemy {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-//        PolygonShape shape = new PolygonShape();
+        PolygonShape shape = new PolygonShape();
         Vector2[] verticy1 = new Vector2[4];
         verticy1[0] = new Vector2(-25, 5).scl(1 / KloshardGame.PPM);
         verticy1[1] = new Vector2(25, 5).scl(1 / KloshardGame.PPM);
         verticy1[2] = new Vector2(-25, -10).scl(1 / KloshardGame.PPM);
         verticy1[3] = new Vector2(25, -10).scl(1 / KloshardGame.PPM);
-//        shape.set(verticy1);
+        shape.set(verticy1);
         fdef.filter.categoryBits = KloshardGame.ENEMY_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -111,8 +111,8 @@ public class Slime extends Enemy {
                 KloshardGame.KLOSHARD_BIT |
                 KloshardGame.ENEMY_SIDE_BOX_BIT |
                 KloshardGame.ENEMY_GROUND_BOX_BIT;
-//        fdef.shape = shape;
-//        b2body.createFixture(fdef).setUserData(this);
+        fdef.shape = shape;
+        b2body.createFixture(fdef).setUserData(this);
 
         //Create the Head here:
         PolygonShape head = new PolygonShape();

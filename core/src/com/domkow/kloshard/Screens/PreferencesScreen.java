@@ -50,7 +50,11 @@ public class PreferencesScreen implements Screen {
 
     public PreferencesScreen(Game game, MenuScreen parent) {
         this.fireBaseManager = FireBaseManager.instance();
-        fireBaseManager.getUserData();
+        //TESTING
+//        fireBaseManager.getUserData();
+        fireBaseManager.skin2 = true;
+        fireBaseManager.skin3 = true;
+        //TESTING
         this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
@@ -134,7 +138,7 @@ public class PreferencesScreen implements Screen {
                     buttonGroup.setUncheckLast(true);
                 }
             });
-        }else{
+        } else {
             //button 3
             skin3Button = new ImageButton(new TextureRegionDrawable(new Texture("textures/Player/p3_front_unavailable.png")));
             skin3Button.getImage().setScale(2);
