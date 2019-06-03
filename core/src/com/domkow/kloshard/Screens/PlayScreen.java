@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -15,6 +14,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,9 +27,7 @@ import com.domkow.kloshard.Scenes.Hud;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
 import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Items.ItemDef;
-import com.domkow.kloshard.Sprites.Items.Mushroom;
 import com.domkow.kloshard.Sprites.Kloshard;
-import com.domkow.kloshard.Sprites.TileObjects.Coin;
 import com.domkow.kloshard.Tools.B2WorldCreator;
 import com.domkow.kloshard.Tools.WorldContactListener;
 
@@ -57,15 +58,20 @@ public class PlayScreen implements Screen {
     private AndroidController controller;
     public AssetManager manager;
     public MenuScreen menuScreen;
+    private Skin skin;
+    private Stage stage;
 
 
     public PlayScreen(KloshardGame game, MenuScreen menuScreen) {
         this.menuScreen = menuScreen;
         this.manager = game.manager;
         this.game = game;
+
         gamecam = new OrthographicCamera();
         gamePort = new FitViewport(KloshardGame.V_WIDTH / KloshardGame.PPM,
                 KloshardGame.V_HEIGHT / KloshardGame.PPM, gamecam);
+        stage = new Stage(gamePort, game.batch);
+
         atlas = new TextureAtlas("textures/Kloshard_and_Enemies/Kloshard_and_Enemies/Kloshard_and_Enemies.pack");
         controller = new AndroidController(game);
         hud = new Hud(game.batch);
@@ -80,35 +86,30 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         b2dr.setDrawBodies(false);
         creator = new B2WorldCreator(this);
-        int skinNumber=menuScreen.getKloshardSkin();
-        if(skinNumber==1 || skinNumber ==2 || skinNumber ==3) {
+        int skinNumber = menuScreen.getKloshardSkin();
+        if (skinNumber == 1 || skinNumber == 2 || skinNumber == 3) {
             player = new Kloshard(this);
-        }else {
-            Gdx.app.log("Kloshard skin is invalid:" ,skinNumber+"");
+        } else {
+            Gdx.app.log("Kloshard skin is invalid:", skinNumber + "");
             dispose();
         }
 
         world.setContactListener(new WorldContactListener());
-//        music = KloshardGame.manager.get("audio/music/mario_music.ogg", Music.class);
-//        music.setLooping(true);
-//        music.play();
-//        items = new Array<Item>();
-//        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+
+        this.skin= menuScreen.skin;
+        prepareUI();
     }
 
 
-//    public void spawnItem(ItemDef idef) {
-//        itemsToSpawn.add(idef);
-//    }
 
-//    public void handleSpawningItems() {
-//        if (!itemsToSpawn.isEmpty()) {
-//            ItemDef idef = itemsToSpawn.poll();
-//            if (idef.type == Mushroom.class) {
-//                items.add(new Mushroom(this, idef.position.x, idef.position.y));
-//            }
-//        }
-//    }
+    private void prepareUI() {
+        Table table = new Table();
+        //guziki
+        table.top().right();
+        TextButton pauseButton = new TextButton("Log in", skin);
+        table.add(pauseButton);
+        stage.addActor(table);
+    }
 
     public TextureAtlas getAtlas() {
         return atlas;
@@ -181,10 +182,6 @@ public class PlayScreen implements Screen {
             }
         }
 
-//        for (Item item : items) {
-//            item.draw(game.batch);
-//        }
-
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -201,8 +198,7 @@ public class PlayScreen implements Screen {
         if (mapFinished()) {
             game.setScreen(menuScreen);
         }
-
-
+        stage.draw();
     }
 
     public boolean mapFinished() {
@@ -220,8 +216,6 @@ public class PlayScreen implements Screen {
         } else if (player.currentState == Kloshard.State.DEAD && player.fell && player.getStateTimer() > 0.5) {
             return true;
         } else if (Hud.getWorldTimer() <= 0) {
-//            manager.get("audio/music/mario_music.ogg", Music.class).stop();
-//            manager.get("audio/sounds/mariodie.wav", Sound.class).play();
             return true;
         }
         return false;
@@ -232,7 +226,6 @@ public class PlayScreen implements Screen {
             //computer keyboard
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-//                if (player.currentState != Kloshard.State.JUMPING) {
                     jump();
                 }
             }

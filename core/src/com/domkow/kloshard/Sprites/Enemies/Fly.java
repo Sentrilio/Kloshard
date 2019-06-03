@@ -104,17 +104,13 @@ public class Fly extends Enemy {
     public void draw(Batch batch) {
         if (!destroyed || stateTime < 1) {
             super.draw(batch);
-        }else{
-            removeFlag=true;
+        } else {
+            removeFlag = true;
         }
     }
 
     public void onEnemyHit(Enemy enemy) {
-        if (enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL) {
-            setToDestroy = true;
-        } else {
-            reverseVelocity(true, false);
-        }
+        reverseVelocity(true, false);
     }
 
     @Override
@@ -123,6 +119,7 @@ public class Fly extends Enemy {
 //        manager.get("audio/sounds/stomp.wav", Sound.class).play();
         Hud.addScore(100);
     }
+
     public TextureRegion getFrame(float dt) {
         TextureRegion region;
         region = (TextureRegion) walkAnimation.getKeyFrame(stateTime, true);

@@ -46,15 +46,8 @@ public class CreateAccScreen implements Screen {
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        prepareSkin();
+        this.skin=loginScreen.skin;
         prepareUI();
-    }
-
-    private void prepareSkin() {
-        skin = new Skin();
-        atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("skin/uiskin.json"));
     }
 
     private void prepareUI() {

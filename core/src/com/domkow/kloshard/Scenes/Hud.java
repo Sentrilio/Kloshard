@@ -23,7 +23,7 @@ public class Hud implements Disposable {
     private static Label scoreValueLabel;
     private static Label coinValueLabel;
     private Label timeLabel;
-    private Label marioLabel;
+    private Label kloshardLabel;
     private Label coinLabel;
 
     public Hud(SpriteBatch spriteBatch) {
@@ -51,10 +51,10 @@ public class Hud implements Disposable {
         coinLabel = new Label("COINS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         coinLabel.setFontScale(scale);
 
-        marioLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel.setFontScale(scale);
+        kloshardLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        kloshardLabel.setFontScale(scale);
 
-        table.add(marioLabel).expandX().padTop(10);
+        table.add(kloshardLabel).expandX().padTop(10);
         table.add(coinLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row();

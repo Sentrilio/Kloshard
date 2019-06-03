@@ -77,7 +77,6 @@ public class B2WorldCreator {
         //new coin
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(EllipseMapObject.class)) {
             Coin coin = new Coin(screen, object);
-//            coins.add(coin);
         }
 
         //create all slimes
@@ -121,48 +120,8 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
             new Door(screen, object);
         }
-        //Coin
-//        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//            bdef.type = BodyDef.BodyType.StaticBody;
-//            bdef.position.set((rect.getX() + rect.getWidth() / 2) / KloshardGame.PPM, (rect.getY() + rect.getHeight() / 2) / KloshardGame.PPM);
-//            body = world.createBody(bdef);
-//            shape.setAsBox(rect.getWidth() / 2 / KloshardGame.PPM, rect.getHeight() / 2 / KloshardGame.PPM);
-//            fdef.shape = shape;
-//            fdef.filter.categoryBits = KloshardGame.OBJECT_BIT;
-//            body.createFixture(fdef);
-//        }
-
-        //brick
-//        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-//            new Brick(screen, object);
-//        }
-//
-//
-
-//        //create all turtles
-//        turtles = new Array<Turtle>();
-//        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//            turtles.add(new Turtle(screen, rect.getX() / KloshardGame.PPM, rect.getY() / KloshardGame.PPM));
-//        }
-//
-//        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
-//            new Door(screen, object);
-//        }
-//        for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
-//            new ChocolateBlock(screen, object);
-//        }
     }
 
-
-//    public Array<Coin> getCoins() {
-//        return coins;
-//    }
-
-    //    public static void removeTurtle(Turtle turtle) {
-//        turtles.removeValue(turtle, true);
-//    }
     public Array<Enemy> getEnemies() {
         Array<Enemy> enemies = new Array<Enemy>();
         enemies.addAll(getFlies());

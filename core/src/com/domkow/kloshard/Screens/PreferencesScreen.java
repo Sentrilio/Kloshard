@@ -39,7 +39,7 @@ public class PreferencesScreen implements Screen {
     private Stage stage;
     private Game game;
     private AssetManager manager;
-    private Skin skin;
+    public Skin skin;
     private TextureAtlas atlas;
     private MenuScreen parent;
     private ButtonGroup<ImageButton> buttonGroup;
@@ -59,20 +59,11 @@ public class PreferencesScreen implements Screen {
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        prepareSkin();
+        this.skin=parent.skin;
         prepareUI();
     }
 
-    private void prepareSkin() {
-        // A skin can be loaded via JSON or defined programmatically, either is fine. Using a skin is optional but
-        // strongly
-        // recommended solely for the convenience of getting a texture, region, etc as a drawable, tinted drawable, etc.
-        skin = new Skin();
-        atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("skin/uiskin.json"));
 
-    }
 
     private void prepareUI() {
         Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);

@@ -19,17 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
+import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Utils.FireBaseManager;
 
 import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
 import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
 
 public class LoginScreen implements Screen {
+    public Skin skin;
     private Viewport viewport;
     private Stage stage;
     private Game game;
     private AssetManager manager;
-    private Skin skin;
     private TextureAtlas atlas;
     private TextField emailField;
     private TextField passwordField;
@@ -46,15 +47,8 @@ public class LoginScreen implements Screen {
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        prepareSkin();
+        this.skin=((KloshardGame)game).skin;
         prepareUI();
-    }
-
-    private void prepareSkin() {
-        skin = new Skin();
-        atlas = new TextureAtlas(Gdx.files.internal("skin/uiskin.atlas"));
-        skin.addRegions(atlas);
-        skin.load(Gdx.files.internal("skin/uiskin.json"));
     }
 
     private void prepareUI() {

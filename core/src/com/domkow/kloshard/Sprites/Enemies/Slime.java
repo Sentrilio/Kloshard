@@ -43,15 +43,15 @@ public class Slime extends Enemy {
         stateTime += dt;
         if (setToDestroy && !destroyed) {
             try {
-                Gdx.app.log("SLIME","before destroying");
+                Gdx.app.log("SLIME", "before destroying");
                 world.destroyBody(b2body);
                 //without this 2 lines games crashing after setting b2body.setActive because b2body is destroyed
                 b2body.setUserData(null);
                 b2body = null;
                 //
-                Gdx.app.log("SLIME","after destroying");
-            }catch (Exception e){
-                Gdx.app.log("Exception",e.getMessage());
+                Gdx.app.log("SLIME", "after destroying");
+            } catch (Exception e) {
+                Gdx.app.log("Exception", e.getMessage());
             }
             destroyed = true;
             setRegion(new TextureRegion(screen.getAtlas().findRegion("enemies_spritesheet"), 0, 113, 59, 12));
@@ -136,11 +136,7 @@ public class Slime extends Enemy {
     }
 
     public void onEnemyHit(Enemy enemy) {
-        if (enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL) {
-            setToDestroy = true;
-        } else {
-            reverseVelocity(true, false);
-        }
+        reverseVelocity(true, false);
     }
 
     @Override

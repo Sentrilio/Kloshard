@@ -1,6 +1,5 @@
 package com.domkow.kloshard.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.utils.Array;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Screens.PlayScreen;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
-import com.domkow.kloshard.Sprites.Enemies.Turtle;
 
 public class Kloshard extends Sprite {
 
@@ -42,7 +40,7 @@ public class Kloshard extends Sprite {
     private boolean runningRight;
     public boolean deadFromCollision;
     public boolean fell;
-    private boolean mariodieSoundExecuted = false;
+    private boolean kloshardDieSoundExecuted = false;
     public boolean finishedLevel = false;
 
 
@@ -67,7 +65,7 @@ public class Kloshard extends Sprite {
         String playerSheet = "p" + skinNumber + "_spritesheet";
         Array<TextureRegion> frames = new Array<TextureRegion>();
         //kloshard stand animation
-        if (skinNumber == 1 || skinNumber ==3) {
+        if (skinNumber == 1 || skinNumber == 3) {
             kloshardStand = new TextureRegion(atlas.findRegion(playerSheet), 0, 192, 66, 92);
 
             //kloshard dead animation
@@ -110,8 +108,8 @@ public class Kloshard extends Sprite {
     public void update(float dt) {
 
         if (b2body.getPosition().y < gamecam.position.y - gamecam.viewportHeight / 2) {
-            if (!mariodieSoundExecuted && !deadFromCollision) {
-                mariodieSoundExecuted = true;
+            if (!kloshardDieSoundExecuted && !deadFromCollision) {
+                kloshardDieSoundExecuted = true;
             }
             fell = true;
         }
@@ -232,20 +230,18 @@ public class Kloshard extends Sprite {
 
 
     public void hit(Enemy enemy) {
-        if (enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL) {
-            ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT_SPEED : Turtle.KICK_LEFT_SPEED);
-        } else {
-//            manager.get("audio/music/mario_music.ogg", Music.class).stop();
-//            manager.get("audio/sounds/mariodie.wav", Sound.class).play();
-            deadFromCollision = true;
-            Filter filter = new Filter();
-            filter.maskBits = KloshardGame.NOTHING_BIT;
-            for (Fixture fixture : b2body.getFixtureList()) {
-                fixture.setFilterData(filter);
-            }
-            b2body.setLinearVelocity(new Vector2(0, 0));
-            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+//        if (enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL) {
+//            ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT_SPEED : Turtle.KICK_LEFT_SPEED);
+//        } else {
+        deadFromCollision = true;
+        Filter filter = new Filter();
+        filter.maskBits = KloshardGame.NOTHING_BIT;
+        for (Fixture fixture : b2body.getFixtureList()) {
+            fixture.setFilterData(filter);
         }
+        b2body.setLinearVelocity(new Vector2(0, 0));
+        b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+//        }
     }
 
 
