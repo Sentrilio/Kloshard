@@ -1,7 +1,5 @@
 package com.domkow.kloshard.Sprites.TileObjects;
 
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Screens.PlayScreen;
@@ -20,9 +18,7 @@ public class Door extends InteractiveTileObjectRectangle {
         use(kloshard);
     }
 
-    public void use(Kloshard mario) {
-        manager.get("audio/music/mario_music.ogg", Music.class).stop();
-        manager.get("audio/sounds/level_complete.mp3", Sound.class).play();
-        mario.finishedLevel();
+    public void use(Kloshard kloshard) {
+        kloshard.finishedLevel();
     }
 }

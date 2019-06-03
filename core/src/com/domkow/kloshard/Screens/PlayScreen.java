@@ -130,7 +130,7 @@ public class PlayScreen implements Screen {
             enemy.update(dt);
 
             if (enemy.b2body != null) {
-                if (enemy.getX() < player.getX() + 2000 / KloshardGame.PPM) {
+                if (enemy.getX() < player.getX() + 5000 / KloshardGame.PPM) {
                     enemy.b2body.setActive(true);
                 }
             }
@@ -197,19 +197,16 @@ public class PlayScreen implements Screen {
 
         if (gameOver()) {
             game.setScreen(menuScreen);
-//            game.setScreen(new GameOverScreen(game,this));
-//            dispose();
         }
         if (mapFinished()) {
-            game.setScreen(new GameOverScreen(game, this));
-//            dispose();
+            game.setScreen(menuScreen);
         }
 
 
     }
 
     public boolean mapFinished() {
-        if (player.finishedLevel && player.getStateTimer() > 6) {
+        if (player.finishedLevel && player.getStateTimer() > 3) {
             Gdx.app.log("game", "finished");
             return true;
         }

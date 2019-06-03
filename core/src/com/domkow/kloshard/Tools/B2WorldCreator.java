@@ -22,6 +22,7 @@ import com.domkow.kloshard.Sprites.Enemies.Enemy;
 import com.domkow.kloshard.Sprites.Enemies.Fly;
 import com.domkow.kloshard.Sprites.Enemies.Slime;
 import com.domkow.kloshard.Sprites.TileObjects.Coin;
+import com.domkow.kloshard.Sprites.TileObjects.Door;
 
 import static com.domkow.kloshard.KloshardGame.PPM;
 
@@ -116,6 +117,9 @@ public class B2WorldCreator {
             fdef.restitution = 0.1f;
             fdef.filter.categoryBits = KloshardGame.ENEMY_GROUND_BOX_BIT;
             body.createFixture(fdef);
+        }
+        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+            new Door(screen, object);
         }
         //Coin
 //        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
