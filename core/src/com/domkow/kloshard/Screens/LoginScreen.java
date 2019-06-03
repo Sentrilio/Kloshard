@@ -61,6 +61,8 @@ public class LoginScreen implements Screen {
         Table table = new Table();
 //        table.setDebug(true);
         table.defaults().pad(20);
+        table.top();
+        table.padTop(50);
         table.setFillParent(true);
 
         skin.getFont("default-font").getData().setScale(3);
@@ -148,7 +150,7 @@ public class LoginScreen implements Screen {
 //            start = 0;
 //            dialog.hide();
 //        }
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();

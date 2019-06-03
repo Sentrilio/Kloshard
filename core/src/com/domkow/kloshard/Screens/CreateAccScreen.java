@@ -72,7 +72,7 @@ public class CreateAccScreen implements Screen {
         passwordField = new TextField("", skin);
         passwordField.setPasswordCharacter('*');
         passwordField.setPasswordMode(true);
-        
+
         table.right();
         table.padRight(480);
         table.add(emailLabel).size(200, 50);
@@ -149,7 +149,7 @@ public class CreateAccScreen implements Screen {
         if(accCreationSucessful){
             game.setScreen(parent);
         }
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();
