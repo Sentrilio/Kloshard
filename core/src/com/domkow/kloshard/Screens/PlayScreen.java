@@ -103,12 +103,7 @@ public class PlayScreen implements Screen {
 
 
     private void prepareUI() {
-        Table table = new Table();
-        //guziki
-        table.top().right();
-        TextButton pauseButton = new TextButton("Log in", skin);
-        table.add(pauseButton);
-        stage.addActor(table);
+
     }
 
     public TextureAtlas getAtlas() {
@@ -193,12 +188,14 @@ public class PlayScreen implements Screen {
 
 
         if (gameOver()) {
-            game.setScreen(menuScreen);
+            game.setScreen(new GameOverScreen(game,this));
         }
         if (mapFinished()) {
-            game.setScreen(menuScreen);
+            game.setScreen(new GameOverScreen(game,this));
         }
         stage.draw();
+        Gdx.input.setInputProcessor(stage);
+
     }
 
     public boolean mapFinished() {

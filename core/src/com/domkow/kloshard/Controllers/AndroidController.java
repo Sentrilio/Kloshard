@@ -7,7 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
@@ -18,15 +20,30 @@ public class AndroidController {
     private int height = 180;
     private Viewport viewport;
     public Stage stage;
+    public Skin skin;
     private boolean upClicked, downClicked, leftClicked, rightClicked;
 
     public AndroidController(KloshardGame game) {
+        this.skin = game.skin;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
-        table.left().bottom();
+        table.setDebug(true);
+        table.setFillParent(true);
+        //guziki
+        TextButton pauseButton = new TextButton("Options", skin);
+        table.add();
+        table.add();
+        table.add();
+        table.add();
+        table.add();
+        table.add(pauseButton).right().top();
+        table.row();
+        stage.addActor(table);
+
+//        table.left().bottom();
 
         Image upImg = new Image(new Texture("buttons/up.png"));
         upImg.setSize(width, height);

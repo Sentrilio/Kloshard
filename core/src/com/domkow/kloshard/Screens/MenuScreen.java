@@ -158,7 +158,7 @@ public class MenuScreen implements Screen {
     public void show() {
         Gdx.app.log("skin: ", kloshardSkin + "");
         Gdx.input.setInputProcessor(stage);
-//        stage.act();
+        stage.draw();
     }
 
 
