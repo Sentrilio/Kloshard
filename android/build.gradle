@@ -99,6 +99,7 @@ task run(type: Exec) {
 dependencies {
     implementation 'pl.mk5.gdx-fireapp:gdx-fireapp-android:1.9.2'
     implementation 'com.badlogicgames.gdxpay:gdx-pay-android-amazon:0.12.1'
+    implementation files('C:\\Users\\domko\\Desktop\\Amazon-Android-SDKs\\LoginWithAmazon\\login-with-amazon-sdk.jar')
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
