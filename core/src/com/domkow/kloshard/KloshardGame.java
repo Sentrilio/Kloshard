@@ -34,6 +34,7 @@ public class KloshardGame extends Game {
 	public static final short DOOR_BIT = 1024;
 	public static final short ENEMY_SIDE_BOX_BIT = 2048;
 	public static final short ENEMY_GROUND_BOX_BIT = 4096;
+	public static final short KLOSHARD_FEET_BIT = 8192;
 	public Skin skin;
 	public AssetManager manager;
 	public PurchaseManager purchaseManager;

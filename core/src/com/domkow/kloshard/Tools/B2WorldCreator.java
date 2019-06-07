@@ -48,7 +48,7 @@ public class B2WorldCreator {
             body = world.createBody(bdef);
             shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
             fdef.shape = shape;
-            fdef.restitution = 0.1f;
+//            fdef.restitution = 0.1f;
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
         }
@@ -69,7 +69,7 @@ public class B2WorldCreator {
             chainShape.createChain(worldVertices);
             body = world.createBody(bdef);
             fdef.shape = chainShape;
-            fdef.restitution = 0.1f;
+//            fdef.restitution = 0.1f;
             fdef.filter.categoryBits = KloshardGame.GROUND_BIT;
             body.createFixture(fdef);
 
@@ -101,7 +101,6 @@ public class B2WorldCreator {
             body = world.createBody(bdef);
             shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
             fdef.shape = shape;
-            fdef.restitution = 0.1f;
             fdef.filter.categoryBits = KloshardGame.ENEMY_SIDE_BOX_BIT;
             body.createFixture(fdef);
         }
@@ -113,7 +112,6 @@ public class B2WorldCreator {
             body = world.createBody(bdef);
             shape.setAsBox(rect.getWidth() / 2 / PPM, rect.getHeight() / 2 / PPM);
             fdef.shape = shape;
-            fdef.restitution = 0.1f;
             fdef.filter.categoryBits = KloshardGame.ENEMY_GROUND_BOX_BIT;
             body.createFixture(fdef);
         }

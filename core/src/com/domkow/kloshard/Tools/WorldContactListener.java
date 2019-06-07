@@ -40,6 +40,14 @@ public class WorldContactListener implements ContactListener {
                 }
                 Gdx.app.log("Collision", "Coin");
                 break;
+            case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
+                    ((Kloshard) fixA.getUserData()).canMove = false;
+                } else {
+                    ((Kloshard) fixB.getUserData()).canMove = false;
+                }
+                Gdx.app.log("Kloshard movement", "disabled");
+                break;
             case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_HEAD_BIT) {
                     ((Enemy) fixA.getUserData()).hitOnHead((Kloshard) fixB.getUserData());
@@ -103,6 +111,21 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+
+        switch (cDef) {
+            case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
+                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
+                    ((Kloshard) fixA.getUserData()).canMove = true;
+                } else {
+                    ((Kloshard) fixB.getUserData()).canMove = true;
+                }
+                Gdx.app.log("Kloshard movement", "enabled");
+                break;
+        }
     }
 
     @Override
