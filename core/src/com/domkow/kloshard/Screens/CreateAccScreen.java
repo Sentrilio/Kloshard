@@ -39,7 +39,7 @@ public class CreateAccScreen implements Screen {
     private TextField emailField;
     private TextField passwordField;
 //    private boolean accCreationSucessful = false;
-    private static boolean attemptToCreateAcc = false;
+    private boolean attemptToCreateAcc = false;
     private boolean invalidEmailOrPsswd = false;
     private TextButton createAccButton;
     private Dialog notCreatedAccDialog;
@@ -87,7 +87,7 @@ public class CreateAccScreen implements Screen {
         createAccButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                CreateAccScreen.attemptToCreateAcc = true;
+                attemptToCreateAcc = true;
                 start = System.currentTimeMillis();
                 Gdx.app.log("Create acc button", "pressed");
                 String email = emailField.getText();

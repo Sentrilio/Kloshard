@@ -127,6 +127,20 @@ public class LoginScreen implements Screen {
         table.add(createAccButton).size(300, 80).padTop(100);
         table.row();
 
+        TextButton exitButton = new TextButton("Exit", skin);
+        exitButton.getLabel().setFontScale(2.5f);
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.log("exitButton", "pressed");
+                manager.clear();
+                manager.dispose();
+                Gdx.app.exit();
+            }
+        });
+        table.add();
+        table.add(exitButton).size(300, 80).padTop(40);
+
         stage.addActor(table);
         attemptToSignInDialog = new Dialog("", skin, "dialog");
         attemptToSignInDialog.text("Logging in...");

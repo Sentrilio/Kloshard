@@ -12,6 +12,7 @@ import com.badlogic.gdx.pay.PurchaseManager;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.domkow.kloshard.Screens.LoginScreen;
 import com.domkow.kloshard.Screens.MenuScreen;
+import com.domkow.kloshard.Screens.PlayScreen;
 
 
 public class KloshardGame extends Game {
@@ -45,8 +46,8 @@ public class KloshardGame extends Game {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
 		manager.finishLoading();
-//		setScreen(new MenuScreen(this));
-		setScreen(new LoginScreen(this));
+		setScreen(new PlayScreen(this,new MenuScreen(this,new LoginScreen(this))));
+//		setScreen(new LoginScreen(this));
 	}
 	private void prepareSkin() {
 		skin = new Skin();

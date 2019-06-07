@@ -56,7 +56,7 @@ public class ShopScreen implements Screen {
     private TextButton restoreButton;
     private boolean restorePressed;
     private FireBaseManager fireBaseManager;
-    private static boolean installError = false;
+    private boolean installError = false;
     private Dialog instalationErrorDialog;
 
 
@@ -133,7 +133,7 @@ public class ShopScreen implements Screen {
         table.row();
         stage.addActor(table);
 
-        instalationErrorDialog = new Dialog("", skin){
+        instalationErrorDialog = new Dialog("", skin) {
             public void result(Object obj) {
 //                ShopScreen.installError = true;
                 game.setScreen(parent);
@@ -141,8 +141,6 @@ public class ShopScreen implements Screen {
         };
         instalationErrorDialog.text("Log in to amazon to be able to use shop!");
         instalationErrorDialog.button("Back to Menu");
-        instalationErrorDialog.show(stage);
-
     }
 
     private void initPurchaseManager() {
@@ -163,7 +161,6 @@ public class ShopScreen implements Screen {
     private void updateGuiWhenPurchaseManInstalled(String errorMessage) {
 //        buySkin2Button.updateFromManager();
 //        buySkin3Button.updateFromManager();
-
         if (purchaseManager.installed() && errorMessage == null) {
             restoreButton.setDisabled(false);
         } else {
@@ -233,7 +230,7 @@ public class ShopScreen implements Screen {
         @Override
         public void handleInstall() {
             Gdx.app.log("IAP", "Installed");
-
+            installError=false;
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
@@ -245,11 +242,11 @@ public class ShopScreen implements Screen {
         @Override
         public void handleInstallError(final Throwable e) {
             Gdx.app.error("IAP", "Error when trying to install PurchaseManager", e);
+            installError=true;
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
                     updateGuiWhenPurchaseManInstalled(e.getMessage());
-                    ShopScreen.installError = true;
                 }
             });
         }
@@ -318,10 +315,10 @@ public class ShopScreen implements Screen {
         Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (installError) {
-            installError=false;
+            installError = false;
             instalationErrorDialog.show(stage);
             //show dialog
-        }else
+        }
         stage.draw();
     }
 

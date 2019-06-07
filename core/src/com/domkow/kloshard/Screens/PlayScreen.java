@@ -14,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -181,7 +180,7 @@ public class PlayScreen implements Screen {
             game.setScreen(new GameOverScreen(game, this));
         }
         if (mapFinished()) {
-            game.setScreen(new GameOverScreen(game, this));
+            game.setScreen(new MapFinishedScreen(game, this));
         }
 
     }
