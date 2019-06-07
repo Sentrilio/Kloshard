@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
-import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Utils.FireBaseManager;
 
 import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
@@ -32,22 +32,29 @@ public class LoginScreen implements Screen {
     private Game game;
     private AssetManager manager;
     private TextureAtlas atlas;
+
+
+
     private TextField emailField;
     private TextField passwordField;
     private FireBaseManager fireBaseManager;
-//    private Dialog dialog;
+    private Dialog attemptToSignInDialog;
     private long start;
     private long end;
+    private TextButton loginButton;
+    private Dialog loginFailedDialog;
+    private Dialog invalidEmailOrPsswdDialog;
+    private boolean invalidEmailOrPsswd;
+
 
     public LoginScreen(Game game) {
         this.manager = ((KloshardGame) game).manager;
-
         fireBaseManager = FireBaseManager.instance();
         this.game = game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        this.skin=((KloshardGame)game).skin;
+        this.skin = ((KloshardGame) game).skin;
         prepareUI();
     }
 
@@ -56,7 +63,6 @@ public class LoginScreen implements Screen {
 //        table.setDebug(true);
         table.defaults().pad(20);
         table.top();
-        table.padTop(50);
         table.setFillParent(true);
 
         skin.getFont("default-font").getData().setScale(3);
@@ -79,13 +85,16 @@ public class LoginScreen implements Screen {
         table.add(passwordField).size(700, 100);
         table.row();
 
-        TextButton loginButton = new TextButton("Log in", skin);
+        loginButton = new TextButton("Log in", skin);
         loginButton.getLabel().setFontScale(4);
         loginButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.log("Log in button", "pressed");
-                fireBaseManager.attemptToSignIn = true;
+                loginButton.setDisabled(true);
+                FireBaseManager.attemptToSignIn = true;
+                attemptToSignInDialog.show(stage);
+                start = System.currentTimeMillis();
                 String email = emailField.getText();
                 String password = passwordField.getText();
                 if (isValidEmailAddress(email) && isValidPassword(password)) {
@@ -97,6 +106,7 @@ public class LoginScreen implements Screen {
                     if (!isValidPassword(password)) {
                         Gdx.app.log("Login Acc: password field", "password must contain at least 6 characters");
                     }
+                    invalidEmailOrPsswd = true;
                 }
             }
         });
@@ -118,8 +128,24 @@ public class LoginScreen implements Screen {
         table.row();
 
         stage.addActor(table);
-//        dialog = new Dialog("", skin, "dialog");
-//        dialog.text("Logging in...");
+        attemptToSignInDialog = new Dialog("", skin, "dialog");
+        attemptToSignInDialog.text("Logging in...");
+
+        loginFailedDialog = new Dialog("", skin, "dialog") {
+            public void result(Object obj) {
+
+            }
+        };
+        loginFailedDialog.text("Incorrect email or password ");
+        loginFailedDialog.button("Try again");
+
+        invalidEmailOrPsswdDialog = new Dialog("", skin, "dialog") {
+            public void result(Object obj) {
+
+            }
+        };
+        invalidEmailOrPsswdDialog.text("Invalid email or password has less than 6 characters!");
+        invalidEmailOrPsswdDialog.button("Try again");
     }
 
     @Override
@@ -129,26 +155,36 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (fireBaseManager != null) {
-            if (fireBaseManager.attemptToSignIn) {
-//                dialog.show(stage);
-            }else{
-//                dialog.show(stage).hide();
+            if (fireBaseManager.loginFail) {
+                attemptToSignInDialog.hide();
+                fireBaseManager.loginFail = false;
+                loginButton.setDisabled(false);
+                loginFailedDialog.show(stage);
+            }
+            if(invalidEmailOrPsswd){
+                attemptToSignInDialog.hide();
+                invalidEmailOrPsswd=false;
+                loginButton.setDisabled(false);
+                invalidEmailOrPsswdDialog.show(stage);
             }
             if (fireBaseManager.loggedIn) {
-                game.setScreen(new MenuScreen(game,this));
+                attemptToSignInDialog.hide();
+                fireBaseManager.loggedIn=false;
+                game.setScreen(new MenuScreen(game, this));
             }
+            end = System.currentTimeMillis();
+            if (end - start > 8000) {
+                start = 0;
+                attemptToSignInDialog.hide();
+                loginButton.setDisabled(false);
+            }
+
         }
-//        end = System.currentTimeMillis();
-//        if (end - start > 3000) {
-//            start = 0;
-//            dialog.hide();
-//        }
-        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();
-
     }
 
     @Override
@@ -174,6 +210,14 @@ public class LoginScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void setEmailFieldText(String email) {
+        this.emailField.setText(email);
+    }
+
+    public void setPasswordFieldText(String password) {
+        this.passwordField.setText(password);
     }
 }
 

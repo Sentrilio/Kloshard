@@ -33,11 +33,18 @@ public class CreateAccScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
     private FireBaseManager fireBaseManager;
-    private Dialog dialog;
+    private Dialog createdAccDialog;
+    private Dialog attemptToCreateDialog;
     private LoginScreen parent;
     private TextField emailField;
     private TextField passwordField;
-    private boolean accCreationSucessful=false;
+//    private boolean accCreationSucessful = false;
+    private static boolean attemptToCreateAcc = false;
+    private boolean invalidEmailOrPsswd = false;
+    private TextButton createAccButton;
+    private Dialog notCreatedAccDialog;
+    private long start;
+    private long end;
 
     public CreateAccScreen(Game game, LoginScreen loginScreen) {
         this.parent = loginScreen;
@@ -46,7 +53,7 @@ public class CreateAccScreen implements Screen {
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        this.skin=loginScreen.skin;
+        this.skin = loginScreen.skin;
         prepareUI();
     }
 
@@ -54,7 +61,7 @@ public class CreateAccScreen implements Screen {
         Table table = new Table();
         table.defaults().pad(20);
         table.setFillParent(true);
-
+        table.top();
         skin.getFont("default-font").getData().setScale(3);
         final Label emailLabel = new Label("email:", skin);
         emailLabel.setFontScale(3);
@@ -75,11 +82,13 @@ public class CreateAccScreen implements Screen {
         table.add(passwordField).size(700, 100);
         table.row();
 
-        TextButton createAccButton = new TextButton("Create Account", skin);
+        createAccButton = new TextButton("Create Account", skin);
         createAccButton.getLabel().setFontScale(4);
         createAccButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                CreateAccScreen.attemptToCreateAcc = true;
+                start = System.currentTimeMillis();
                 Gdx.app.log("Create acc button", "pressed");
                 String email = emailField.getText();
                 String password = passwordField.getText();
@@ -95,6 +104,7 @@ public class CreateAccScreen implements Screen {
                     if (!isValidPassword(password)) {
                         Gdx.app.log("Create Acc: password field", "password must contain at least 6 characters");
                     }
+                    invalidEmailOrPsswd = true;
                 }
             }
         });
@@ -117,13 +127,33 @@ public class CreateAccScreen implements Screen {
 
         stage.addActor(table);
 
-        dialog = new Dialog("", skin, "dialog") {
+        attemptToCreateDialog = new Dialog("", skin, "dialog") {
             public void result(Object obj) {
-                accCreationSucessful=true;
+                attemptToCreateAcc = false;
             }
         };
-        dialog.text("Account creation success");
-        dialog.button("back to login menu");
+        attemptToCreateDialog.text("Creating account");
+
+        createdAccDialog = new Dialog("", skin, "dialog") {
+            public void result(Object obj) {
+//                accCreationSucessful = true;
+                createAccButton.setDisabled(false);
+                parent.setEmailFieldText(emailField.getText());
+                parent.setPasswordFieldText(passwordField.getText());
+                game.setScreen(parent);
+            }
+        };
+        createdAccDialog.text("Account creation success!");
+        createdAccDialog.button("back to login menu");
+
+        notCreatedAccDialog = new Dialog("", skin, "dialog") {
+            public void result(Object obj) {
+//                accCreationSucessful = true;
+            }
+        };
+        notCreatedAccDialog.text("Account creation unsuccessful!");
+        notCreatedAccDialog.button("Try again");
+
     }
 
 
@@ -135,14 +165,38 @@ public class CreateAccScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if (fireBaseManager.accCreated) {
-            fireBaseManager.accCreated=false;
-            dialog.show(stage);
+        if (attemptToCreateAcc) {
+            attemptToCreateAcc = false;
+            attemptToCreateDialog.show(stage);
+            createAccButton.setDisabled(true);
         }
-        if(accCreationSucessful){
-            game.setScreen(parent);
+        end = System.currentTimeMillis();
+        if (end - start > 8000) {
+            start = 0;
+            attemptToCreateDialog.hide();
+            createAccButton.setDisabled(false);
+            //something went wrong dialog
         }
-        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
+        if (FireBaseManager.accCreated) {
+            FireBaseManager.accCreated = false;
+            attemptToCreateDialog.hide();
+            createdAccDialog.show(stage);
+        }
+        if (FireBaseManager.accNotCreated) {
+            FireBaseManager.accNotCreated=false;
+            attemptToCreateDialog.hide();
+            notCreatedAccDialog.show(stage);
+            //uzytkownik istnieje dialog
+        }
+//        if (accCreationSucessful) {
+//            accCreationSucessful = false;
+//        }
+
+        if (invalidEmailOrPsswd) {
+            invalidEmailOrPsswd = false;
+            //email albo haslo
+        }
+        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
         stage.act();

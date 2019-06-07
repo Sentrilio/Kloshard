@@ -21,6 +21,7 @@ import com.badlogic.gdx.pay.Transaction;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -55,6 +56,8 @@ public class ShopScreen implements Screen {
     private TextButton restoreButton;
     private boolean restorePressed;
     private FireBaseManager fireBaseManager;
+    private static boolean installError = false;
+    private Dialog instalationErrorDialog;
 
 
     public ShopScreen(Game game, MenuScreen parent) {
@@ -66,7 +69,7 @@ public class ShopScreen implements Screen {
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
-        this.skin=parent.skin;
+        this.skin = parent.skin;
         prepareUI();
         initPurchaseManager();
     }
@@ -88,14 +91,14 @@ public class ShopScreen implements Screen {
 
 
         if (!fireBaseManager.skin2) {
-            buySkin2Button = new IapButton("Buy blue!",SKIN2_entitlement, 100);
+            buySkin2Button = new IapButton("Buy blue!", SKIN2_entitlement, 100);
             buySkin2Button.getLabel().setFontScale(4);
             table.add(buySkin2Button).size(400, 150);
         } else {
             table.add();
         }
         if (!fireBaseManager.skin3) {
-            buySkin3Button = new IapButton("Buy pink!",SKIN3_entitlement, 100);
+            buySkin3Button = new IapButton("Buy pink!", SKIN3_entitlement, 100);
             buySkin3Button.getLabel().setFontScale(4);
             table.add(buySkin3Button).size(400, 150);
         } else {
@@ -130,6 +133,16 @@ public class ShopScreen implements Screen {
         table.row();
         stage.addActor(table);
 
+        instalationErrorDialog = new Dialog("", skin){
+            public void result(Object obj) {
+//                ShopScreen.installError = true;
+                game.setScreen(parent);
+            }
+        };
+        instalationErrorDialog.text("Log in to amazon to be able to use shop!");
+        instalationErrorDialog.button("Back to Menu");
+        instalationErrorDialog.show(stage);
+
     }
 
     private void initPurchaseManager() {
@@ -139,11 +152,15 @@ public class ShopScreen implements Screen {
         pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN2_entitlement));
         pmc.addOffer(new Offer().setType(OfferType.ENTITLEMENT).setIdentifier(SKIN3_entitlement));
 
-        purchaseManager.install(new MyPurchaseObserver(), pmc, true);
+        try {
+            purchaseManager.install(new MyPurchaseObserver(), pmc, true);
+
+        } catch (Exception e) {
+            Gdx.app.log("Exception", e.getMessage());
+        }
     }
 
     private void updateGuiWhenPurchaseManInstalled(String errorMessage) {
-        // einfüllen der Infos
 //        buySkin2Button.updateFromManager();
 //        buySkin3Button.updateFromManager();
 
@@ -155,7 +172,8 @@ public class ShopScreen implements Screen {
         }
 
     }
-    public void putSkinInDB(String skin,IapButton button){
+
+    public void putSkinInDB(String skin, IapButton button) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(skin, true);
         fireBaseManager.updateUserCredentials(map);
@@ -167,11 +185,10 @@ public class ShopScreen implements Screen {
         private final String skinEntitlement;
         private final int usdCents;
 
-        public IapButton(String text,String skinEntitlement, int usdCents) {
+        public IapButton(String text, String skinEntitlement, int usdCents) {
             super(text, skin);
             this.skinEntitlement = skinEntitlement;
             this.usdCents = usdCents;
-
             addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -181,7 +198,6 @@ public class ShopScreen implements Screen {
         }
 
         private void buyItem() {
-//            boughtItemsWOPurchase();
             purchaseManager.purchase(skinEntitlement);
 
         }
@@ -192,7 +208,7 @@ public class ShopScreen implements Screen {
                 putSkinInDB("skin2", buySkin2Button);
             }
             if (skinEntitlement.equals(SKIN3_entitlement)) {
-                putSkinInDB("skin3",buySkin3Button);
+                putSkinInDB("skin3", buySkin3Button);
             }
         }
 
@@ -205,7 +221,7 @@ public class ShopScreen implements Screen {
             if (skuInfo == null || skuInfo.equals(Information.UNAVAILABLE)) {
                 setDisabled(true);
                 setText("Not available");
-                Gdx.app.log("ENTITLEMENT VALUE",skuInfo.toString());
+                Gdx.app.log("ENTITLEMENT VALUE", skuInfo.toString());
             } else {
                 setText(skuInfo.getLocalName() + " " + skuInfo.getLocalPricing());
             }
@@ -233,6 +249,7 @@ public class ShopScreen implements Screen {
                 @Override
                 public void run() {
                     updateGuiWhenPurchaseManInstalled(e.getMessage());
+                    ShopScreen.installError = true;
                 }
             });
         }
@@ -275,6 +292,7 @@ public class ShopScreen implements Screen {
             });
         }
 
+
         @Override
         public void handlePurchaseError(Throwable e) {
             showErrorOnMainThread("Error on buying:\n" + e.getMessage());
@@ -297,8 +315,13 @@ public class ShopScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
+        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (installError) {
+            installError=false;
+            instalationErrorDialog.show(stage);
+            //show dialog
+        }else
         stage.draw();
     }
 

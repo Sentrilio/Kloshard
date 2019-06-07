@@ -19,10 +19,12 @@ public class FireBaseManager {
     public GdxFIRAuth auth;
     public GdxFIRDatabase db;
     public boolean loggedIn = false;
-    public boolean accCreated = false;
-    public boolean attemptToSignIn = false;
+    public static boolean accCreated = false;
+    public static boolean attemptToSignIn = false;
+    public static boolean accNotCreated = false;
     public boolean skin2 = false;
     public boolean skin3 = false;
+    public boolean loginFail;
 
     public static FireBaseManager instance() {
         FireBaseManager result = instance;
@@ -107,8 +109,8 @@ public class FireBaseManager {
         auth.signInWithEmailAndPassword(email, psswd, new AuthCallback() {
             @Override
             public void onSuccess(GdxFirebaseUser user) {
-                loggedIn = true;
                 attemptToSignIn = false;
+                loggedIn = true;
                 Gdx.app.log("Login result", "success");
                 createDataChangeListener();
             }
@@ -117,7 +119,9 @@ public class FireBaseManager {
             public void onFail(Exception e) {
                 Gdx.app.log("Login result", "fail");
                 attemptToSignIn = false;
+                loginFail=true;
             }
+
         });
     }
 
@@ -135,14 +139,15 @@ public class FireBaseManager {
                             @Override
                             public void onSuccess() {
                                 Gdx.app.log("Database:", "user skin field created");
+                                accCreated = true;
                             }
 
                             @Override
                             public void onError(Exception e) {
                                 Gdx.app.log("Database", e.getMessage());
+                                accNotCreated = true;
                             }
                         });
-                accCreated = true;
                 Gdx.app.log("Account Creation Result", "success");
             }
 
