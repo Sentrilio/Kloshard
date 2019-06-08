@@ -7,6 +7,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,7 +30,7 @@ import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
 public class CreateAccScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    private KloshardGame game;
     private AssetManager manager;
     private Skin skin;
     private TextureAtlas atlas;
@@ -45,15 +47,19 @@ public class CreateAccScreen implements Screen {
     private Dialog notCreatedAccDialog;
     private long start;
     private long end;
+    public Texture backgroundTexture;
+    public Sprite backgroundSprite;
 
     public CreateAccScreen(Game game, LoginScreen loginScreen) {
         this.parent = loginScreen;
         fireBaseManager = FireBaseManager.instance();
-        this.game = game;
+        this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
         this.skin = loginScreen.skin;
+        this.backgroundTexture = this.game.backgroundTexture;
+        this.backgroundSprite = this.game.backgroundTextureRegion;
         prepareUI();
     }
 
@@ -164,7 +170,11 @@ public class CreateAccScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
+        Gdx.gl.glClearColor(0, 0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        backgroundSprite.draw(game.batch);
+        game.batch.end();
         if (attemptToCreateAcc) {
             attemptToCreateAcc = false;
             attemptToCreateDialog.show(stage);
@@ -196,8 +206,7 @@ public class CreateAccScreen implements Screen {
             invalidEmailOrPsswd = false;
             //email albo haslo
         }
-        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         stage.draw();
         stage.act();
     }

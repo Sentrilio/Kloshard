@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.pay.Offer;
@@ -45,7 +46,7 @@ public class ShopScreen implements Screen {
     private IapButton buySkin3Button;
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    private KloshardGame game;
     private AssetManager manager;
     private Skin skin;
     private TextureAtlas atlas;
@@ -59,17 +60,21 @@ public class ShopScreen implements Screen {
     private boolean installError = false;
     private Dialog instalationErrorDialog;
 
+    public Texture backgroundTexture;
+    public Sprite backgroundSprite;
 
     public ShopScreen(Game game, MenuScreen parent) {
         this.purchaseManager = ((KloshardGame) game).purchaseManager;
         this.parent = parent;
         this.fireBaseManager = FireBaseManager.instance();
         this.manager = ((KloshardGame) game).manager;
-        this.game = game;
+        this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
         this.skin = parent.skin;
+        this.backgroundTexture = this.game.backgroundTexture;
+        this.backgroundSprite = this.game.backgroundTextureRegion;
         prepareUI();
         initPurchaseManager();
     }
@@ -312,8 +317,11 @@ public class ShopScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
+        Gdx.gl.glClearColor(0, 0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        backgroundSprite.draw(game.batch);
+        game.batch.end();
         if (installError) {
             installError = false;
             instalationErrorDialog.show(stage);

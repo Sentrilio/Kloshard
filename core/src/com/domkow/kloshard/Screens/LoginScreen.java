@@ -7,7 +7,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -22,6 +25,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Utils.FireBaseManager;
 
+import javax.xml.soap.Text;
+
 import static com.domkow.kloshard.Utils.LoginUtil.isValidEmailAddress;
 import static com.domkow.kloshard.Utils.LoginUtil.isValidPassword;
 
@@ -29,10 +34,9 @@ public class LoginScreen implements Screen {
     public Skin skin;
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    private KloshardGame game;
     private AssetManager manager;
     private TextureAtlas atlas;
-
 
 
     private TextField emailField;
@@ -46,11 +50,15 @@ public class LoginScreen implements Screen {
     private Dialog invalidEmailOrPsswdDialog;
     private boolean invalidEmailOrPsswd;
 
+    public Texture backgroundTexture;
+    public Sprite backgroundSprite;
 
     public LoginScreen(Game game) {
         this.manager = ((KloshardGame) game).manager;
         fireBaseManager = FireBaseManager.instance();
-        this.game = game;
+        this.game = (KloshardGame) game;
+        this.backgroundTexture = this.game.backgroundTexture;
+        this.backgroundSprite = this.game.backgroundTextureRegion;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
@@ -169,8 +177,12 @@ public class LoginScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
+//        Gdx.gl.glClearColor(36 / 255f, 123 / 255f, 160 / 255f, 1);
+        Gdx.gl.glClearColor(0, 0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        backgroundSprite.draw(game.batch);
+        game.batch.end();
         if (fireBaseManager != null) {
             if (fireBaseManager.loginFail) {
                 attemptToSignInDialog.hide();
@@ -178,15 +190,15 @@ public class LoginScreen implements Screen {
                 loginButton.setDisabled(false);
                 loginFailedDialog.show(stage);
             }
-            if(invalidEmailOrPsswd){
+            if (invalidEmailOrPsswd) {
                 attemptToSignInDialog.hide();
-                invalidEmailOrPsswd=false;
+                invalidEmailOrPsswd = false;
                 loginButton.setDisabled(false);
                 invalidEmailOrPsswdDialog.show(stage);
             }
             if (fireBaseManager.loggedIn) {
                 attemptToSignInDialog.hide();
-                fireBaseManager.loggedIn=false;
+                fireBaseManager.loggedIn = false;
                 game.setScreen(new MenuScreen(game, this));
             }
             end = System.currentTimeMillis();

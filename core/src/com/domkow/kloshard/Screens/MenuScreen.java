@@ -10,7 +10,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.pay.PurchaseManager;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -44,6 +46,8 @@ public class MenuScreen implements Screen {
     private int kloshardSkin = 1;
     private FireBaseManager fireBaseManager;
     private Screen parent;
+    public Texture backgroundTexture;
+    public Sprite backgroundSprite;
 
     public MenuScreen(Game game, Screen screen) {
         this.parent = screen;
@@ -54,6 +58,8 @@ public class MenuScreen implements Screen {
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
         this.skin= ((KloshardGame) game).skin;
+        this.backgroundTexture = this.game.backgroundTexture;
+        this.backgroundSprite = this.game.backgroundTextureRegion;
         prepareUI();
     }
 
@@ -141,8 +147,11 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
+        Gdx.gl.glClearColor(0, 0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        backgroundSprite.draw(game.batch);
+        game.batch.end();
         stage.draw();
     }
 

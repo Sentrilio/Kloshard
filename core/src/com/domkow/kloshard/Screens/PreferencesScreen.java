@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -37,7 +38,7 @@ public class PreferencesScreen implements Screen {
 
     private Viewport viewport;
     private Stage stage;
-    private Game game;
+    private KloshardGame game;
     private AssetManager manager;
     public Skin skin;
     private TextureAtlas atlas;
@@ -47,17 +48,21 @@ public class PreferencesScreen implements Screen {
     private ImageButton skin2Button;
     private ImageButton skin3Button;
     private FireBaseManager fireBaseManager;
+    public Texture backgroundTexture;
+    public Sprite backgroundSprite;
 
     public PreferencesScreen(Game game, MenuScreen parent) {
         this.fireBaseManager = FireBaseManager.instance();
         fireBaseManager.getUserData();
         this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
-        this.game = game;
+        this.game = (KloshardGame) game;
         viewport = new FitViewport(KloshardGame.V_WIDTH, KloshardGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((KloshardGame) game).batch);
         Gdx.input.setInputProcessor(stage);
         this.skin=parent.skin;
+        this.backgroundTexture = this.game.backgroundTexture;
+        this.backgroundSprite = this.game.backgroundTextureRegion;
         prepareUI();
     }
 
@@ -152,8 +157,11 @@ public class PreferencesScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(36/255f, 123/255f, 160/255f, 1);
+        Gdx.gl.glClearColor(0, 0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        backgroundSprite.draw(game.batch);
+        game.batch.end();
         stage.draw();
     }
 
