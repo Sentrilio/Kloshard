@@ -23,7 +23,7 @@ import com.domkow.kloshard.Sprites.Enemies.Enemy;
 public class Kloshard extends Sprite {
 
 
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DEAD;}
+    public enum State {MOVING_DOWN, MOVING_UP, STANDING, RUNNING, DEAD;}
 
 
     public State currentState;
@@ -148,8 +148,8 @@ public class Kloshard extends Sprite {
                     region = kloshardStand;
                 }
                 break;
-            case JUMPING:
-            case FALLING:
+            case MOVING_UP:
+            case MOVING_DOWN:
                 region = kloshardJump;
                 break;
             case RUNNING:
@@ -176,11 +176,11 @@ public class Kloshard extends Sprite {
     private State getState() {
         if (deadFromCollision || fell) {
             return State.DEAD;
-//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.MOVING_UP)) {
         } else if (b2body.getLinearVelocity().y > 0) {
-            return State.JUMPING;
+            return State.MOVING_UP;
         } else if (b2body.getLinearVelocity().y < 0) {
-            return State.FALLING;
+            return State.MOVING_DOWN;
         } else if (b2body.getLinearVelocity().x != 0) {
             return State.RUNNING;
         } else {
@@ -190,8 +190,8 @@ public class Kloshard extends Sprite {
 
     private void defineKloshard() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
-//        bdef.position.set(11000 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
+//        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
+        bdef.position.set(7400 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
