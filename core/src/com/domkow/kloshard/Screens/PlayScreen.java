@@ -223,10 +223,11 @@ public class PlayScreen implements Screen {
 //                    jump();
 //                }
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3) {
+                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3.0) {
+                    Gdx.app.log("linear velocity", player.b2body.getLinearVelocity().x + "");
                     goRight();
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -3) {
+                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -3.0) {
                     goLeft();
                 }
             }
@@ -245,10 +246,10 @@ public class PlayScreen implements Screen {
                     }
                     controller.setUpClicked(false);
                 }
-                if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 3) {
+                if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
                     goRight();
                 }
-                if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -3) {
+                if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
                     goLeft();
                 }
 
@@ -258,8 +259,8 @@ public class PlayScreen implements Screen {
 
 
     private void stop() {
-//        player.b2body.applyLinearImpulse(new Vector2(-player.b2body.getLinearVelocity().x / 10, 0), player.b2body.getWorldCenter(), true);
-        player.b2body.setLinearVelocity(new Vector2(0, player.b2body.getLinearVelocity().y));
+        player.b2body.applyLinearImpulse(new Vector2(-player.b2body.getLinearVelocity().x / 10, 0), player.b2body.getWorldCenter(), true);
+//        player.b2body.setLinearVelocity(new Vector2(-player.b2body.getLinearVelocity().x, player.b2body.getLinearVelocity().y));
     }
 
     private void jump() {
@@ -267,13 +268,13 @@ public class PlayScreen implements Screen {
     }
 
     private void goRight() {
-        player.b2body.setLinearVelocity(3f, player.b2body.getLinearVelocity().y);
-//        player.b2body.applyLinearImpulse(new Vector2(1.50f, 0), player.b2body.getWorldCenter(), true);
+//        player.b2body.setLinearVelocity(3f, player.b2body.getLinearVelocity().y);
+        player.b2body.applyLinearImpulse(new Vector2(0.60f, 0), player.b2body.getWorldCenter(), true);
     }
 
     private void goLeft() {
-        player.b2body.setLinearVelocity(-3f, player.b2body.getLinearVelocity().y);
-//        player.b2body.applyLinearImpulse(new Vector2(-1.50f, 0), player.b2body.getWorldCenter(), true);
+//        player.b2body.setLinearVelocity(-3f, player.b2body.getLinearVelocity().y);
+        player.b2body.applyLinearImpulse(new Vector2(-0.60f, 0), player.b2body.getWorldCenter(), true);
     }
 
     @Override

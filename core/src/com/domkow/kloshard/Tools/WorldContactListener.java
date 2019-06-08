@@ -42,9 +42,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-                    ((Kloshard) fixA.getUserData()).canMove = false;
+//                    ((Kloshard) fixA.getUserData()).canMove = false;
                 } else {
-                    ((Kloshard) fixB.getUserData()).canMove = false;
+//                    ((Kloshard) fixB.getUserData()).canMove = false;
                 }
                 Gdx.app.log("Kloshard movement", "disabled");
                 break;
@@ -119,9 +119,9 @@ public class WorldContactListener implements ContactListener {
         switch (cDef) {
             case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-                    ((Kloshard) fixA.getUserData()).canMove = true;
+//                    ((Kloshard) fixA.getUserData()).canMove = true;
                 } else {
-                    ((Kloshard) fixB.getUserData()).canMove = true;
+//                    ((Kloshard) fixB.getUserData()).canMove = true;
                 }
                 Gdx.app.log("Kloshard movement", "enabled");
                 break;

@@ -218,30 +218,33 @@ public class Kloshard extends Sprite {
                 KloshardGame.DOOR_BIT;
 
         fdef.shape = bodyShape;
+//        fdef.friction=1f;
+//        fdef.restitution=0.1f;
         b2body.createFixture(fdef).setUserData(this);
 
-        PolygonShape feetShape = new PolygonShape();
-        Vector2[] verticyFeet = new Vector2[4];
-        verticyFeet[0] = new Vector2(20, -38).scl(1 / KloshardGame.PPM);
-        verticyFeet[1] = new Vector2(-20, -38).scl(1 / KloshardGame.PPM);
-        verticyFeet[2] = new Vector2(-20, -50).scl(1 / KloshardGame.PPM);
-        verticyFeet[3] = new Vector2(20, -50).scl(1 / KloshardGame.PPM);
-        feetShape.set(verticyFeet);
+//        PolygonShape feetShape = new PolygonShape();
+//        Vector2[] verticyFeet = new Vector2[4];
+//        verticyFeet[0] = new Vector2(20, -38).scl(1 / KloshardGame.PPM);
+//        verticyFeet[1] = new Vector2(-20, -38).scl(1 / KloshardGame.PPM);
+//        verticyFeet[2] = new Vector2(-20, -50).scl(1 / KloshardGame.PPM);
+//        verticyFeet[3] = new Vector2(20, -50).scl(1 / KloshardGame.PPM);
+//        feetShape.set(verticyFeet);
 
-        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
-        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
-                KloshardGame.COIN_BIT |
-                KloshardGame.BRICK_BIT |
-                KloshardGame.ENEMY_BIT |
-                KloshardGame.OBJECT_BIT |
-                KloshardGame.ENEMY_HEAD_BIT |
-                KloshardGame.ITEM_BIT |
-                KloshardGame.DOOR_BIT;
+//        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
+//        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
+//                KloshardGame.COIN_BIT |
+//                KloshardGame.BRICK_BIT |
+//                KloshardGame.ENEMY_BIT |
+//                KloshardGame.OBJECT_BIT |
+//                KloshardGame.ENEMY_HEAD_BIT |
+//                KloshardGame.ITEM_BIT |
+//                KloshardGame.DOOR_BIT;
 
-        fdef.isSensor=true;
-        fdef.shape = feetShape;
-        b2body.createFixture(fdef).setUserData(this);
-
+//        fdef.isSensor=true;
+//        fdef.restitution=0;
+//        fdef.shape = feetShape;
+//        b2body.createFixture(fdef).setUserData(this);
+//
 
 
     }
