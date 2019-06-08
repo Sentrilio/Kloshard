@@ -9,6 +9,7 @@ public class Door extends InteractiveTileObjectRectangle {
 
     public Door(PlayScreen screen, MapObject object) {
         super(screen, object);
+        fixture.setSensor(true);
         fixture.setUserData(this);
         setCategoryFilter(KloshardGame.DOOR_BIT);
     }
@@ -19,6 +20,7 @@ public class Door extends InteractiveTileObjectRectangle {
     }
 
     public void use(Kloshard kloshard) {
+        kloshard.b2body.setLinearVelocity(0,kloshard.b2body.getLinearVelocity().y);
         kloshard.finishedLevel();
     }
 }

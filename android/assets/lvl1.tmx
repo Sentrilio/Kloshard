@@ -909,6 +909,6 @@
   <object id="301" x="15260" y="420" width="490" height="70"/>
  </objectgroup>
  <objectgroup id="9" name="door">
-  <object id="222" x="16437.3" y="0.666667" width="70" height="419.333"/>
+  <object id="222" x="16434.3" y="0.666667" width="70" height="419.333"/>
  </objectgroup>
 </map>

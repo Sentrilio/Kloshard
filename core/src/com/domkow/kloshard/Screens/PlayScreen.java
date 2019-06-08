@@ -186,7 +186,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean mapFinished() {
-        if (player.finishedLevel && player.getStateTimer() > 3) {
+        if (player.finishedLevel && player.getStateTimer() > 2) {
             Gdx.app.log("game", "finished");
             return true;
         }
