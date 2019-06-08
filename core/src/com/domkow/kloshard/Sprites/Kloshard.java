@@ -192,9 +192,9 @@ public class Kloshard extends Sprite {
 
     private void defineKloshard() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
+        bdef.position.set(900 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
 //        bdef.position.set(7400 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
-//        bdef.position.set(16000 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
+//        bdef.position.set(15100 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
