@@ -42,6 +42,7 @@ public class FireBaseManager {
     public FireBaseManager() {
         this.auth = GdxFIRAuth.instance();
         this.db = GdxFIRDatabase.instance();
+        getUserData();
     }
 
     private void createDataChangeListener() {
