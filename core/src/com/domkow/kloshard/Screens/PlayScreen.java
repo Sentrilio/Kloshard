@@ -155,7 +155,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
 
         game.batch.begin();
-//        player.draw(game.batch);
+        player.draw(game.batch);
 
         for (Enemy enemy : creator.getEnemies()) {
             if (enemy.removeFlag) {
@@ -208,29 +208,43 @@ public class PlayScreen implements Screen {
     private void handleInput(float dt) {
         if (!player.finishedLevel && player.currentState != Kloshard.State.DEAD) {
             //computer keyboard
-            if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
-                if (player.currentState == Kloshard.State.RUNNING) {
-                    stop();
-                }
-            }
-            if (player.canMove) {
-
-                if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    if (player.previousState != Kloshard.State.JUMPING) {
+//            if (!Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)) {
+//                if (player.currentState == Kloshard.State.RUNNING) {
+//                }
+//            }
+            boolean leftPressed = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+            boolean rightPressed = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+            boolean upPressed = Gdx.input.isKeyPressed(Input.Keys.UP);
+            if (leftPressed || rightPressed || upPressed) {
+                if (upPressed) {
+//                    if (player.previousState != Kloshard.State.JUMPING) {
+//                    if (player.touchingGround && player.currentState != Kloshard.State.JUMPING && player.currentState!=Kloshard.State.FALLING) {
+//                    if (player.currentState != Kloshard.State.JUMPING && player.currentState!=Kloshard.State.FALLING) {
+//                        player.touchingGround =false;
+//                        Gdx.app.log("Kloshard jump","disabled");
+                    if(player.touchingGround){
+                        player.touchingGround=false;
                         jump();
                     }
+                }
 //                if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
 //                    jump();
 //                }
-                }
-                if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 3.0) {
+
+                if (rightPressed && player.b2body.getLinearVelocity().x <= 3.0) {
                     Gdx.app.log("linear velocity", player.b2body.getLinearVelocity().x + "");
                     goRight();
                 }
-                if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -3.0) {
+                if (leftPressed && player.b2body.getLinearVelocity().x >= -3.0) {
                     goLeft();
                 }
+            } else {
+                if (player.currentState == Kloshard.State.RUNNING) {
+//                    Gdx.app.log("Kloshard", "stopping");
+                    stop();
+                }
             }
+//        Gdx.app.log("Current state",player.currentState+"");
 
 
             //android controller
@@ -239,28 +253,27 @@ public class PlayScreen implements Screen {
 //                    stop();
 //                }
 //            }
-            if (player.canMove) {
-                if (controller.isUpClicked()) {
-                    if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
-                        jump();
-                    }
-                    controller.setUpClicked(false);
-                }
-                if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
-                    goRight();
-                }
-                if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
-                    goLeft();
-                }
-
-            }
+//                if (controller.isUpClicked()) {
+//                    if (player.currentState == Kloshard.State.STANDING || player.currentState == Kloshard.State.RUNNING) {
+//                        jump();
+//                    }
+//                    controller.setUpClicked(false);
+//                }
+//                if (controller.isRightClicked() && player.b2body.getLinearVelocity().x <= 1.5) {
+//                    goRight();
+//                }
+//                if (controller.isLeftClicked() && player.b2body.getLinearVelocity().x >= -1.5) {
+//                    goLeft();
+//                }
+//        }
         }
     }
 
 
     private void stop() {
+//        Gdx.app.log("b2body action", "stopping");
         player.b2body.applyLinearImpulse(new Vector2(-player.b2body.getLinearVelocity().x / 10, 0), player.b2body.getWorldCenter(), true);
-//        player.b2body.setLinearVelocity(new Vector2(-player.b2body.getLinearVelocity().x, player.b2body.getLinearVelocity().y));
+//        player.b2body.setLinearVelocity(new Vector2(0, 0));
     }
 
     private void jump() {

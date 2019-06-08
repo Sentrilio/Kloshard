@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.domkow.kloshard.KloshardGame;
 import com.domkow.kloshard.Sprites.Enemies.Enemy;
-import com.domkow.kloshard.Sprites.Enemies.Fly;
 import com.domkow.kloshard.Sprites.Items.Item;
 import com.domkow.kloshard.Sprites.Kloshard;
 import com.domkow.kloshard.Sprites.TileObjects.Coin;
@@ -40,13 +39,13 @@ public class WorldContactListener implements ContactListener {
                 }
                 Gdx.app.log("Collision", "Coin");
                 break;
-            case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
+            case KloshardGame.KLOSHARD_FEET_BIT | KloshardGame.GROUND_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-//                    ((Kloshard) fixA.getUserData()).canMove = false;
+                    ((Kloshard) fixA.getUserData()).touchingGround = true;
                 } else {
-//                    ((Kloshard) fixB.getUserData()).canMove = false;
+                    ((Kloshard) fixB.getUserData()).touchingGround = true;
                 }
-                Gdx.app.log("Kloshard movement", "disabled");
+                Gdx.app.log("Kloshard jump", "enabled");
                 break;
             case KloshardGame.ENEMY_HEAD_BIT | KloshardGame.KLOSHARD_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.ENEMY_HEAD_BIT) {
@@ -116,16 +115,16 @@ public class WorldContactListener implements ContactListener {
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-        switch (cDef) {
-            case KloshardGame.KLOSHARD_BIT | KloshardGame.GROUND_BIT:
-                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-//                    ((Kloshard) fixA.getUserData()).canMove = true;
-                } else {
-//                    ((Kloshard) fixB.getUserData()).canMove = true;
-                }
-                Gdx.app.log("Kloshard movement", "enabled");
-                break;
-        }
+//        switch (cDef) {
+//            case KloshardGame.KLOSHARD_FEET_BIT | KloshardGame.GROUND_BIT:
+//                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
+//                    ((Kloshard) fixA.getUserData()).touchingGround = false;
+//                } else {
+//                    ((Kloshard) fixB.getUserData()).touchingGround = false;
+//                }
+//                Gdx.app.log("Kloshard jump", "disabled");
+//                break;
+//        }
     }
 
     @Override

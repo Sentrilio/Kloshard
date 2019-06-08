@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -25,11 +25,12 @@ public class Kloshard extends Sprite {
 
     public enum State {FALLING, JUMPING, STANDING, RUNNING, DEAD;}
 
+
     public State currentState;
     public State previousState;
     public World world;
     public Body b2body;
-    public boolean canMove = true;
+    public boolean touchingGround = true;
     private TextureRegion kloshardStand;
     private Animation kloshardRun;
     private TextureRegion kloshardJump;
@@ -175,8 +176,8 @@ public class Kloshard extends Sprite {
     private State getState() {
         if (deadFromCollision || fell) {
             return State.DEAD;
-        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
-//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 )) {
+//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+        } else if (b2body.getLinearVelocity().y > 0) {
             return State.JUMPING;
         } else if (b2body.getLinearVelocity().y < 0) {
             return State.FALLING;
@@ -195,18 +196,6 @@ public class Kloshard extends Sprite {
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
-        //kloshard circle shape
-//        CircleShape shape = new CircleShape();
-//        shape.setRadius(42 / KloshardGame.PPM);
-        //kloshard polygon shape
-        PolygonShape bodyShape = new PolygonShape();
-        Vector2[] verticyBody = new Vector2[4];
-        verticyBody[0] = new Vector2(-20, 42).scl(1 / KloshardGame.PPM);
-        verticyBody[1] = new Vector2(20, 42).scl(1 / KloshardGame.PPM);
-        verticyBody[2] = new Vector2(-20, -38).scl(1 / KloshardGame.PPM);
-        verticyBody[3] = new Vector2(20, -38).scl(1 / KloshardGame.PPM);
-        bodyShape.set(verticyBody);
-
         fdef.filter.categoryBits = KloshardGame.KLOSHARD_BIT;
         fdef.filter.maskBits = KloshardGame.GROUND_BIT |
                 KloshardGame.COIN_BIT |
@@ -217,9 +206,59 @@ public class Kloshard extends Sprite {
                 KloshardGame.ITEM_BIT |
                 KloshardGame.DOOR_BIT;
 
-        fdef.shape = bodyShape;
-//        fdef.friction=1f;
-//        fdef.restitution=0.1f;
+        //shapes
+        CircleShape lowerShape = new CircleShape();
+        lowerShape.setRadius(21 / KloshardGame.PPM);
+        lowerShape.setPosition(new Vector2(0, -21 / KloshardGame.PPM));
+
+//        PolygonShape bodyShape = new PolygonShape();
+//        Vector2[] verticyBody = new Vector2[4];
+//        verticyBody[0] = new Vector2(-21, 42).scl(1 / KloshardGame.PPM);
+//        verticyBody[1] = new Vector2(21, 42).scl(1 / KloshardGame.PPM);
+//        verticyBody[2] = new Vector2(-21, -42).scl(1 / KloshardGame.PPM);
+//        verticyBody[3] = new Vector2(21, -42).scl(1 / KloshardGame.PPM);
+//        bodyShape.set(verticyBody);
+
+
+        fdef.shape = lowerShape;
+        fdef.restitution = 0f;
+        b2body.createFixture(fdef).setUserData(this);
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(20 / KloshardGame.PPM);
+        shape.setPosition(new Vector2(0, 21 / KloshardGame.PPM));
+        fdef.restitution = 0;
+        fdef.shape = shape;
+        fdef.restitution = 0.1f;
+        b2body.createFixture(fdef).setUserData(this);
+
+
+        //
+//        CircleShape feetShape = new CircleShape();
+//        feetShape.setRadius(20 / KloshardGame.PPM);
+//        feetShape.setPosition(new Vector2(0, -24 / KloshardGame.PPM));
+        PolygonShape feetShape = new PolygonShape();
+        Vector2[] verticyFeet = new Vector2[4];
+        verticyFeet[0] = new Vector2(-18, -30).scl(1 / KloshardGame.PPM);
+        verticyFeet[1] = new Vector2(18, -30).scl(1 / KloshardGame.PPM);
+        verticyFeet[2] = new Vector2(-12, -50).scl(1 / KloshardGame.PPM);
+        verticyFeet[3] = new Vector2(12, -50).scl(1 / KloshardGame.PPM);
+        feetShape.set(verticyFeet);
+//        CircleShape feetShape = new CircleShape();
+//        feetShape.setRadius(21 / KloshardGame.PPM);
+//        feetShape.setPosition(new Vector2(0, -21 / KloshardGame.PPM));
+
+        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
+        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
+                KloshardGame.COIN_BIT |
+                KloshardGame.BRICK_BIT |
+                KloshardGame.ENEMY_BIT |
+                KloshardGame.OBJECT_BIT |
+                KloshardGame.ENEMY_HEAD_BIT |
+                KloshardGame.ITEM_BIT |
+                KloshardGame.DOOR_BIT;
+        fdef.isSensor = true;
+        fdef.shape = feetShape;
         b2body.createFixture(fdef).setUserData(this);
 
 //        PolygonShape feetShape = new PolygonShape();
@@ -229,23 +268,6 @@ public class Kloshard extends Sprite {
 //        verticyFeet[2] = new Vector2(-20, -50).scl(1 / KloshardGame.PPM);
 //        verticyFeet[3] = new Vector2(20, -50).scl(1 / KloshardGame.PPM);
 //        feetShape.set(verticyFeet);
-
-//        fdef.filter.categoryBits = KloshardGame.KLOSHARD_FEET_BIT;
-//        fdef.filter.maskBits = KloshardGame.GROUND_BIT |
-//                KloshardGame.COIN_BIT |
-//                KloshardGame.BRICK_BIT |
-//                KloshardGame.ENEMY_BIT |
-//                KloshardGame.OBJECT_BIT |
-//                KloshardGame.ENEMY_HEAD_BIT |
-//                KloshardGame.ITEM_BIT |
-//                KloshardGame.DOOR_BIT;
-
-//        fdef.isSensor=true;
-//        fdef.restitution=0;
-//        fdef.shape = feetShape;
-//        b2body.createFixture(fdef).setUserData(this);
-//
-
 
     }
 
