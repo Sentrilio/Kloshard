@@ -52,10 +52,10 @@ public abstract class InteractiveTileObjectRectangle {
 
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / KloshardGame.PPM, (bounds.getY() + bounds.getHeight() / 2) / KloshardGame.PPM);
-
         body = world.createBody(bdef);
         shape.setAsBox(bounds.getWidth() / 2 / KloshardGame.PPM, bounds.getHeight() / 2 / KloshardGame.PPM);
         fdef.shape = shape;
+//        fdef.friction=1f;
         fixture = body.createFixture(fdef);
     }
 

@@ -23,14 +23,14 @@ import com.domkow.kloshard.Sprites.Enemies.Enemy;
 public class Kloshard extends Sprite {
 
 
-    public enum State {MOVING_DOWN, MOVING_UP, STANDING, RUNNING, DEAD;}
+    public enum State {MOVING_DOWN, MOVING_UP, STANDING, RUNNING, DEAD, MOVING_UP_AND_DIRECTION}
 
 
     public State currentState;
     public State previousState;
     public World world;
     public Body b2body;
-    public boolean touchingGround = true;
+    public boolean canMakeFirstJump = true;
     private TextureRegion kloshardStand;
     private Animation kloshardRun;
     private TextureRegion kloshardJump;
@@ -148,6 +148,7 @@ public class Kloshard extends Sprite {
                     region = kloshardStand;
                 }
                 break;
+            case MOVING_UP_AND_DIRECTION:
             case MOVING_UP:
             case MOVING_DOWN:
                 region = kloshardJump;
@@ -176,7 +177,8 @@ public class Kloshard extends Sprite {
     private State getState() {
         if (deadFromCollision || fell) {
             return State.DEAD;
-//        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.MOVING_UP)) {
+        } else if (b2body.getLinearVelocity().y > 0 && b2body.getLinearVelocity().x != 0) {
+            return State.MOVING_UP_AND_DIRECTION;
         } else if (b2body.getLinearVelocity().y > 0) {
             return State.MOVING_UP;
         } else if (b2body.getLinearVelocity().y < 0) {
@@ -190,9 +192,9 @@ public class Kloshard extends Sprite {
 
     private void defineKloshard() {
         BodyDef bdef = new BodyDef();
-//        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
+        bdef.position.set(70 / KloshardGame.PPM, 210 / KloshardGame.PPM); //original start
 //        bdef.position.set(7400 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
-        bdef.position.set(16000 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
+//        bdef.position.set(16000 / KloshardGame.PPM, 210 / KloshardGame.PPM); //testing start
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 

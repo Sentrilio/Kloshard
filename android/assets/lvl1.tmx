@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="10" nextobjectid="310">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="70" tileheight="70" infinite="0" nextlayerid="10" nextobjectid="312">
  <tileset firstgid="1" name="bg" tilewidth="70" tileheight="70" spacing="2" margin="1" tilecount="9" columns="3">
   <image source="textures/bg.png" width="256" height="256"/>
  </tileset>
@@ -717,20 +717,6 @@
   <object id="17" x="560" y="490" width="210" height="39"/>
   <object id="18" x="1050" y="490" width="140" height="40"/>
   <object id="19" x="1470" y="490" width="70" height="39.75"/>
-  <object id="91" x="2590" y="350">
-   <polyline points="0,0 0,210 140,210 140,140 0,0"/>
-  </object>
-  <object id="97" x="2450" y="350" width="140" height="210"/>
-  <object id="99" x="2450" y="350">
-   <polyline points="0,0 -350,350 0,350 0,0"/>
-  </object>
-  <object id="109" x="2030" y="630">
-   <polyline points="0,0 0,26.125 2.75,36.125 6.25,42.875 10.5,48.375 16.625,53.375 23.375,57.375 31,61.25 38.625,64 46,66 53.75,67.625 59.75,68.875 66.25,69.375 70,70 70,0 0,0"/>
-  </object>
-  <object id="111" x="2100" y="630" width="140" height="70"/>
-  <object id="115" x="2730" y="490">
-   <polyline points="0,0 70,0 70.125,22.5 68,33.125 65.375,39.625 62.375,44.625 58.75,48.375 54.75,52.125 50,55.875 45.625,58.375 38.125,61.625 31.75,64 25.125,65.625 17.375,67.5 9.375,68.375 3.5,69.5 0,69.5 0,0"/>
-  </object>
   <object id="211" x="7490" y="700">
    <polyline points="0,0 350,0 350,-350 0,0"/>
   </object>
@@ -743,7 +729,6 @@
   <object id="219" x="16170" y="560" width="490" height="70"/>
   <object id="220" x="16240" y="490" width="350" height="70"/>
   <object id="221" x="16310" y="420" width="210" height="70"/>
-  <object id="251" x="2100" y="700" width="1190" height="210"/>
   <object id="252" x="3500" y="700" width="140" height="210"/>
   <object id="255" x="3850" y="700" width="140" height="210"/>
   <object id="256" x="4200" y="700" width="70" height="210"/>
@@ -770,6 +755,9 @@
   <object id="297" x="14140.1" y="700" width="2659.88" height="210"/>
   <object id="298" x="12530" y="770" width="208" height="25.3333"/>
   <object id="309" x="13090" y="420" width="209.333" height="24.6667"/>
+  <object id="311" x="2100" y="910">
+   <polyline points="0,0 0,-210 -18,-213 -36.5,-217.5 -52,-225 -60.5,-233.5 -66,-242.5 -69.6364,-254.364 -70,-280 70,-280 350,-560 490,-560 630,-420 700,-420 699.818,-391.636 696,-381.818 692,-374.545 686.182,-369.273 678.727,-363.455 669.091,-359.091 656.545,-354.909 642.909,-352.182 630,-350 350,-350 350,-210 1190,-210 1190,0 0,0"/>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="coin">
   <object id="56" x="858.341" y="649.625" width="33.375" height="33.375">

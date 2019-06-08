@@ -41,9 +41,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case KloshardGame.KLOSHARD_FEET_BIT | KloshardGame.GROUND_BIT:
                 if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-                    ((Kloshard) fixA.getUserData()).touchingGround = true;
+                    ((Kloshard) fixA.getUserData()).canMakeFirstJump = true;
                 } else {
-                    ((Kloshard) fixB.getUserData()).touchingGround = true;
+                    ((Kloshard) fixB.getUserData()).canMakeFirstJump = true;
                 }
                 Gdx.app.log("Kloshard jump", "enabled");
                 break;
@@ -110,17 +110,17 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB();
-
-        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
-
+//        Fixture fixA = contact.getFixtureA();
+//        Fixture fixB = contact.getFixtureB();
+//
+//        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+//
 //        switch (cDef) {
 //            case KloshardGame.KLOSHARD_FEET_BIT | KloshardGame.GROUND_BIT:
 //                if (fixA.getFilterData().categoryBits == KloshardGame.KLOSHARD_BIT) {
-//                    ((Kloshard) fixA.getUserData()).touchingGround = false;
+//                    ((Kloshard) fixA.getUserData()).canMakeFirstJump = false;
 //                } else {
-//                    ((Kloshard) fixB.getUserData()).touchingGround = false;
+//                    ((Kloshard) fixB.getUserData()).canMakeFirstJump = false;
 //                }
 //                Gdx.app.log("Kloshard jump", "disabled");
 //                break;
