@@ -47,8 +47,8 @@ public class KloshardGame extends Game {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
 		manager.finishLoading();
-//		setScreen(new PlayScreen(this,new MenuScreen(this,new LoginScreen(this))));
-		setScreen(new LoginScreen(this));
+		setScreen(new PlayScreen(this,new MenuScreen(this,new LoginScreen(this))));
+//		setScreen(new LoginScreen(this));
 	}
 	private void prepareSkin() {
 		skin = new Skin();

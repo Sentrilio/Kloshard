@@ -131,9 +131,9 @@ public class PlayScreen implements Screen {
         }
         hud.update(dt);
         if (player.currentState != Kloshard.State.DEAD) {
-            if (player.b2body.getPosition().x >= gamecam.position.x) {
+//            if (player.b2body.getPosition().x >= gamecam.position.x) {
                 gamecam.position.x = player.b2body.getPosition().x;
-            }
+//            }
         }
 
         gamecam.update();
