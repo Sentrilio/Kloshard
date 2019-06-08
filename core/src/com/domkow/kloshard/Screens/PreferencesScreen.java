@@ -50,9 +50,7 @@ public class PreferencesScreen implements Screen {
 
     public PreferencesScreen(Game game, MenuScreen parent) {
         this.fireBaseManager = FireBaseManager.instance();
-        //TESTING
         fireBaseManager.getUserData();
-//        TESTING
         this.parent = parent;
         this.manager = ((KloshardGame) game).manager;
         this.game = game;
